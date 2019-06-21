@@ -1,3 +1,3 @@
-# Simulator for Quantum Networks with Errors and Devices
+# Quantum Networking Devices and Errors Simulator
 
-Complete Documentation Here.
+Complete documentation here.
