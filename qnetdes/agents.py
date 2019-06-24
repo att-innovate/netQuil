@@ -1,10 +1,10 @@
-import multiprocessing
+import threading
 
 __all__ = ["Agent"]
 
-class Agent(multiprocessing.Process):
+class Agent(threading.Thread):
     def __init__(self, program, qubits=[], name=None):
-        multiprocessing.Process.__init__(self)
+        threading.Thread.__init__(self)
 
         # Name of the agent, e.g. "Alice". Defaults to the name of the class.
         if name is not None:
