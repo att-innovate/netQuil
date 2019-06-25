@@ -72,7 +72,7 @@ class QConnect():
         :param String agent: name of the agent receiving the qubits 
         '''
         qubits, devices, delay = self.queues[agent].get()
-        program = self.agents[0]
+        program = self.agents[0].program
         for device in devices: 
             if device is not None: 
                 delay += device.apply(program, qubits)

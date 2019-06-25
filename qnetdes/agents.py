@@ -17,19 +17,28 @@ class Agent(threading.Thread):
         self.cconnections = {}
 
         # Define qubits, corresponding classical memory and program
-        self.qubits = qubits
-        self.cmem = cmem
+        self.qubits = qubits 
+        self.cmem = cmem 
         self.program = program
 
         # Define Agent Devices
         self.target_devices = []
         self.source_devices = []
 
-    def get_classical_memory(self):
-        return self.cmem
+    @property
+    def cmem(self): 
+        return self.__cmem
 
-    def add_classical_memory(self, cmem):
-        self.cmem.append(cmem) 
+    @cmem.setter
+    def cmem(self, cmem):
+        print(cmem)
+        if len(cmem) >= 0 and all(bit == 0 or bit == 1 for bit in cmem):
+            self.__cmem = cmem
+        else:  
+            raise Exception('Classical bits must be either 0 or 1')
+
+    def add_cmem(self, cbits):
+        self.cmem = self.__cmem.extend(cbits) 
 
     def add_device(self, device_type, device):
         ''' 
