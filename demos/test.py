@@ -20,9 +20,10 @@ class Bob(Agent):
 
 p = Program(H(0)) 
 ro = p.declare('ro', 'BIT', 3)
-alice = Alice(p, [0, 2], 'alice')
-bob = Bob(p, [1], 'bob')
+alice = Alice(p, qubits=[0, 2], cmem=[])
+bob = Bob(p, qubits=[1], cmem=[], name='bob')
 
+print(type(H))
 QConnect(alice, bob, [None])
 CConnect(alice, bob)
 Simulation(alice, bob).run()
