@@ -1,3 +1,5 @@
+import inspect
+import sys
 import threading
 
 __all__ = ["Agent"]
@@ -25,13 +27,37 @@ class Agent(threading.Thread):
         self.target_devices = []
         self.source_devices = []
 
+    def _manageAgentQubits(self):
+        '''
+            Starts tracking agent activity.
+        '''
+        threading.settrace(self._tracer)
+
+    def _tracer(self, frame, event, arg):
+        '''
+            Prevents agent from modifying qubits that it does not own and manage by
+            examining the frame and intercepting all pyquil.gates calls 
+        '''
+        if event == "call":
+            if frame.f_globals['__name__'] == 'pyquil.gates':
+                # Returns dictionary of parameter names and their values
+                argsToGate = inspect.getargvalues(frame)
+                # Extract parameter values 
+                argValues = list(argsToGate.locals.values())
+                # Extract parameter values that are integers (ignore iterator arguments)
+                qubits = [q for q in argValues if type(q) == int]
+                # Check that qubits are a subset of the Agent's qubits
+                if not all(q in self.qubits for q in qubits):
+                    raise Exception('Agent cannot modify qubits they do not own')
+
+        return self._tracer
+
     @property
     def cmem(self): 
         return self.__cmem
 
     @cmem.setter
     def cmem(self, cmem):
-        print(cmem)
         if len(cmem) >= 0 and all(bit == 0 or bit == 1 for bit in cmem):
             self.__cmem = cmem
         else:  
