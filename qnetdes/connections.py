@@ -29,7 +29,7 @@ class QConnect():
         '''
         self.transit_devices = {
             agent_one_name: transit_devices, 
-            agent_two_name: reversed(transit_devices)
+            agent_two_name: transit_devices[::-1]
         }
 
         # add connection ingress and outgress qconnection to agent_one and agent_two
