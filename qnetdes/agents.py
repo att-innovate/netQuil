@@ -3,7 +3,7 @@ import threading
 __all__ = ["Agent"]
 
 class Agent(threading.Thread):
-    def __init__(self, program, qubits=[], name=None):
+    def __init__(self, program, qubits=[], cmem=[], name=None):
         threading.Thread.__init__(self)
 
         # Name of the agent, e.g. "Alice". Defaults to the name of the class.
@@ -16,13 +16,29 @@ class Agent(threading.Thread):
         self.qconnections = {}
         self.cconnections = {}
 
-        # Define Qubits and Program
-        self.qubits = qubits
+        # Define qubits, corresponding classical memory and program
+        self.qubits = qubits 
+        self.cmem = cmem 
         self.program = program
 
         # Define Agent Devices
         self.target_devices = []
         self.source_devices = []
+
+    @property
+    def cmem(self): 
+        return self.__cmem
+
+    @cmem.setter
+    def cmem(self, cmem):
+        print(cmem)
+        if len(cmem) >= 0 and all(bit == 0 or bit == 1 for bit in cmem):
+            self.__cmem = cmem
+        else:  
+            raise Exception('Classical bits must be either 0 or 1')
+
+    def add_cmem(self, cbits):
+        self.cmem = self.__cmem.extend(cbits) 
 
     def add_device(self, device_type, device):
         ''' 
