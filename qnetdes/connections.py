@@ -1,9 +1,15 @@
 import multiprocessing
+import itertools
+import sys
 
 __all__ = ["QConnect", "CConnect"]
 
+pulse_length_default = 10 * 10 ** -12 # 10 ps photon pulse length
+signal_speed = 2.998 * 10 ** 5 #speed of light in km/s
+fiber_length_default = 0.0
+
 class QConnect(): 
-    def __init__(self, agent_one, agent_two, transit_devices):
+    def __init__(self, agent_one, agent_two, transit_devices=[]):
         '''
             Get devices from source node (e.g. laser, intensity modulator, etc...), 
             target node (e.g. sensor, beam splitter), and transit devices (e.g. fiber optics, free space)
@@ -16,13 +22,13 @@ class QConnect():
         agent_two_name = agent_two.name
         
         self.source_devices = {
-            agent_one_name: agent_one.source_devices if hasattr(agent_one, 'source_devices') else None,
-            agent_two_name: agent_two.source_devices if hasattr(agent_two, 'source_devices') else None,
+            agent_one_name: agent_one.source_devices,
+            agent_two_name: agent_two.source_devices,
         }
 
         self.target_devices = {
-            agent_one_name: agent_one.target_devices if hasattr(agent_one, 'target_devices') else None, 
-            agent_two_name: agent_two.target_devices if hasattr(agent_two, 'target_devices') else None, 
+            agent_one_name: agent_one.target_devices,
+            agent_two_name: agent_two.target_devices,
         }
         ''' 
             Assumed order of transit_devices is agent_one -> agent_two (i.e. source -> target).
@@ -36,7 +42,11 @@ class QConnect():
         agent_one.qconnections[agent_two_name] = self
         agent_two.qconnections[agent_one_name] = self
        
-        self.agents = (agent_one, agent_two)
+        self.agents = {
+            agent_one_name: agent_one,
+            agent_two_name: agent_two
+        }
+
         '''
             Create queue to keep track of multiple requests. Name of queue is name of
             target agent.  
@@ -59,9 +69,22 @@ class QConnect():
         transit_devices = self.transit_devices[source]
         target_devices = self.target_devices[target]
 
-        devices = source_devices + transit_devices + target_devices
-        delay = 0
-        self.queues[target].put((qubits, devices, delay))
+        non_source_devices = {
+            "transit": transit_devices,
+            "target": target_devices,
+        }
+
+        program = self.agents[source].program
+        qsource_delay = 0
+
+        if not source_devices:
+            qsource_delay += pulse_length_default
+        else:
+            for device in source_devices:
+                qsource_delay += device.apply(program, qubits)
+
+        self.queues[target].put((qubits, non_source_devices, qsource_delay))
+        return qsource_delay
 
     def get(self, agent): 
         '''
@@ -69,24 +92,41 @@ class QConnect():
         path through the network. Return an array of the qubits that have been altered as well as
         the time it took the qubit to travel through the network. 
 
-        :param String agent: name of the agent receiving the qubits 
+        :param Agent agent: agent receiving the qubits 
         '''
-        qubits, devices, delay = self.queues[agent].get()
-        program = self.agents[0].program
-        for device in devices: 
-            if device is not None: 
-                delay += device.apply(program, qubits)
-        
+        qubits, devices, delay = self.queues[agent.name].get()
+        agent.qubits = list(set(qubits + agent.qubits))
+
+        program = self.agents[agent.name].program
+       
+        transit_devices = devices["transit"]
+        target_devices = devices["target"]
+
+        #default delays
+        if not transit_devices:
+            delay += fiber_length_default/signal_speed
+        if not target_devices:
+            delay += 0
+          
+        for device in list(itertools.chain(transit_devices, target_devices)):
+            delay += device.apply(program, qubits)  
+
         return qubits, delay
 
 class CConnect(): 
-    def __init__(self, agent_one, agent_two):
+    def __init__(self, agent_one, agent_two, length=0.0):
         # add ingress and egress classical traffic between agent_one and agent_two
         agent_one_name = agent_one.name
         agent_two_name = agent_two.name
         agent_one.cconnections[agent_two_name] = self
         agent_two.cconnections[agent_one_name] = self
        
+        self.agents = { 
+            agent_one_name: agent_one, 
+            agent_two_name: agent_two
+        }
+
+        self.length = length
         '''
             Create queue to keep track of multiple requests. Name of queue is name of
             target agent.  
@@ -103,8 +143,9 @@ class CConnect():
         :param String target: name of recipient of program
         :param Array cbits: array of numbers corresponding to cbits agent is sending
         '''
-        delay = 0
-        self.queues[target].put((cbits, delay))
+        csource_delay = pulse_length_default * 8 * sys.getsizeof(cbits)
+        self.queues[target].put((cbits, csource_delay))
+        return csource_delay
 
     def get(self, agent): 
         ''' 
@@ -112,5 +153,7 @@ class CConnect():
 
         :param String agent: name of the agent receiving the cbits
         '''
-        cbits, _ = self.queues[agent].get()
-        return cbits
+        cbits, delay = self.queues[agent].get()
+        delay += self.length/signal_speed
+
+        return cbits, delay
