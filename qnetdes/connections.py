@@ -1,3 +1,4 @@
+import queue
 import multiprocessing
 import itertools
 import sys
@@ -52,8 +53,8 @@ class QConnect():
             target agent.  
         '''
         self.queues = {
-            agent_one_name: multiprocessing.Queue(),
-            agent_two_name: multiprocessing.Queue()
+            agent_one_name: queue.Queue(),
+            agent_two_name: queue.Queue()
         }
 
     def put(self, source, target, qubits):

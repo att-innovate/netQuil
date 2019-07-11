@@ -58,7 +58,7 @@ program = Program()
 
 #define agents
 alice = Alice(program, cmem=[0,1])
-alice.add_source_devices([Fiber(length=100, apply_error=False)])
+alice.add_source_devices([Laser(apply_error=True)])
 bob = Bob(program)
 charlie = Charlie(program, qubits=[0,1])
 
@@ -68,8 +68,8 @@ QConnect(bob, charlie)
 QConnect(alice, charlie)
 
 #simulate agents
-Simulation(alice,charlie,bob).run()
-results = qvm.run(program)
+Simulation(alice,charlie,bob).run(trials=10, agent_classes=[Alice, Charlie, Bob])
+results = qvm.run(program, trials=10)
 wf_sim = WavefunctionSimulator()
 resultWF = wf_sim.wavefunction(program)
 

@@ -13,11 +13,23 @@ __all__ = ["Fiber", "Laser", "SNSPD", "Intensity_Modulator"]
 
 signal_speed = 2.998 * 10 ** 5 #speed of light in km/s
 class Device(): 
-    def __init__(self, apply_error=True): 
-        pass
+    def __init__(self): 
+        self.name = 'Device'
+        self.success = 0
+        self.trials = 0
     
     def apply(self, program, qubits):
         pass
+
+    def get_success(self):
+        try: 
+            print('{} has a signal to noise ratio of {}/{}'.format(self.name, self.success, self.trials))
+        except:
+            pass
+    
+    def reset(self): 
+        self.success = 0
+        self.trials = 0 
 
 class Fiber(Device):
     def __init__(self, length=0.0, attenuation_coefficient = -0.16, apply_error=True):
@@ -30,7 +42,6 @@ class Fiber(Device):
         self.attenuation = 10 ** (decibel_loss / 10)
         self.apply_error = apply_error
         self.length = length
-
         
     def apply(self, program, qubits):
         '''
@@ -53,6 +64,7 @@ class Laser(Device):
         self.photon_expectation = expected_photons
         self.pulse_length = pulse_length
         self.apply_error = apply_error
+        self.name = 'Laser'
         self.success = 0
         self.trials = 0
         
@@ -60,9 +72,8 @@ class Laser(Device):
         for qubit in qubits:
             if self.apply_error:
                 numPhotons = np.random.poisson(lam=self.photon_expectation)
-                self.trials += 1
-                if numPhotons == 1: self.success += 1
-                
+                self.trials += len(qubits)
+                if numPhotons != self.photon_expectation: self.success += 1
                 '''
                 Rotation Noise
                 noise.normal_unitary_rotation(program, qubit, 0.5, self.variance)

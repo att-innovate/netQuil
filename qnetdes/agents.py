@@ -7,7 +7,7 @@ import time
 __all__ = ["Agent"]
 
 class Agent(threading.Thread):
-    def __init__(self, program, qubits=[], cmem=[], name=None):
+    def __init__(self, program=None, qubits=[], cmem=[], name=None):
         threading.Thread.__init__(self)
 
         # Name of the agent, e.g. "Alice". Defaults to the name of the class.
@@ -30,24 +30,34 @@ class Agent(threading.Thread):
         self.target_devices = []
         self.source_devices = []
 
-    def start_network_monitor(self, is_notebook):
+        self.network_monitor_running = False
+
+    def start_network_monitor(self, is_notebook, network_monitor):
         '''
             Starts tracking agent activity.
         '''
-        if is_notebook:
-            self.pbar_recv = tqdm.tqdm_notebook(desc='Qubits received by {}'.format(self.name), unit=' qubits')
-            self.pbar_sent = tqdm.tqdm_notebook(desc='Qubits sent by {}'.format(self.name), unit=' qubits')
-        else: 
-            self.pbar_recv = tqdm.tqdm(desc='Qubits received by {}'.format(self.name), unit=' qubits')
-            self.pbar_sent = tqdm.tqdm(desc='Qubits sent by {}'.format(self.name), unit=' qubits')
+        if network_monitor: 
+            self.network_monitor_running = True
+            if is_notebook:
+                self.pbar_recv = tqdm.tqdm_notebook(desc='Qubits received by {}'.format(self.name), unit=' qubits')
+                self.pbar_sent = tqdm.tqdm_notebook(desc='Qubits sent by {}'.format(self.name), unit=' qubits')
+            else: 
+                self.pbar_recv = tqdm.tqdm(desc='Qubits received by {}'.format(self.name), unit=' qubits')
+                self.pbar_sent = tqdm.tqdm(desc='Qubits sent by {}'.format(self.name), unit=' qubits')
+        
+        # start tracer
         threading.settrace(self._tracer)
 
     def stop_network_monitor(self): 
         '''
-        Stop progress bars
+        Stop progress bars and break source devices noise to signal ratios
         ''' 
-        self.pbar_recv.close()
-        self.pbar_sent.close()
+        for device in self.source_devices: 
+            device.get_success()
+
+        if self.network_monitor_running: 
+            self.pbar_recv.close()
+            self.pbar_sent.close()
  
     def update_network_monitor(self, qubits, bar):
         for _ in qubits: 
@@ -73,6 +83,14 @@ class Agent(threading.Thread):
 
         return self._tracer
     
+    def set_program(self, program):
+        '''
+            Set agent's program
+    
+            :param Program program: pyquil program
+        '''
+        self.program = program
+
     def add_target_devices(self, new_target_devices):
         '''
             Add self target devices
@@ -167,7 +185,8 @@ class Agent(threading.Thread):
         self.time += source_delay
 
         # Update network monitor 
-        self.update_network_monitor(qubits, self.pbar_sent)
+        if self.network_monitor_running: 
+            self.update_network_monitor(qubits, self.pbar_sent)
 
     def qrecv(self, source):
         '''
@@ -181,7 +200,8 @@ class Agent(threading.Thread):
         self.time += delay
 
         # Update network monitor 
-        self.update_network_monitor(qubits, self.pbar_recv)
+        if self.network_monitor_running: 
+            self.update_network_monitor(qubits, self.pbar_recv)
 
         return qubits
         

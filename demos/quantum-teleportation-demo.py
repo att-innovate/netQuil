@@ -60,7 +60,7 @@ QConnect(alice, bob)
 CConnect(alice, bob)
 
 # Run simulation
-Simulation(alice, bob).run()
+Simulation(alice, bob).run(trials=4, agent_classes=[Alice, Bob])
 qvm = QVMConnection()
 qvm.run(p)
 printWF(p)
