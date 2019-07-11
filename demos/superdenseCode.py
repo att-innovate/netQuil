@@ -31,10 +31,9 @@ class Alice(Agent):
         bit1 = self.cmem[0]
         bit2 = self.cmem[1]
         
-        #noise from attenuation
-        if a is not None:
-            if bit2 == 1: p += X(a)
-            if bit1 == 1: p += Z(a)
+        
+        if bit2 == 1: p += X(a)
+        if bit1 == 1: p += Z(a)
         self.qsend(bob.name, [a])
 
 class Bob(Agent):
@@ -49,24 +48,22 @@ class Bob(Agent):
         a = qubitsAlice[0]
         c = qubitsCharlie[0]
 
-        #noise from attenuation
-        if a is not None and c is not None:
-            p += CNOT(a,c)
-            p += H(a)
-            p += MEASURE(a, ro[0])
-            p += MEASURE(c, ro[1])
+        p += CNOT(a,c)
+        p += H(a)
+        p += MEASURE(a, ro[0])
+        p += MEASURE(c, ro[1])
 
 qvm = QVMConnection()
 program = Program()
 
 #define agents
 alice = Alice(program, cmem=[0,1])
-alice.add_source_devices([Fiber(length=100, apply_error=True)])
+alice.add_source_devices([Fiber(length=100, apply_error=False)])
 bob = Bob(program)
 charlie = Charlie(program, qubits=[0,1])
 
 #connect agents
-QConnect(alice, bob, [Fiber(length=10, apply_error=False)])
+QConnect(alice, bob, [Fiber(length=10, apply_error=False) ])
 QConnect(bob, charlie)
 QConnect(alice, charlie)
 
@@ -76,10 +73,11 @@ results = qvm.run(program)
 wf_sim = WavefunctionSimulator()
 resultWF = wf_sim.wavefunction(program)
 
-#print initial states
+
 print('Final state: ', resultWF)
 print('Alice\'s bits: ', alice.cmem)
 print('Bob\'s results:', results)
 
 print('Bob\'s time:', bob.time)
 print('Alice\'s time:', alice.time)
+

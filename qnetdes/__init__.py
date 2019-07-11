@@ -6,3 +6,4 @@ from qnetdes.agents import *
 from qnetdes.simulator import *
 from qnetdes.connections import *
 from qnetdes.devices import *
+from qnetdes.noise import *
