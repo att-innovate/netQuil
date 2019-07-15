@@ -73,7 +73,7 @@ class Laser(Device):
             if self.apply_error:
                 numPhotons = np.random.poisson(lam=self.photon_expectation)
                 self.trials += len(qubits)
-                if numPhotons != self.photon_expectation: self.success += 1
+                if numPhotons == self.photon_expectation: self.success += 1
                 '''
                 Rotation Noise
                 noise.normal_unitary_rotation(program, qubit, 0.5, self.variance)

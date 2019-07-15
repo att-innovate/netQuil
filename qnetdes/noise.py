@@ -120,7 +120,7 @@ def measure(program, qubit, prob: float, name="ro"):
             ro_declared = True
             program += MEASURE(qubit, ro)
 
-        elif ro_declared:
+        else: 
             ro = program.declare(name+str(uuid.uuid1().int), 'BIT', 1)
            
 def normal_unitary_rotation(program, qubit, prob:float, variance):
@@ -130,6 +130,7 @@ def normal_unitary_rotation(program, qubit, prob:float, variance):
     :param Program program: program to apply noise to
     :param Integer qubit: qubit to apply noise to 
     :param Float prob: probability of apply noise 
+    :param Float variance: variance of rotation angle
     '''
     if np.random.rand() > prob:
         x_angle, z_angle = np.random.normal(0, variance, 2)

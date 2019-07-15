@@ -1,4 +1,5 @@
 import inspect
+from .clock import *
 
 __all__ = ["Simulation"]
 
@@ -85,7 +86,9 @@ class Simulation:
         if running_trials: self.create_agent_copies()
 
         for _ in range(trials): 
+            master_clock = MasterClock()
             for agent in self.agents:
+                agent.master_clock = master_clock
                 agent.start_network_monitor(using_notebook, network_monitor)
                 agent.start()
             
@@ -93,7 +96,11 @@ class Simulation:
                 agent.join()
                 agent.stop_network_monitor()
 
+            if verbose: 
+                master_clock.display_transactions()
+
             if running_trials:
                 self.reset_devices()
                 self.reset_agents(agent_classes)
+
 

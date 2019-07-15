@@ -57,7 +57,7 @@ class QConnect():
             agent_two_name: queue.Queue()
         }
 
-    def put(self, source, target, qubits):
+    def put(self, source, target, qubits, source_time):
         ''' 
         Constructs full list of devices that each qubit must travel through. 
         Places qubits, delay and the list of devices on a queue. Queue is keyed on target's name.
@@ -65,6 +65,7 @@ class QConnect():
         :param String source: name of agent where the qubits being sent originated
         :param String target: name of agent receiving qubits
         :param Array qubits: array of numbers corresponding to qubits the source is sending 
+        :param Float source_time: time of source agent before sending qubits
         '''
         source_devices = self.source_devices[source]
         transit_devices = self.transit_devices[source]
@@ -76,16 +77,19 @@ class QConnect():
         }
 
         program = self.agents[source].program
-        qsource_delay = 0
+        source_delay = 0
 
         if not source_devices:
-            qsource_delay += pulse_length_default
+            source_delay += pulse_length_default
         else:
             for device in source_devices:
-                qsource_delay += device.apply(program, qubits)
+                source_delay += device.apply(program, qubits)
 
-        self.queues[target].put((qubits, non_source_devices, qsource_delay))
-        return qsource_delay
+        # Scale source delay time according to number of qubits sent
+        scaled_source_delay = source_delay*len(qubits) 
+
+        self.queues[target].put((qubits, non_source_devices, scaled_source_delay, source_time))
+        return scaled_source_delay
 
     def get(self, agent): 
         '''
@@ -95,7 +99,7 @@ class QConnect():
 
         :param Agent agent: agent receiving the qubits 
         '''
-        qubits, devices, delay = self.queues[agent.name].get()
+        qubits, devices, source_delay, source_time = self.queues[agent.name].get()
         agent.qubits = list(set(qubits + agent.qubits))
 
         program = self.agents[agent.name].program
@@ -103,16 +107,18 @@ class QConnect():
         transit_devices = devices["transit"]
         target_devices = devices["target"]
 
+        travel_delay = 0
         #default delays
         if not transit_devices:
-            delay += fiber_length_default/signal_speed
+            travel_delay += fiber_length_default/signal_speed
         if not target_devices:
-            delay += 0
+            travel_delay += 0
           
         for device in list(itertools.chain(transit_devices, target_devices)):
-            delay += device.apply(program, qubits)  
+            travel_delay += device.apply(program, qubits)  
 
-        return qubits, delay
+        scaled_delay = travel_delay*len(qubits) + source_delay
+        return qubits, scaled_delay, source_time
 
 class CConnect(): 
     def __init__(self, agent_one, agent_two, length=0.0):
@@ -154,7 +160,9 @@ class CConnect():
 
         :param String agent: name of the agent receiving the cbits
         '''
-        cbits, delay = self.queues[agent].get()
-        delay += self.length/signal_speed
+        cbits, source_delay = self.queues[agent].get()
+        travel_delay = self.length/signal_speed
+        
+        scaled_delay = travel_delay*len(cbits) + source_delay
 
-        return cbits, delay
+        return cbits, scaled_delay

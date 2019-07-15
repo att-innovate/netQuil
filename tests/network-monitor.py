@@ -12,30 +12,30 @@ class Alice(Agent):
     Alice sends Bob superdense-encoded classical bits
     '''
     def run(self):
-        p = self.program
-        for i in self.qubits: 
-            p += X(i)
-            self.qsend(bob.name, [i])
+        for i in self.cmem:
+            self.csend(bob.name, [i])
 
 class Bob(Agent):
     '''
     Bob reconstructs Alice's classical bits
     '''
     def run(self):
-        for i in range(0, 100):
-            qubitsAlice = self.qrecv(alice.name)
+        for i in range(100):
+            cbitsAlice = self.crecv(alice.name)
 
 qvm = QVMConnection()
 program = Program()
-
 #define agents
-alice = Alice(program, qubits=list(range(0, 100))) 
+alice = Alice(program, cmem=[0])
+for i in range(99):
+    alice.add_cmem([0])
+alice.add_source_devices([Laser(apply_error=True)])
 bob = Bob(program)
 
 #connect agents
-QConnect(alice, bob, [Fiber(length=10, apply_error=False)])
+CConnect(alice, bob, length=5.0)
 
 #simulate agents
-Simulation(alice, bob).run()
-results = qvm.run(program)
+Simulation(alice, bob).run(verbose=True)
 
+print(alice.master_clock.get_time())

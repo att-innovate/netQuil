@@ -30,7 +30,14 @@ class Agent(threading.Thread):
         self.target_devices = []
         self.source_devices = []
 
+        self.master_clock = None
         self.network_monitor_running = False
+
+    def get_master_time(self): 
+        '''
+        Return master time
+        '''
+        return self.master_clock.get_time()
 
     def start_network_monitor(self, is_notebook, network_monitor):
         '''
@@ -52,12 +59,12 @@ class Agent(threading.Thread):
         '''
         Stop progress bars and break source devices noise to signal ratios
         ''' 
-        for device in self.source_devices: 
-            device.get_success()
-
         if self.network_monitor_running: 
             self.pbar_recv.close()
             self.pbar_sent.close()
+            # Print source device signal to noise ratio
+            for device in self.source_devices: 
+                device.get_success()
  
     def update_network_monitor(self, qubits, bar):
         for _ in qubits: 
@@ -129,7 +136,7 @@ class Agent(threading.Thread):
 
             :param List cbits: classical memory to extend
         '''
-        self.cmem = self.__cmem.extend(cbits) 
+        self.__cmem.extend(cbits) 
 
     def add_device(self, device_type, device):
         ''' 
@@ -176,13 +183,16 @@ class Agent(threading.Thread):
             raise Exception('Agent cannot send qubits they do not have')
             
         connection = self.qconnections[target]
-        source_delay = connection.put(self.name, target, qubits)
-        
+        source_delay = connection.put(self.name, target, qubits, self.time)
+    
         # Removing qubits being sent
         self.qubits = list(set(self.qubits) - set(qubits))
 
         # Update Agent's Time
         self.time += source_delay
+
+        # Update Master Clock
+        self.master_clock.record_qtransaction(self.time, 'sent', self.name, target, qubits)
 
         # Update network monitor 
         if self.network_monitor_running: 
@@ -196,9 +206,11 @@ class Agent(threading.Thread):
         :param String source: name of source of qubits agent is attempting to retrieve from. 
         '''
         connection = self.qconnections[source]
-        qubits, delay = connection.get(self)
-        self.time += delay
+        qubits, delay, source_time = connection.get(self)
+        self.time = max(source_time + delay, self.time) 
 
+        # Update Master Clock
+        self.master_clock.record_qtransaction(self.time, 'received', source, self.name, qubits)
         # Update network monitor 
         if self.network_monitor_running: 
             self.update_network_monitor(qubits, self.pbar_recv)
@@ -213,8 +225,12 @@ class Agent(threading.Thread):
         :param List cbits: indicies of cbits self is sending to target
         '''
         connection = self.cconnections[target]
-        csource_delay  = connection.put(target, cbits)
-        self.time += csource_delay
+        source_delay  = connection.put(target, cbits)
+        scaled_source_delay = source_delay*len(cbits)
+        self.time += scaled_source_delay
+        
+        #Update Master Clock
+        self.master_clock.record_ctransaction(self.time, 'sent', self.name, target, cbits)
         
     def crecv(self, source):
         '''
@@ -225,6 +241,10 @@ class Agent(threading.Thread):
         connection = self.cconnections[source]
         cbits, delay = connection.get(self.name)
         self.time += delay
+
+        #Update Master Clock
+        self.master_clock.record_ctransaction(self.time, 'received', source, self.name, cbits)
+
         return cbits
 
     def run(self):
