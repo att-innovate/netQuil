@@ -4,3 +4,6 @@
 __pycache__/
 .ipynb_checkpoints
 *.py[cod]
+**/_build
+**/_themes
+**/_static
