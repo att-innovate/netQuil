@@ -5,7 +5,6 @@ sys.path.insert(1, '/Users/matthewradzihovsky/documents/qnetdes')
 import numpy as np
 import uuid
 
-from qnetdes import *
 from pyquil.gates import *
 from pyquil.quil import DefGate
 from pyquil.noise import pauli_kraus_map
@@ -47,7 +46,7 @@ def random_unitary(n):
 
 def bit_flip(program, qubit, prob: float):
     '''
-    Apply a bit flip with probability
+    Apply a bit flip with probability 
 
     :param Program program: program to apply noise to
     :param Integer qubit: qubit to apply noise to 

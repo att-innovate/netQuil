@@ -8,6 +8,21 @@ __all__ = ["Agent"]
 
 class Agent(threading.Thread):
     def __init__(self, program=None, qubits=[], cmem=[], name=None):
+        '''
+        Agents are codified versions of Alice and Bob (i.e. single nodes in a quantum network) 
+        that can send a receive classical and quantum information over connections. 
+        Agents have the following properties: 
+
+        * Run-time logic is in the form of an Agent.run() method
+        * Connections to other Agents are by default ingress and egress 
+        * Agents' manage their own target and source devices for noise and local time tracking
+        * A network monitor to records traffic of a single Agent
+
+        :param PyQuil<Program> program: program
+        :param List qubits: list of qubits owned by Agent
+        :param List cmem: list of cbits owned by Agent
+        :param String name: name of Agent, defaults to name of class
+        '''
         threading.Thread.__init__(self)
 
         # Name of the agent, e.g. "Alice". Defaults to the name of the class.
@@ -39,7 +54,7 @@ class Agent(threading.Thread):
         '''
         return self.master_clock.get_time()
 
-    def start_network_monitor(self, is_notebook, network_monitor):
+    def _start_network_monitor(self, is_notebook, network_monitor):
         '''
             Starts tracking agent activity.
         '''
@@ -55,7 +70,7 @@ class Agent(threading.Thread):
         # start tracer
         threading.settrace(self._tracer)
 
-    def stop_network_monitor(self): 
+    def _stop_network_monitor(self): 
         '''
         Stop progress bars and break source devices noise to signal ratios
         ''' 
@@ -73,8 +88,8 @@ class Agent(threading.Thread):
 
     def _tracer(self, frame, event, arg):
         '''
-            Prevents agent from modifying qubits that it does not own and manage by
-            examining the frame and intercepting all pyquil.gates calls 
+        Prevents agent from modifying qubits that it does not own and manage by
+        examining the frame and intercepting all pyquil.gates calls 
         '''
         if event == "call":
             if frame.f_globals['__name__'] == 'pyquil.gates':
@@ -92,15 +107,16 @@ class Agent(threading.Thread):
     
     def set_program(self, program):
         '''
-            Set agent's program
-    
-            :param Program program: pyquil program
+        Set Agent's program
+
+        :param PyQuil<Program> program: Agent's new program
         '''
         self.program = program
 
     def add_target_devices(self, new_target_devices):
         '''
-            Add self target devices
+            Add target devices. Every qubit sent to Agent will pass through these devices, 
+            and, if set, the device's noise will be applied
 
             :param List new_target_devices: Agent new target devices
         '''
@@ -108,7 +124,8 @@ class Agent(threading.Thread):
 
     def add_source_devices(self, new_source_devices):
         '''
-            Add self source devices
+            Add source devices. Every qubit sent by Agent will pass through these devices, 
+            and, if set, the device's noise will be applied 
 
             :param List new_source_devices: Agent new source devices
         '''
@@ -121,18 +138,18 @@ class Agent(threading.Thread):
     @cmem.setter
     def cmem(self, cmem):
         '''
-            Set classical memory
+            Set classical memory as list of 0s and 1s
 
             :param List cmem: Classical memory
         '''
         if len(cmem) >= 0 and all(bit == 0 or bit == 1 for bit in cmem):
             self.__cmem = cmem
         else:  
-            raise Exception('Classical bits must be either 0 or 1')
+            raise Exception('Classical bits must be in list and either 0 or 1')
 
     def add_cmem(self, cbits):
         '''
-            Add more classical memory
+            Add more classical memory in the form of a list of 0s and 1s
 
             :param List cbits: classical memory to extend
         '''
@@ -172,7 +189,7 @@ class Agent(threading.Thread):
 
     def qsend(self, target, qubits):
         '''
-        Send packet from self to target. Connection will place packet on queue 
+        Send qubits from Agent to target. Connection will place qubits on queue 
         for target to retrieve. 
 
         :param String target: name of destination for packet
@@ -200,10 +217,10 @@ class Agent(threading.Thread):
 
     def qrecv(self, source):
         '''
-        Self receives qubits from source. Adds qubits to self's list of qubits and
+        Agent receives qubits from source. Adds qubits to Agent's list of qubits and
         add time delay. Return qubits
         
-        :param String source: name of source of qubits agent is attempting to retrieve from. 
+        :param String source: name of Agent where qubits are from. 
         '''
         connection = self.qconnections[source]
         qubits, delay, source_time = connection.get(self)
@@ -219,10 +236,10 @@ class Agent(threading.Thread):
         
     def csend(self, target, cbits):
         '''
-        Sends classical bits from self to target.
+        Sends classical bits from Agent to target.
 
-        :param String target: name of agent self is sending cbits to
-        :param List cbits: indicies of cbits self is sending to target
+        :param String target: name of target Agent
+        :param List cbits: indicies of cbits source is sending to target
         '''
         connection = self.cconnections[target]
         source_delay  = connection.put(target, cbits)
@@ -234,9 +251,9 @@ class Agent(threading.Thread):
         
     def crecv(self, source):
         '''
-        Self receives cbits from source. 
+        Get cbits from source. 
         
-        :param String source: name of agent where cbits are from.
+        :param String source: name of Agent where cbits originated from.
         '''
         connection = self.cconnections[source]
         cbits, delay = connection.get(self.name)
@@ -248,5 +265,5 @@ class Agent(threading.Thread):
         return cbits
 
     def run(self):
-        '''Runtime logic for the Agent; this method should be overridden in child classes.'''
+        '''Run-time logic for the Agent; this method should be overridden in child classes.'''
         pass

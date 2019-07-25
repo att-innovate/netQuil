@@ -13,12 +13,22 @@ __all__ = ["Fiber", "Laser", "SNSPD", "Intensity_Modulator"]
 
 signal_speed = 2.998 * 10 ** 5 #speed of light in km/s
 class Device(): 
+    '''
+    Base class for all source and target devices
+    '''
     def __init__(self): 
         self.name = 'Device'
         self.success = 0
         self.trials = 0
     
     def apply(self, program, qubits):
+        '''
+        This function should be overwritten by children classes, and 
+        should include runtime code defining how child devices impact qubits
+
+        :param Pyquil<Program> program: program to manipulate
+        :param List qubits: list of qubits passing through device
+        '''
         pass
 
     def get_success(self):

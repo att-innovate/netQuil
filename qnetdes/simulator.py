@@ -28,7 +28,7 @@ class Simulation:
         '''
         self.agents = list(args)
 
-    def create_agent_copies(self):
+    def _create_agent_copies(self):
         '''
         Creates a dictionary of attributes for each agent. Stores list of dictionaries on self.agent_copies.
         Used to reset agents to their original state before each trial. Execute this function once at beginning of run
@@ -44,7 +44,7 @@ class Simulation:
             attrs_clean = {k: v for k, v in attrs_dict.items() if k not in THREADING_ATTRS}
             self.agent_copies.append(attrs_clean)
 
-    def reset_agents(self, agent_classes):
+    def _reset_agents(self, agent_classes):
         '''
         Creates exact duplicate of original agent given the class constructor and 
         a dictionary of agent attributes
@@ -61,7 +61,7 @@ class Simulation:
                     pass
             self.agents[indx] = new_agent
 
-    def reset_devices(self):
+    def _reset_devices(self):
         '''
         Reset source devices for each agent after each trial. 
         '''
@@ -74,7 +74,7 @@ class Simulation:
         Run the simulation
 
         :param Int trials: number of times to simulate program
-        param List<Agent> agent_classes: list of agent classes
+        :param List<Agent> agent_classes: list of agent classes
         :param Boolean network_monitor: whether to start a network monitor 
         :param Boolean verbose: whether the network monitor should create an error summary
             for each network transaction.
@@ -83,24 +83,24 @@ class Simulation:
         using_notebook = check_notebook()
         running_trials = trials > 1 
         # If trials is greater than 1, create copies of each agent
-        if running_trials: self.create_agent_copies()
+        if running_trials: self._create_agent_copies()
 
         for _ in range(trials): 
             master_clock = MasterClock()
             for agent in self.agents:
                 agent.master_clock = master_clock
-                agent.start_network_monitor(using_notebook, network_monitor)
+                agent._start_network_monitor(using_notebook, network_monitor)
                 agent.start()
             
             for agent in self.agents: 
                 agent.join()
-                agent.stop_network_monitor()
+                agent._stop_network_monitor()
 
             if verbose: 
                 master_clock.display_transactions()
 
             if running_trials:
-                self.reset_devices()
-                self.reset_agents(agent_classes)
+                self._reset_devices()
+                self._reset_agents(agent_classes)
 
 

@@ -1,3 +1,7 @@
+import sys
+sys.path.insert(2, '/Users/zacespinosa/.pyenv/versions/3.7.3/lib/python3.7/site-packages')
+sys.path.insert(1, '/Users/matthewradzihovsky/documents/qnetdes')
+sys.path.insert(0, '/Users/zacespinosa/Foundry/qnetdes')
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -29,8 +33,20 @@ release = '1.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-]
+extensions = ['sphinx.ext.autodoc',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.githubpages'
+    ]
+
+# The suffix(es) of source filenames.
+# You can specify multiple suffix as a list of string:
+#
+# source_suffix = ['.rst', '.md']
+source_suffix = '.rst'
+
+# The master toctree document.
+master_doc = 'index'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

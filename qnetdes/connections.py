@@ -9,15 +9,14 @@ pulse_length_default = 10 * 10 ** -12 # 10 ps photon pulse length
 signal_speed = 2.998 * 10 ** 5 #speed of light in km/s
 fiber_length_default = 0.0
 
-class QConnect(): 
+class QConnect: 
     def __init__(self, agent_one, agent_two, transit_devices=[]):
         '''
-            Get devices from source node (e.g. laser, intensity modulator, etc...), 
-            target node (e.g. sensor, beam splitter), and transit devices (e.g. fiber optics, free space)
+        This is the base class for a quantum connection between two agents. 
 
-            :param: Agent agent_one: first agent in connection
-            :param: Agent agent_two: second agent in connection
-            :param  Array transit_devices: array of devices packets travel through - assumed order: agent_one -> agent_two
+        :param Agent agent_one: first agent in connection
+        :param Agent agent_two: second agent in connection
+        :param Array transit_devices: array of devices qubits travel through - assumed order: agent_one -> agent_two
         '''
         agent_one_name = agent_one.name 
         agent_two_name = agent_two.name
@@ -31,9 +30,8 @@ class QConnect():
             agent_one_name: agent_one.target_devices,
             agent_two_name: agent_two.target_devices,
         }
-        ''' 
-            Assumed order of transit_devices is agent_one -> agent_two (i.e. source -> target).
-        '''
+        
+        # Assumed order of transit_devices is agent_one -> agent_two (i.e. source -> target).
         self.transit_devices = {
             agent_one_name: transit_devices, 
             agent_two_name: transit_devices[::-1]
@@ -48,10 +46,7 @@ class QConnect():
             agent_two_name: agent_two
         }
 
-        '''
-            Create queue to keep track of multiple requests. Name of queue is name of
-            target agent.  
-        '''
+        # create queue to keep track of multiple requests. Name of queue is name of target agent.  
         self.queues = {
             agent_one_name: queue.Queue(),
             agent_two_name: queue.Queue()
@@ -59,8 +54,9 @@ class QConnect():
 
     def put(self, source, target, qubits, source_time):
         ''' 
-        Constructs full list of devices that each qubit must travel through. 
-        Places qubits, delay and the list of devices on a queue. Queue is keyed on target's name.
+        Constructs full list of devices that each qubit must travel through. Sends the qubits
+        through source devices. Places qubits and a list of transit and target 
+        devices on the queue. Queue is keyed on the target Agent's name.
         
         :param String source: name of agent where the qubits being sent originated
         :param String target: name of agent receiving qubits
@@ -93,8 +89,8 @@ class QConnect():
 
     def get(self, agent): 
         '''
-        Pops qubits off of the agent's queue. Sends each qubit through the devices in the qubits
-        path through the network. Return an array of the qubits that have been altered as well as
+        Pops qubits off of the agent's queue. Sends qubit through transit and target devices,
+        simulating a quantumm network. Return an array of the qubits that have been altered as well as
         the time it took the qubit to travel through the network. 
 
         :param Agent agent: agent receiving the qubits 
@@ -120,9 +116,15 @@ class QConnect():
         scaled_delay = travel_delay*len(qubits) + source_delay
         return qubits, scaled_delay, source_time
 
-class CConnect(): 
+class CConnect: 
     def __init__(self, agent_one, agent_two, length=0.0):
-        # add ingress and egress classical traffic between agent_one and agent_two
+        '''
+        This is the base class for a classical connection between two agents. 
+
+        :param Agent agent_one: first agent in connection
+        :param Agent agent_two: second agent in connection
+        :param Float length: distance between first and second agent
+        '''
         agent_one_name = agent_one.name
         agent_two_name = agent_two.name
         agent_one.cconnections[agent_two_name] = self
@@ -135,8 +137,8 @@ class CConnect():
 
         self.length = length
         '''
-            Create queue to keep track of multiple requests. Name of queue is name of
-            target agent.  
+        Create queue to keep track of multiple requests. Name of queue is name of
+        target agent.  
         '''
         self.queues = {
             agent_one_name: multiprocessing.Queue(),
@@ -145,7 +147,7 @@ class CConnect():
 
     def put(self, target, cbits):
         ''' 
-        Places cbits and delay on the queue. 
+        Places cbits on queue keyed on the target Agent's name
 
         :param String target: name of recipient of program
         :param Array cbits: array of numbers corresponding to cbits agent is sending
@@ -156,7 +158,7 @@ class CConnect():
 
     def get(self, agent): 
         ''' 
-        Pops cbits off of the agent's queue. 
+        Pops cbits off of the agent's queue and adds travel delay
 
         :param String agent: name of the agent receiving the cbits
         '''

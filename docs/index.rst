@@ -7,7 +7,7 @@ Welcome to NetQuil's documentation!
 ===================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3 
    :caption: A Simulator for Quantum Networks using Pyquil:
     
    overview
