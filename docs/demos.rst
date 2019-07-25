@@ -4,4 +4,6 @@
 Demos
 =========================================================
 
-NetQuil is ...
+.. toctree::
+   demos/quantum-teleportation
+   demos/superdense-coding

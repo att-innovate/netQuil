@@ -9,15 +9,39 @@ from pyquil.gates import *
 from qnetdes import *
 
 def printWF(p):
+    '''
+    Prints the wavefunction from simulating a program p
+    '''
     wf_sim = WavefunctionSimulator()
     waveFunction = wf_sim.wavefunction(p)
     print(waveFunction)
     
-class Alice(Agent): 
-    def run(self): 
-        # Define Alice's qubits
-        a, phi = self.qubits
+
+class Charlie(Agent):
+    '''
+    Charlie sends Bell pairs to Alice and Bob
+    '''
+    def run(self):
+
+        # Create Bell State Pair
         p = self.program
+        p += H(0)
+        p += CNOT(0,1)
+
+        self.qsend(alice.name, [0])
+        self.qsend(bob.name, [1])
+
+class Alice(Agent): 
+    '''
+    Alice projects her state on her Bell State Pair from Charlie
+    '''
+    def run(self): 
+        p = self.program
+
+        # Define Alice's Qubits
+        phi = self.qubits[0]
+        qubitsCharlie = self.qrecv(charlie.name)
+        a = qubitsCharlie[0]
 
         # Entangle Ancilla and Phi
         p += CNOT(phi, a)
@@ -27,40 +51,48 @@ class Alice(Agent):
         p += MEASURE(a, ro[0])
         p += MEASURE(phi, ro[1])
     
-        # Send Cbits
-        bits = [0,1]
-        self.csend('bob', bits)
 
 class Bob(Agent): 
+    '''
+    Bob recreates Alice's state based on her measurements
+    '''
     def run(self):
-        b = self.qubits[0]
-        self.crecv('alice')
-
         p = self.program
+
+        # Define Bob's qubits
+        qubitsCharlie = self.qrecv(charlie.name)
+        b = qubitsCharlie[0]
+
+        # Prepare State Based on Measurements
         p.if_then(ro[0], X(b))
         p.if_then(ro[1], Z(b))
 
-# Create Phi
-p = Program(H(2))
-printWF(p)
 
-# Entangle qubits 0 and 1. 
-p += Program(H(0))
-p += CNOT(0,1) 
+p = Program()
+
+# Prepare psi
+p += H(2)
+p += Z(2)
+p += RZ(1.2, 2)
+printWF(p)
 
 # Create Classical Memory
 ro = p.declare('ro', 'BIT', 3)
 
-# Create Alice and Bob. Give Alice qubit 0 (ancilla) and qubit 2 (phi). Give Bob qubit 1
-alice = Alice(p, qubits=[0, 2], name='alice')
-bob = Bob(p, qubits=[1], name='bob')
+# Create Alice, Bob, and Charlie. Give Alice qubit 2 (phi). Give Charlie qubits [0,1] (Bell State Pairs). 
+alice = Alice(p, qubits=[2], name='alice')
+bob = Bob(p, name='bob')
+charlie = Charlie(p, qubits=[0,1], name='charlie')
 
-# Connect Alice and Bob via a quantum connection and classical connection with no transit devices
+# Connect agents to distribute qubits and report results
+QConnect(alice, charlie)
+QConnect(bob, charlie)
 QConnect(alice, bob)
 CConnect(alice, bob)
 
 # Run simulation
-Simulation(alice, bob).run(trials=4, agent_classes=[Alice, Bob])
+Simulation(alice, bob, charlie).run(trials=1, agent_classes=[Alice, Bob, Charlie])
 qvm = QVMConnection()
 qvm.run(p)
 printWF(p)
+print(p)

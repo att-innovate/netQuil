@@ -7,11 +7,20 @@ from pyquil.api import WavefunctionSimulator, QVMConnection
 from pyquil.gates import *
 from qnetdes import *
 
+def printWF(p):
+    '''
+    Prints the wavefunction from simulating a program p
+    '''
+    wf_sim = WavefunctionSimulator()
+    waveFunction = wf_sim.wavefunction(p)
+    print(waveFunction)
+    
 class Charlie(Agent):
     '''
     Charlie sends Bell pairs to Alice and Bob
     '''
     def run(self):
+        # Create Bell State Pair
         p = self.program
         p += H(0)
         p += CNOT(0,1)
@@ -31,7 +40,7 @@ class Alice(Agent):
         bit1 = self.cmem[0]
         bit2 = self.cmem[1]
         
-        
+        # Operate on Qubit depending on Classical Bit
         if bit2 == 1: p += X(a)
         if bit1 == 1: p += Z(a)
         self.qsend(bob.name, [a])
@@ -42,7 +51,8 @@ class Bob(Agent):
     '''
     def run(self):
         p = self.program
-        ro = p.declare('ro', 'BIT', 2)
+
+        # Get Qubits from Alice and Charlie
         qubitsAlice = self.qrecv(alice.name)
         qubitsCharlie = self.qrecv(charlie.name)
         a = qubitsAlice[0]
@@ -53,31 +63,30 @@ class Bob(Agent):
         p += MEASURE(a, ro[0])
         p += MEASURE(c, ro[1])
 
-qvm = QVMConnection()
 program = Program()
 
-#define agents
+# Create Classical Memory
+ro = program.declare('ro', 'BIT', 2)
+
+# Define Agents
 alice = Alice(program, cmem=[0,1])
 alice.add_source_devices([Laser(apply_error=True)])
 bob = Bob(program)
 charlie = Charlie(program, qubits=[0,1])
 
-#connect agents
-QConnect(alice, bob, [Fiber(length=10, apply_error=False) ])
+# Connect Agents
+QConnect(alice, bob, [Fiber(length=10, apply_error=True) ])
 QConnect(bob, charlie)
 QConnect(alice, charlie)
 
-#simulate agents
-Simulation(alice,charlie,bob).run(trials=10, agent_classes=[Alice, Charlie, Bob])
-results = qvm.run(program, trials=10)
-wf_sim = WavefunctionSimulator()
-resultWF = wf_sim.wavefunction(program)
+# Simulate Agents
+Simulation(alice,charlie,bob).run(trials=1, agent_classes=[Alice, Charlie, Bob])
+qvm = QVMConnection()
+results = qvm.run(program)
+printWF(program)
 
 
-print('Final state: ', resultWF)
-print('Alice\'s bits: ', alice.cmem)
+# Print Results
+print('Alice\'s inital bits: ', alice.cmem)
 print('Bob\'s results:', results)
-
-print('Bob\'s time:', bob.time)
-print('Alice\'s time:', alice.time)
 
