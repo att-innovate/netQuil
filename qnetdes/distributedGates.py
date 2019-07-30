@@ -9,8 +9,8 @@ from qnetdes import *
 
 __all__ = ["cat_entangler", "cat_disentangler"]
 
-def distributed_gate(agent):
-    agent.using_distributed_gate = not agent.using_distributed_gate
+def distributed_gate(agents):
+    for agent in agents: agent.using_distributed_gate = not agent.using_distributed_gate
 
 def notify_entangler_is_done(caller, target_agents): 
     ''' 
@@ -46,7 +46,7 @@ def cat_entangler(control, targets, entangled=False, notify=False):
     qubits = [measure_qubit] + [q[1] for q in targets]
 
     # Tell Tracer to Ignore Operations
-    distributed_gate(agent)
+    distributed_gate([agent] + [t[0] for t in targets])
 
     # If qubits are not already entangled, and distribute all non-control qubits
     if not entangled:
@@ -70,7 +70,7 @@ def cat_entangler(control, targets, entangled=False, notify=False):
         p.if_then(ro[measure_qubit], X(q))
 
     # Tell Tracer We're Done
-    distributed_gate(agent)
+    distributed_gate([agent] + [t[0] for t in targets])
     if notify: notify_entangler_is_done(caller=agent, target_agents=[t[0] for t in targets])
 
 def cat_disentangler(control, targets, notify=False):
@@ -91,7 +91,7 @@ def cat_disentangler(control, targets, notify=False):
     p = agent.program
 
     # Tell Tracer to Ignore Operations
-    distributed_gate(agent)
+    distributed_gate([agent] + [t[0] for t in targets])
 
     # Perform Hadamard of each qubit
     for _, q in targets: p += H(q)
@@ -114,7 +114,7 @@ def cat_disentangler(control, targets, notify=False):
     p.if_then(ro[targets[0][1]], Z(phi))
 
     # Tell Tracer We're Done
-    distributed_gate(agent)
+    distributed_gate([agent] + [t[0] for t in targets])
     if notify: notify_entangler_is_done(caller=agent, target_agents=[t[0] for t in targets])
 
     
