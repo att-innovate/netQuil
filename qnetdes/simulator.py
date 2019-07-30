@@ -1,6 +1,8 @@
 import inspect
 from .clock import *
 
+from pyquil import Program
+
 __all__ = ["Simulation"]
 
 def check_notebook():
@@ -35,6 +37,7 @@ class Simulation:
         if client requests multiple trials
         '''
         self.agent_copies = []
+        program = self.agents[0].program.copy()
         for agent in self.agents:
             # Get attributes
             attributes = inspect.getmembers(agent, lambda a:not(inspect.isroutine(a)))
@@ -42,6 +45,7 @@ class Simulation:
             attrs_tuples = [a for a in attributes if not(a[0].startswith('__') and a[0].endswith('__'))]
             attrs_dict = dict(attrs_tuples)
             attrs_clean = {k: v for k, v in attrs_dict.items() if k not in THREADING_ATTRS}
+            attrs_clean["program"] = program
             self.agent_copies.append(attrs_clean)
 
     def _reset_agents(self, agent_classes):
@@ -69,6 +73,20 @@ class Simulation:
             for device in agent.source_devices:
                 device.reset()
 
+    def _add_program(self):
+        '''
+        Adds program to all Agents if none set. If Agents are not all sharing
+        the same program, raise an exceptions.
+        '''
+        p = Program()
+        set_program = self.agents[0].program
+
+        for agent in self.agents: 
+            if agent.program != set_program:
+                raise Exception('All Agents must share the same program')
+            if agent.program == None: 
+                agent.program = p
+
     def run(self, trials=1, agent_classes=[], network_monitor=False, verbose=False):
         '''
         Run the simulation
@@ -81,6 +99,10 @@ class Simulation:
         '''
         # Check is client is using jupyter notebooks
         using_notebook = check_notebook()
+
+        # If program is not set, add default
+        self._add_program()
+
         running_trials = trials > 1 
         # If trials is greater than 1, create copies of each agent
         if running_trials: self._create_agent_copies()
