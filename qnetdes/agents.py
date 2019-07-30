@@ -47,6 +47,7 @@ class Agent(threading.Thread):
 
         self.master_clock = None
         self.network_monitor_running = False
+        self.using_distributed_gate = False
 
     def get_master_time(self): 
         '''
@@ -92,6 +93,8 @@ class Agent(threading.Thread):
         examining the frame and intercepting all pyquil.gates calls 
         '''
         if event == "call":
+            if self.using_distributed_gate: 
+                return self._tracer
             if frame.f_globals['__name__'] == 'pyquil.gates':
                 # Returns dictionary of parameter names and their values
                 argsToGate = inspect.getargvalues(frame)

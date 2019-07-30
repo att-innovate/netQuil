@@ -8,3 +8,4 @@ from qnetdes.connections import *
 from qnetdes.devices import *
 from qnetdes.noise import *
 from qnetdes.clock import *
+from qnetdes.distributedGates import *
