@@ -2,6 +2,6 @@
 
 ``Simulator`` - Parallelized multi-trial simulator
 --------------------------------------------------
-.. autoclass:: qnetdes.simulator.Simulation
+.. autoclass:: netQuil.simulator.Simulation
    :members:
    :special-members:

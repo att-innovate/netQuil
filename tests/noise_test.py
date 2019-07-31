@@ -1,11 +1,11 @@
 import sys
-sys.path.insert(1, '/Users/matthewradzihovsky/documents/qnetdes')
-sys.path.insert(0, '/Users/zacespinosa/Foundry/qnetdes')
+sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
+sys.path.insert(0, '/Users/zacespinosa/Foundry/netQuil')
 
 from pyquil import Program
 from pyquil.api import WavefunctionSimulator, QVMConnection
 from pyquil.gates import *
-from qnetdes import *
+from netQuil import *
 
 class Bob(Agent):
    

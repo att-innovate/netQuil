@@ -1,6 +1,6 @@
 import sys
-sys.path.insert(0, '/Users/matthewradzihovsky/documents/qnetdes')
-sys.path.insert(1, '/Users/matthewradzihovsky/documents/qnetdes')
+sys.path.insert(0, '/Users/matthewradzihovsky/documents/netQuil')
+sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
 
 import numpy as np
 import uuid

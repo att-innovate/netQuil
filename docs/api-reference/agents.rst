@@ -2,7 +2,7 @@
 
 ``Agents`` - Codified Alice and Bob
 -----------------------------------
-.. automodule:: qnetdes.agents
+.. automodule:: netQuil.agents
    :members:
    :special-members:
    :show-inheritance:

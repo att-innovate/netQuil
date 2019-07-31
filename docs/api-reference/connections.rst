@@ -2,10 +2,10 @@
 
 ``Connections`` - Quantum and classical channels 
 ------------------------------------------------
-.. autoclass:: qnetdes.connections.QConnect
+.. autoclass:: netQuil.connections.QConnect
    :members:
    :special-members:
 
-.. autoclass:: qnetdes.connections.CConnect
+.. autoclass:: netQuil.connections.CConnect
    :members:
    :special-members:

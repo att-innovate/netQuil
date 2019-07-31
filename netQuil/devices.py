@@ -1,13 +1,13 @@
 import sys
-sys.path.insert(0, '/Users/matthewradzihovsky/documents/qnetdes')
-sys.path.insert(1, '/Users/matthewradzihovsky/documents/qnetdes')
+sys.path.insert(0, '/Users/matthewradzihovsky/documents/netQuil')
+sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
 
 import numpy as np
 import uuid
 
 from pyquil import Program
 from pyquil.gates import *
-from qnetdes import noise
+from netQuil import noise
 
 __all__ = ["Fiber", "Laser", "SNSPD", "Intensity_Modulator"]
 

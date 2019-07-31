@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(2, '/Users/zacespinosa/.pyenv/versions/3.7.3/lib/python3.7/site-packages')
-sys.path.insert(1, '/Users/matthewradzihovsky/documents/qnetdes')
-sys.path.insert(0, '/Users/zacespinosa/Foundry/qnetdes')
+sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
+sys.path.insert(0, '/Users/zacespinosa/Foundry/netQuil')
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full

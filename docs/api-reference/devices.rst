@@ -2,11 +2,11 @@
 
 ``Devices`` - Quantum Devices Simulator
 ---------------------------------------
-.. autoclass:: qnetdes.devices.Device
+.. autoclass:: netQuil.devices.Device
    :members:
    :special-members:
 
-.. autoclass:: qnetdes.devices.Fiber
+.. autoclass:: netQuil.devices.Fiber
    :members:
    :special-members:
    :show-inheritance:

@@ -10,47 +10,35 @@ signal_speed = 2.998 * 10 ** 5 #speed of light in km/s
 fiber_length_default = 0.0
 
 class QConnect: 
-    def __init__(self, agent_one, agent_two, transit_devices=[]):
+    def __init__(self, *args, transit_devices=[]):
         '''
-        This is the base class for a quantum connection between two agents. 
+        This is the base class for a quantum connection between multiple agents. 
 
-        :param Agent agent_one: first agent in connection
-        :param Agent agent_two: second agent in connection
-        :param Array transit_devices: array of devices qubits travel through - assumed order: agent_one -> agent_two
+        :param List *args: list of agents to connect
+        :param List transit_devices: list of devices qubits travel through - assumed order: agent_one -> agent_two
         '''
-        agent_one_name = agent_one.name 
-        agent_two_name = agent_two.name
-        
-        self.source_devices = {
-            agent_one_name: agent_one.source_devices,
-            agent_two_name: agent_two.source_devices,
-        }
+        agents = list(args)
+        self.agents = {}
+        self.source_devices = {}
+        self.target_devices = {}
+        self.transit_devices = {}
 
-        self.target_devices = {
-            agent_one_name: agent_one.target_devices,
-            agent_two_name: agent_two.target_devices,
-        }
-        
-        # Assumed order of transit_devices is agent_one -> agent_two (i.e. source -> target).
-        self.transit_devices = {
-            agent_one_name: transit_devices, 
-            agent_two_name: transit_devices[::-1]
-        }
+        '''
+        Create queue to keep track of multiple requests. Name of queue is name of
+        target agent.  
+        '''
+        self.queues = {}
+        for agent in agents:
+            self.agents.update({agent.name: agent})
+            self.source_devices.update({agent.name: agent.source_devices})
+            self.target_devices.update({agent.name: agent.target_devices})
+            self.transit_devices.update({agent.name: transit_devices})
+            self.queues.update({agent.name: queue.Queue()})
 
-        # add connection ingress and outgress qconnection to agent_one and agent_two
-        agent_one.qconnections[agent_two_name] = self
-        agent_two.qconnections[agent_one_name] = self
-       
-        self.agents = {
-            agent_one_name: agent_one,
-            agent_two_name: agent_two
-        }
+            for agentConnect in agents:
+                if agentConnect != agent:
+                    agent.qconnections[agentConnect.name] = self
 
-        # create queue to keep track of multiple requests. Name of queue is name of target agent.  
-        self.queues = {
-            agent_one_name: queue.Queue(),
-            agent_two_name: queue.Queue()
-        }
 
     def put(self, source, target, qubits, source_time):
         ''' 
@@ -117,33 +105,32 @@ class QConnect:
         return qubits, scaled_delay, source_time
 
 class CConnect: 
-    def __init__(self, agent_one, agent_two, length=0.0):
+    def __init__(self, *args, length=0.0):
         '''
-        This is the base class for a classical connection between two agents. 
+        This is the base class for a classical connection between multiple agents. 
 
-        :param Agent agent_one: first agent in connection
-        :param Agent agent_two: second agent in connection
+        :param List *args, list of agents to connect
         :param Float length: distance between first and second agent
         '''
-        agent_one_name = agent_one.name
-        agent_two_name = agent_two.name
-        agent_one.cconnections[agent_two_name] = self
-        agent_two.cconnections[agent_one_name] = self
-       
-        self.agents = { 
-            agent_one_name: agent_one, 
-            agent_two_name: agent_two
-        }
+        agents = list(args)
+        self.agents = {}
 
-        self.length = length
         '''
         Create queue to keep track of multiple requests. Name of queue is name of
         target agent.  
         '''
-        self.queues = {
-            agent_one_name: multiprocessing.Queue(),
-            agent_two_name: multiprocessing.Queue()
-        }
+        self.queues = {}
+
+        for agent in agents:
+            self.agents.update({agent.name: agent})
+            self.queues.update({agent.name: queue.Queue()})
+
+            for agentConnect in agents:
+                if agentConnect != agent:
+                    agent.cconnections[agentConnect.name] = self
+
+        self.length = length
+       
 
     def put(self, target, cbits):
         ''' 

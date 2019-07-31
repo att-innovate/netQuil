@@ -1,4 +1,4 @@
-from qnetdes import *
+from netQuil import *
 from pyquil import Program
 from pyquil.gates import *
 from pyquil.api import WavefunctionSimulator

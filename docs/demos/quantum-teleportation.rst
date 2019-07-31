@@ -52,7 +52,7 @@ Import Dependencies
     from pyquil import Program
     from pyquil.api import QVMConnection
     from pyquil.gates import *
-    from qnetdes import *
+    from netQuil import *
 
 Setup Agents 
 ----------------------------------------

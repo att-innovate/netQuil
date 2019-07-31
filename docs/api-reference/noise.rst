@@ -2,5 +2,5 @@
 
 ``Noise`` - Quantum errors simulator
 -------------------------------------
-.. automodule:: qnetdes.noise
+.. automodule:: netQuil.noise
    :members:

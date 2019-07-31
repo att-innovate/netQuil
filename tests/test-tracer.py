@@ -1,9 +1,10 @@
 import sys
 import threading 
 import inspect
-sys.path.insert(0, '/Users/zacespinosa/Foundry/qnetdes')
+sys.path.insert(0, '/Users/zacespinosa/Foundry/netQuil')
+sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
 
-from qnetdes import *
+from netQuil import *
 from pyquil import Program
 from pyquil.gates import *
 from pyquil.api import WavefunctionSimulator, QVMConnection
