@@ -111,6 +111,8 @@ class Simulation:
             master_clock = MasterClock()
             for agent in self.agents:
                 agent.master_clock = master_clock
+
+            for agent in self.agents:
                 agent._start_network_monitor(using_notebook, network_monitor)
                 agent.start()
             

@@ -78,7 +78,7 @@ charlie = Charlie(program, qubits=[0,1])
 QConnect(alice, bob, charlie, transit_devices=[Laser(apply_error=False)])
 
 # Simulate Agents
-Simulation(alice,charlie,bob).run(trials=1, agent_classes=[Alice, Charlie, Bob])
+Simulation(alice,charlie,bob).run()
 qvm = QVMConnection()
 results = qvm.run(program)
 printWF(program)

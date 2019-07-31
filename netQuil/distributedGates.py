@@ -1,14 +1,30 @@
 import sys
-sys.path.insert(0, '/Users/zacespinosa/Foundry/qnetdes')
-sys.path.insert(1, '/Users/matthewradzihovsky/documents/qnetdes')
+sys.path.insert(0, '/Users/zacespinosa/Foundry/netQuil')
+sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
 
 from pyquil import Program
 from pyquil.api import WavefunctionSimulator, QVMConnection
 from pyquil.gates import *
-from qnetdes import *
+from netQuil import *
 
-__all__ = ["cat_entangler", "cat_disentangler"]
+__all__ = ["cat_entangler", "cat_disentangler", "QFT"]
 
+def QFT(program, register):
+    '''
+    Performs Quantum Fourier Transform
+    :param Program program: program for where to apply QFT
+    :param List register: register of qubits to perform QFT on
+    '''
+       
+    n = len(register)
+    for i in range(n-1, -1, -1):
+        program += H(register[i])
+        for j in range(i-1, -1, -1):
+            k = i-j+1
+            program += CPHASE(2*np.pi/(2**k),register[j], register[i])
+
+    return program
+    
 def distributed_gate(agents):
     for agent in agents: agent.using_distributed_gate = not agent.using_distributed_gate
 

@@ -8,4 +8,4 @@ from netQuil.connections import *
 from netQuil.devices import *
 from netQuil.noise import *
 from netQuil.clock import *
-from netQuil.distributed_gates import *
+from netQuil.distributedGates import *

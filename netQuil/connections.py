@@ -14,7 +14,7 @@ class QConnect:
         '''
         This is the base class for a quantum connection between multiple agents. 
 
-        :param List *args: list of agents to connect
+        :param agents \*args: list of agents to connect
         :param List transit_devices: list of devices qubits travel through - assumed order: agent_one -> agent_two
         '''
         agents = list(args)
@@ -109,7 +109,7 @@ class CConnect:
         '''
         This is the base class for a classical connection between multiple agents. 
 
-        :param List *args, list of agents to connect
+        :param agents \*args, list of agents to connect
         :param Float length: distance between first and second agent
         '''
         agents = list(args)
