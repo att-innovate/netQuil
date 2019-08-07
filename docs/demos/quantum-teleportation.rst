@@ -21,9 +21,13 @@ the entangled qubits to Alice and Bob. Alice entangles her qubit :math:`|\psi\ra
 and then measures her qubits. Finally, based on these measurements, Bob can recreate Alice's qubit
 :math:`|\psi\rangle` by operating using :math:`\textbf{X}` and :math:`\textbf{Z}` gates. 
 
+Circuit
+----------------------------------------
+.. image:: ../images/Circuits/teleportation.png
+
 Steps 
 ----------------------------------------
-1. Charlie creates Bell State Pair using a Hadamard (:math:`\textbf{H}`) and Controlled-Not (:math:`\textbf{CNOT}`) gate,
+1. Charlie creates a bell state pair using a Hadamard (:math:`\textbf{H}`) and Controlled-Not (:math:`\textbf{CNOT}`) gate,
 :math:`|AB\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) `, sending qubit :math:`A` to Alice and qubit :math:`B` to Bob. 
 
 2. Alice projects her arbitrary quantum state :math:`|\psi\rangle = \alpha |0\rangle + \beta |1\rangle` onto qubit :math:`A` using a Controlled-Not (:math:`\textbf{CNOT}`) and 
@@ -41,7 +45,7 @@ be :math:`|1\rangle`. Bob's qubit :math:`B` is now in state :math:`|\psi\rangle 
 
 Tutorial
 =========================================================
-We will now implement quantum teleportation using NetQuil's framework of ref:`Agent <agent>` and ref:`Connections <connections>`
+We will now implement quantum teleportation using netQuil's framework of ref:`Agent <agent>` and ref:`Connections <connections>`
 to simulate teleportation of a quantum state using a quantum network. The ref:`Devices <devices>` module 
 and ref'Noise <noise>' allows you to include realistic devices with noise in your quantum network.
 
@@ -56,10 +60,10 @@ Import Dependencies
 
 Setup Agents 
 ----------------------------------------
-Let us first define Agent Charlie who creates and distributes the Bell State Pair to Alice and Bob. We can extend the Agent
-classes and redefine our :math:`\textit{run()}` methods. To create our Bell State Pair, he can use a
+Let us first define agent Charlie who creates and distributes the bell state pair to Alice and Bob. We can extend the Agent
+classes and redefine our :math:`\textit{run()}` methods. To create our bell state pair, he can use a
 Hadamard (:math:`\textbf{H}`) and Controlled-Not (:math:`\textbf{CNOT}`) gate from pyquil. Then,
-using NetQuil, we want to send each qubit to Alice and Bob.
+using netQuil, we want to send each qubit to Alice and Bob.
 
 .. code:: python
 
@@ -68,7 +72,7 @@ using NetQuil, we want to send each qubit to Alice and Bob.
     Charlie sends Bell pairs to Alice and Bob
     '''
     def run(self):
-        # Create Bell State Pair
+        # Create bell state pair
         p = self.program
         p += H(0)
         p += CNOT(0,1)
@@ -76,15 +80,15 @@ using NetQuil, we want to send each qubit to Alice and Bob.
         self.qsend(alice.name, [0])
         self.qsend(bob.name, [1])
 
-Now, we will create Agent Alice and Agent Bob. Alice will project her state :math:`|\psi\rangle = \alpha |0\rangle + \beta |1\rangle` onto her 
-Bell State Pair. Then, she will measure her two qubits, and send the results to Bob, which Bob will use to recreate Alice's original state
-:math:`|\psi\rangle = \alpha |0\rangle + \beta |1\rangle` with his Bell State Pair.
+Now, we will create agent Alice and agent Bob. Alice will project her state :math:`|\psi\rangle = \alpha |0\rangle + \beta |1\rangle` onto her 
+bell state pair. Then, she will measure her two qubits, and send the results to Bob, which Bob will use to recreate Alice's original state
+:math:`|\psi\rangle = \alpha |0\rangle + \beta |1\rangle` with his bell state pair.
 
 .. code:: python
 
     class Alice(Agent): 
         '''
-        Alice projects her state on her Bell State Pair from Charlie
+        Alice projects her state on her bell state pair from Charlie
         '''
         def run(self): 
             p = self.program
@@ -117,7 +121,7 @@ Bell State Pair. Then, she will measure her two qubits, and send the results to 
             p.if_then(ro[0], X(b))
             p.if_then(ro[1], Z(b))
 
-Create Program
+Set Up Program
 ----------------------------------------
 We can now define our pyquil program to pass into each agent. For this demo, we will let qubit 2 be our state :math:`|\psi\rangle`, 
 prepared using a Hadamard. Therefore, Alice has state :math:`|\psi\rangle = |2\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)`. 
@@ -135,23 +139,21 @@ prepared using a Hadamard. Therefore, Alice has state :math:`|\psi\rangle = |2\r
 Simulate Network
 ----------------------------------------
 Finally, we can define our agents, connect them, and simulate our program. Notice, that initially Charlie has qubits 0 and 1, 
-in order to make the Bell State Pair, while Alice has qubit 2, representing state :math:`|\psi\rangle`. 
+in order to make the bell state pair, while Alice has qubit 2, representing state :math:`|\psi\rangle`. 
 
 .. code:: python
 
-    # Create Alice, Bob, and Charlie. Give Alice qubit 2 (phi). Give Charlie qubits [0,1] (Bell State Pairs). 
+    # Create Alice, Bob, and Charlie. Give Alice qubit 2 (phi). Give Charlie qubits [0,1] (bell state pairs). 
     alice = Alice(p, qubits=[2], name='alice')
     bob = Bob(p, name='bob')
     charlie = Charlie(p, qubits=[0,1], name='charlie')
 
     # Connect agents to distribute qubits and report results
-    QConnect(alice, charlie)
-    QConnect(bob, charlie)
-    QConnect(alice, bob)
+    QConnect(alice, bob, charlie)
     CConnect(alice, bob)
 
     # Run simulation
-    Simulation(alice, bob, charlie).run(trials=1, agent_classes=[Alice, Bob, Charlie])
+    Simulation(alice, bob, charlie).run()
     qvm = QVMConnection()
     qvm.run(p)
 
@@ -182,5 +184,7 @@ a classical channel quantum bit. It is now time to get creative. Add noise, add 
 
 Source Code
 =========================================================
-The source code for this demo is included in the demos directory of the NetQuil repository.
+The source code for the quantum teleportation demo can be found `here <https://github.com/att-innovate/netQuil>`_ and contributions are encouraged. 
+
+To learn about distributed quantum computing and follow more demos, check out the netQuil white paper! 
 

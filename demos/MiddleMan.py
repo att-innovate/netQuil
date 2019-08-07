@@ -5,7 +5,6 @@ import sys
 sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
 sys.path.insert(0, '/Users/zacespinosa/Foundry/netQuil')
 
-import pyquil.api as api
 from pyquil import Program
 from pyquil.api import WavefunctionSimulator, QVMConnection
 from pyquil.gates import *
@@ -19,7 +18,6 @@ class Charlie(Agent):
         p = self.program
         for i in range(0,len(alice.cmem),2):
             p += H(i)
-            #print("charlie has qubits", charlie.qubits)
             p += CNOT(i, i+1)
             self.qsend(alice.name, [i])
             self.qsend(bob.name, [i+1])
@@ -48,7 +46,6 @@ class Bob(Agent):
     '''
     def run(self):
         p = self.program
-        #ro = p.declare('ro', 'BIT', len(alice.cmem))
         for i in range(0,len(alice.cmem),2):
             qubitsAlice = self.qrecv(eve.name)
             qubitsCharlie = self.qrecv(charlie.name)
@@ -62,11 +59,10 @@ class Bob(Agent):
 
 class Eve(Agent):
     '''
-    #Eve intercepts message from Alice, measures, and sends to Bob
+    Eve intercepts message from Alice, measures, and sends to Bob
     '''
     def run(self):
         p = self.program
-        #ro = p.declare('roEve', 'BIT', len(alice.cmem))
         for i in range(0,len(alice.cmem),2):
             qubitsAlice = self.qrecv(alice.name)
             a = qubitsAlice[0]
@@ -75,11 +71,11 @@ class Eve(Agent):
 
 
 
-def plot_alice_bob_eve_images(eve_bits, bob_bits,img):
-    eve_img = np.reshape(np.packbits(eve_bits), (int(img.shape[0]/2), img.shape[1], img.shape[2]))
-    bob_img = np.reshape(np.packbits(bob_bits), img.shape)
+def plot_images(eve_bits, bob_bits, alice_bit):
+    eve_img = np.reshape(np.packbits(eve_bits), (int(alice_bit.shape[0]/2), alice_bit.shape[1], alice_bit.shape[2]))
+    bob_img = np.reshape(np.packbits(bob_bits), alice_bit.shape)
     f, ax = plt.subplots(1, 3, figsize = (18, 9))
-    ax[0].imshow(img)
+    ax[0].imshow(alice_bit)
     ax[0].axis('off')
     ax[0].title.set_text("Alice's image")
     ax[1].imshow(eve_img)
@@ -90,22 +86,10 @@ def plot_alice_bob_eve_images(eve_bits, bob_bits,img):
     ax[2].title.set_text("Bob's image")
     plt.tight_layout()
     plt.show()
-
-def pltImage(img_bits, img):
-    img_bits = np.reshape(np.packbits(img_bits), img.shape)
-    f, ax = plt.subplots(1, 3, figsize = (18, 9))
-    ax[0].imshow(img)
-    ax[0].axis('off')
-    plt.tight_layout()
-    plt.show()
-
         
-img = image.imread("./Images/mochi11.jpg")
-print(img.shape)
+img = image.imread("./Images/netQuil.jpg")
 img_bits = list(np.unpackbits(img))
-pltImage(img_bits, img)
 print("LEN IMG_BITS TOTAL", len(img_bits))
-#img_bits = img_bits[0:20]
 
 start = 0
 end = 20
@@ -132,11 +116,7 @@ while end <= len(img_bits):
     eve = Eve(program)
 
     #connect agents
-    QConnect(alice, bob)
-    QConnect(bob, charlie)
-    QConnect(alice, charlie)
-    QConnect(alice, eve)
-    QConnect(bob, eve)
+    QConnect(alice, bob, charlie, eve)
 
 
     #simulate agents
@@ -157,7 +137,7 @@ while end <= len(img_bits):
     print("simulated: ", i)
         
 
-plot_alice_bob_eve_images(resultsEve, resultsBob, img)
+plot_images(resultsEve, resultsBob, img)
 
 wf_sim = WavefunctionSimulator()
 resultWF = wf_sim.wavefunction(program)
