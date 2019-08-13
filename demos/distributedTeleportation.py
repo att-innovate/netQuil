@@ -59,7 +59,7 @@ class Bob(Agent):
         # Receive Measurement from Cat-entangler
         self.crecv(alice.name)
         if self.crecv(alice.name)[0]: 
-            self.finish_teleportation(psi, b)
+            self.finish_teleportation(b, psi)
 
 p = Program()
 
