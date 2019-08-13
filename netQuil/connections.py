@@ -63,13 +63,14 @@ class QConnect:
         program = self.agents[source].program
         source_delay = 0
 
+        # Keep track of qubits remaining
+        traveling_qubits = qubits
+
         if not source_devices:
             source_delay += pulse_length_default
         else:
             # Keep track of qubits lost by each device
             total_lost_qubits = []
-            # Keep track of qubits remaining
-            traveling_qubits = qubits
             for device in source_devices:
                 # If qubits are still remaining 
                 if traveling_qubits:
