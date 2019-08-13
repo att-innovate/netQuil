@@ -51,41 +51,26 @@ class Agent(threading.Thread):
 
     def get_master_time(self): 
         '''
-        Return master time
+        :return: master time
         '''
         return self.master_clock.get_time()
 
-    def _start_network_monitor(self, is_notebook, network_monitor):
-        '''
-            Starts tracking agent activity.
-        '''
-        if network_monitor: 
-            self.network_monitor_running = True
-            if is_notebook:
-                self.pbar_recv = tqdm.tqdm_notebook(desc='Qubits received by {}'.format(self.name), unit=' qubits')
-                self.pbar_sent = tqdm.tqdm_notebook(desc='Qubits sent by {}'.format(self.name), unit=' qubits')
-            else: 
-                self.pbar_recv = tqdm.tqdm(desc='Qubits received by {}'.format(self.name), unit=' qubits')
-                self.pbar_sent = tqdm.tqdm(desc='Qubits sent by {}'.format(self.name), unit=' qubits')
-        
-        # start tracer
+    def _start_tracer(self):
         threading.settrace(self._tracer)
 
-    def _stop_network_monitor(self): 
+    def _get_device_results(self):
         '''
-        Stop progress bars and break source devices noise to signal ratios
-        ''' 
-        if self.network_monitor_running: 
-            self.pbar_recv.close()
-            self.pbar_sent.close()
-            # Print source device signal to noise ratio
-            for device in self.source_devices: 
-                device.get_success()
+        Get results for source and target devices
+        '''
+        devices = self.source_devices + self.target_devices
+        for device in devices: 
+            if device.verbose:
+                device.get_results()
  
     def update_network_monitor(self, qubits, bar):
         for _ in qubits: 
             time.sleep(0.05)
-            bar.update(1)
+            bar.update()
 
     def _tracer(self, frame, event, arg):
         '''
@@ -104,7 +89,7 @@ class Agent(threading.Thread):
                 qubits = [q for q in argValues if type(q) == int]
                 # Check that qubits are a subset of the Agent's qubits
                 if not all(q in self.qubits for q in qubits):
-                    raise Exception('Agent cannot modify qubits they do not own')
+                    raise Exception('Agent cannot modify qubits they do not own (including qubits that have been lost)')
 
         return self._tracer
     
@@ -224,6 +209,7 @@ class Agent(threading.Thread):
         add time delay. Return qubits
         
         :param String source: name of Agent where qubits are from. 
+        :return: list of qubits sent from source
         '''
         connection = self.qconnections[source]
         qubits, delay, source_time = connection.get(self)
@@ -257,6 +243,7 @@ class Agent(threading.Thread):
         Get cbits from source. 
         
         :param String source: name of Agent where cbits originated from.
+        :return: list of cbits sent from source
         '''
         connection = self.cconnections[source]
         cbits, delay = connection.get(self.name)

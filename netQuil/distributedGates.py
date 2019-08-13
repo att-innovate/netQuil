@@ -14,6 +14,7 @@ def QFT(program, register):
     Performs Quantum Fourier Transform
     :param Program program: program for where to apply QFT
     :param List register: register of qubits to perform QFT on
+    :return program: program where QFT has been applied
     '''
        
     n = len(register)

@@ -9,3 +9,4 @@ Demos
    demos/superdense-coding
    demos/middle-man
    demos/distributed-protocol
+   demos/advanced-usage

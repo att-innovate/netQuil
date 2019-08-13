@@ -55,7 +55,7 @@ class MasterClock:
 
     def get_time(self):
         '''
-        Return master time
+        :return: master time
         '''
         return self.time
     

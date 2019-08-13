@@ -12,8 +12,8 @@ Welcome to NetQuil's documentation!
     
    overview
    getting-started
-   api-reference
    demos
+   api-reference
    distributed-shors
 
 

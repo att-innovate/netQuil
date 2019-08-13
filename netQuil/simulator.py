@@ -1,5 +1,6 @@
 import inspect
 from .clock import *
+import tqdm
 
 from pyquil import Program
 
@@ -29,6 +30,7 @@ class Simulation:
         Initialize the simulation
         '''
         self.agents = list(args)
+        self.pbars = {}
 
     def _create_agent_copies(self):
         '''
@@ -51,16 +53,21 @@ class Simulation:
     def _reset_agents(self, agent_classes):
         '''
         Creates exact duplicate of original agent given the class constructor and 
-        a dictionary of agent attributes
+        a dictionary of agent attributes from _create_agent_copies
 
         :param List<Agent> agent_classes: list of agent classes 
         '''
+        program_copy = None
         for indx, copy in enumerate(self.agent_copies): 
             # Create copy of agent
             new_agent = agent_classes[indx]()
             for k in copy:
                 try: 
                     setattr(new_agent, k, copy[k])
+                    if k == 'program' and program_copy == None:
+                        program_copy = copy[k].copy()
+                    if k == 'program': 
+                        setattr(new_agent, k, program_copy)
                 except: 
                     pass
             self.agents[indx] = new_agent
@@ -70,61 +77,71 @@ class Simulation:
         Reset source devices for each agent after each trial. 
         '''
         for agent in self.agents: 
+            for connection in agent.qconnections.values():
+                connection.agents = {a.name: a for a in self.agents}
             for device in agent.source_devices:
                 device.reset()
 
     def _add_program(self):
         '''
-        Adds program to all Agents if none set. If Agents are not all sharing
-        the same program, raise an exceptions.
+        Adds program to all agents if none set. If agents are not all sharing
+        the same program, raise an exception.
         '''
         p = Program()
         set_program = self.agents[0].program
 
         for agent in self.agents: 
             if agent.program != set_program:
-                raise Exception('All Agents must share the same program')
+                raise Exception('All agents must share the same program')
             if agent.program == None: 
                 agent.program = p
 
-    def run(self, trials=1, agent_classes=[], network_monitor=False, verbose=False):
+    def run(self, trials=1, agent_classes=[], network_monitor=False):
         '''
         Run the simulation
 
         :param Int trials: number of times to simulate program
         :param List<Agent> agent_classes: list of agent classes
-        :param Boolean network_monitor: whether to start a network monitor 
-        :param Boolean verbose: whether the network monitor should create an error summary
-            for each network transaction.
+        :param Boolean network_monitor: outputs each network transaction and device information
+        :return: Returns list of programs. One for each trial
         '''
-        # Check is client is using jupyter notebooks
-        using_notebook = check_notebook()
+        self.using_notebook = check_notebook()
 
         # If program is not set, add default
         self._add_program()
-
+        
+        programs = []
         running_trials = trials > 1 
+
         # If trials is greater than 1, create copies of each agent
         if running_trials: self._create_agent_copies()
 
         for _ in range(trials): 
+
+            # Start master clock and network monitor
             master_clock = MasterClock()
             for agent in self.agents:
                 agent.master_clock = master_clock
 
-            for agent in self.agents:
-                agent._start_network_monitor(using_notebook, network_monitor)
+            # Start agents, tracer, and network monitor
+            for idx, agent in enumerate(self.agents):
+                agent._start_tracer()
                 agent.start()
-            
+
+            # Wait for agents to finish 
             for agent in self.agents: 
                 agent.join()
-                agent._stop_network_monitor()
 
-            if verbose: 
+            if network_monitor: 
+                agent._get_device_results()
                 master_clock.display_transactions()
 
+            # Record program generated from trial
+            programs.append(self.agents[0].program)
+
+            # Reset agents if multiple trials
             if running_trials:
-                self._reset_devices()
                 self._reset_agents(agent_classes)
+                self._reset_devices()
 
-
+        return programs
