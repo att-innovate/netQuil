@@ -14,7 +14,6 @@ Welcome to NetQuil's documentation!
    getting-started
    demos
    api-reference
-   distributed-shors
 
 
 Indices and tables

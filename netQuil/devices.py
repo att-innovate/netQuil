@@ -1,9 +1,4 @@
-import sys
-sys.path.insert(0, '/Users/zacespinosa/Foundry/netQuil')
-sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
-
 import numpy as np
-import tqdm
 import uuid
 
 from pyquil import Program
@@ -35,9 +30,7 @@ class Device():
 
     def get_results(self):
         '''
-        Prints device information about trial to console. Should use tqdm.write in order to 
-        avoid conflicts with network monitor. This function will only run when verbose 
-        for the device is set to True.
+        Prints device information about trial to console. 
         '''
         pass
     
@@ -125,7 +118,7 @@ class Laser(Device):
 
     def get_results(self):
         try: 
-            tqdm.tqdm.write('{} has a signal to noise ratio of {}/{}'.format(self.name, self.success, self.trials))
+            print('{} has a signal to noise ratio of {}/{}'.format(self.name, self.success, self.trials))
         except:
             pass
 

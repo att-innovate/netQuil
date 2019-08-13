@@ -1,7 +1,6 @@
 import inspect
 import sys
 import threading
-import tqdm
 import time
 
 __all__ = ["Agent"]

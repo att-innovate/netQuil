@@ -1,25 +1,9 @@
 import inspect
 from .clock import *
-import tqdm
 
 from pyquil import Program
 
 __all__ = ["Simulation"]
-
-def check_notebook():
-    '''
-    Check is client is using jupyter notebook
-    '''
-    try:
-        shell = get_ipython().__class__.__name__
-        if shell == 'ZMQInteractiveShell':
-            return True  # Jupyter notebook or qtconsole
-        elif shell == 'TerminalInteractiveShell':
-            return False  # Terminal running IPython
-        else:
-            return False  # Other type (?)
-    except NameError:
-        return False # Probably standard Python interpreter
 
 # Attributes to keep on newly instantiated agent when resetting agents
 THREADING_ATTRS = ['_started', '_stderr', '_tstate_lock', '_initialized', '_indent', '_is_stopped', '_target']
@@ -105,8 +89,6 @@ class Simulation:
         :param Boolean network_monitor: outputs each network transaction and device information
         :return: Returns list of programs. One for each trial
         '''
-        self.using_notebook = check_notebook()
-
         # If program is not set, add default
         self._add_program()
         

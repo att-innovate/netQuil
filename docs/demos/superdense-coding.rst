@@ -21,7 +21,7 @@ and measures each qubit to recreate Alice's classical bits.
 
 Circuit
 ----------------------------------------
-.. image:: ../images/Circuits/superdense.png
+.. image:: ../img/circuits/superdense.png
 
 Steps 
 ----------------------------------------

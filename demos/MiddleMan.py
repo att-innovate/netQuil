@@ -1,14 +1,11 @@
-import matplotlib.image as image
-import matplotlib.pyplot as plt
-import numpy as np
-import sys
-sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
-sys.path.insert(0, '/Users/zacespinosa/Foundry/netQuil')
-
+from netQuil import *
 from pyquil import Program
 from pyquil.api import WavefunctionSimulator, QVMConnection
 from pyquil.gates import *
-from netQuil import *
+
+import matplotlib.image as image
+import matplotlib.pyplot as plt
+import numpy as np
 
 class Charlie(Agent):
     '''

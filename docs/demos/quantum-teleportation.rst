@@ -23,7 +23,7 @@ and then measures her qubits. Finally, based on these measurements, Bob can recr
 
 Circuit
 ----------------------------------------
-.. image:: ../images/Circuits/teleportation.png
+.. image:: ../img/circuits/teleportation.png
 
 Steps 
 ----------------------------------------

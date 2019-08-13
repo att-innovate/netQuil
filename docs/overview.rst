@@ -4,7 +4,7 @@
 Overview
 =========================================================
 
-.. image:: ./images/netQuil.png
+.. image:: ./img/netQuil.png
 
 NetQuil is an open-source Python framework designed specifically for simulating quantum networks. Built on the already extensive 
 quantum information processing framework `Pyquil <http://docs.rigetti.com/en/stable/>`_, by `Rigetti <https://www.rigetti.com/>`_ Computing
@@ -18,4 +18,4 @@ NetQuil WhitePaper
 NetQuil Design
 ==============
 
-.. image:: ./images/layout.png
+.. image:: ./img/layout.png

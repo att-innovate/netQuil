@@ -2,6 +2,9 @@
 .python-version
 # Byte-compiled / optimized / DLL files
 __pycache__/
+**/build
+**/dist
+**/netQuil.egg-info
 .ipynb_checkpoints
 *.py[cod]
 **/_build

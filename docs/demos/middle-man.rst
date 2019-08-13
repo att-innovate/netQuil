@@ -27,7 +27,7 @@ presence of an intruder.
 
 Circuit
 ----------------------------------------
-.. image:: ../images/Circuits/middle-man.png
+.. image:: ../img/circuits/middle-man.png
 
 Steps 
 ----------------------------------------
@@ -246,7 +246,7 @@ does not share a bell state pair with Alice, she only measures random noise. Fur
 collapse the qubits before Bob measures them giving him only half of the information and alerting him
 to an intruder.
 
-.. image:: ../images/middle-man-demo.png
+.. image:: ../img/middle-man-demo.png
 
 Extend Simulation
 ----------------------------------------

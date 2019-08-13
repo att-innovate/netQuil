@@ -1,7 +1,3 @@
-import sys
-sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
-sys.path.insert(0, '/Users/zacespinosa/Foundry/netQuil')
-
 import numpy as np
 import uuid
 

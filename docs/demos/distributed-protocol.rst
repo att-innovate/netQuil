@@ -28,7 +28,7 @@ share a system of three entangled qubits (:math:`\frac{1}{\sqrt{2}}(|000\rangle 
 Protocol and Circuit
 --------------------
 
-.. image:: ../img/cat-entangler.png
+.. image:: ../img/circuits/cat-entangler.png
 
 The dark curved lines between wires two and four represent entangled qubits 
 (i.e. :math:`\frac{1}{\sqrt{2}}(|000\rangle + |111\rangle)`). In this case, wires one and two
@@ -87,7 +87,7 @@ cat-disentangler can be used to restore the system to its former state.
 Protocol
 --------
 
-.. image:: ../img/cat-disentangler.png
+.. image:: ../img/circuits/cat-disentangler.png
 
 The Z gate on the first wire is controlled by the exclusive-or (:math:`\oplus`) of the classical bits
 resulting from the measurements on qubits two and three. If `notify=True` the cat-disentangler will send a classical bit 
@@ -136,9 +136,9 @@ non-local CNOT gate, which can be done with the cat-entangler and cat-disentangl
 Protocol
 --------
 
-.. image:: ../img/non-local-cnot.png
+.. image:: ../img/circuits/non-local-cnot.png
 
-.. image:: ../img/teleportation.png
+.. image:: ../img/circuits/teleportation.png
 
 The swap gate in the teleportation circuit is only necessary in order to fully restore 
 the third qubit to its original state. 
