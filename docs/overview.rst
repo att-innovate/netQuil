@@ -34,6 +34,7 @@ units (QPU). The Rigetti Forest platform is the work horse behind netQuil simula
 to be executed by a qvm or qpu and each trial run by a netQuil simulation operates on qubits from a single Quil program. For this reason, netQuil simulations
 are limited by Rigetti's qubit max, and when agents send qubits between each other they are sending the index of the qubit in the program, and not the true qubit. 
 During transmission, the ownership of the qubit in the program corresponding the to index sent is transfered between agents. This becomes important when noise and 
-devices are added to your network. To learn about these features read the :ref:`advanced usage <advanced-usage>` demo.   
-If you encounter any strange or unexpected behavior in regards to netQuil's usage of pyQuil we encourage you to open an issue on
- `Github <https://github.com/att-innovate/netQuil>`_. Read :ref:`Getting Started <getting-started>` to learn the basic components of any netQuil program.
+devices are added to your network. To learn about these features read the :ref:`advanced usage <advanced-usage>` demo. If you encounter any strange or unexpected 
+behavior in regards to netQuil's usage of pyQuil we encourage you to open an issue on `Github <https://github.com/att-innovate/netQuil>`_. 
+Read :ref:`Getting Started <getting-started>` to learn the basic components of any netQuil program.
+

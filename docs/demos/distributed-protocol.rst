@@ -17,7 +17,7 @@ from a different node, performing teleportation, or via non-local operations.
 In this demo we introduce netQuil's distributed protocol library that implements a set of
 non-local operations commonly used in DQC. Specifically, this library will introduce the 
 primitive cat-entangler and cat-disentangler as introduced by Yimsiriwattana and Lomonaco 
-`(https://arxiv.org/abs/quant-ph/0402148)<https://arxiv.org/abs/quant-ph/0402148>`_, and their usage in non-local CNOTs, 
+`(https://arxiv.org/abs/quant-ph/0402148) <https://arxiv.org/abs/quant-ph/0402148>`_, and their usage in non-local CNOTs, 
 non-local controlled gates, and teleportation. 
 
 Cat-Entangler

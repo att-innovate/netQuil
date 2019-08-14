@@ -35,8 +35,8 @@ The 3-qubit quantum system, :math:`|\psi A B\rangle`, is in state:
 :math:`\frac{1}{2}[|00\rangle (\alpha |0\rangle + \beta |1\rangle) + |01\rangle (\alpha |1\rangle + \beta |0\rangle)`
 :math:`+ |10\rangle (\alpha |0\rangle - \beta |1\rangle) + |11\rangle (\alpha |1\rangle - \beta |0\rangle)]`
 
-3. Alice measures :math:`|\psi\rangle` and :math:`A` and classically sends the results to Bob. As a result of the measurements
- Bob's state collapses to one of the four Bell States.
+3. Alice measures :math:`|\psi\rangle` and :math:`A` and classically sends the results to Bob. As a result of the measurements 
+Bob's state collapses to one of the four Bell States.
 
 4. Bob recreate's :math:`|\psi\rangle` based on Alice's measurements, namely applying a Pauli-X (:math:`\textbf{X}`) gate if 
 :math:`A` is measured to be :math:`|1\rangle` and applying a Pauli-Z (:math:`\textbf{Z}`) gate if :math:`\psi` is measured to
