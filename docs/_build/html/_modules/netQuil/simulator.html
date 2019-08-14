@@ -1,0 +1,340 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>netQuil.simulator &mdash; NetQuil 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> NetQuil
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">A Simulator for Quantum Networks using Pyquil:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Welcome to the Docs for netQuil!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-reference.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NetQuil</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>netQuil.simulator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for netQuil.simulator</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">from</span> <span class="nn">.clock</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">pyquil</span> <span class="k">import</span> <span class="n">Program</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Simulation&quot;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">check_notebook</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Check is client is using jupyter notebook</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">shell</span> <span class="o">=</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">if</span> <span class="n">shell</span> <span class="o">==</span> <span class="s1">&#39;ZMQInteractiveShell&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Jupyter notebook or qtconsole</span>
+        <span class="k">elif</span> <span class="n">shell</span> <span class="o">==</span> <span class="s1">&#39;TerminalInteractiveShell&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Terminal running IPython</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Other type (?)</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span> <span class="c1"># Probably standard Python interpreter</span>
+
+<span class="c1"># Attributes to keep on newly instantiated agent when resetting agents</span>
+<span class="n">THREADING_ATTRS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_started&#39;</span><span class="p">,</span> <span class="s1">&#39;_stderr&#39;</span><span class="p">,</span> <span class="s1">&#39;_tstate_lock&#39;</span><span class="p">,</span> <span class="s1">&#39;_initialized&#39;</span><span class="p">,</span> <span class="s1">&#39;_indent&#39;</span><span class="p">,</span> <span class="s1">&#39;_is_stopped&#39;</span><span class="p">,</span> <span class="s1">&#39;_target&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Simulation"><a class="viewcode-back" href="../../api-reference/simulator.html#netQuil.simulator.Simulation">[docs]</a><span class="k">class</span> <span class="nc">Simulation</span><span class="p">:</span>
+<div class="viewcode-block" id="Simulation.__init__"><a class="viewcode-back" href="../../api-reference/simulator.html#netQuil.simulator.Simulation.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize the simulation</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agents</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pbars</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+    <span class="k">def</span> <span class="nf">_create_agent_copies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a dictionary of attributes for each agent. Stores list of dictionaries on self.agent_copies.</span>
+<span class="sd">        Used to reset agents to their original state before each trial. Execute this function once at beginning of run</span>
+<span class="sd">        if client requests multiple trials</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agent_copies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">program</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">:</span>
+            <span class="c1"># Get attributes</span>
+            <span class="n">attributes</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span><span class="ow">not</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">isroutine</span><span class="p">(</span><span class="n">a</span><span class="p">)))</span>
+            <span class="c1"># Remove private funcs and pythonic attrs </span>
+            <span class="n">attrs_tuples</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attributes</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">))]</span>
+            <span class="n">attrs_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">attrs_tuples</span><span class="p">)</span>
+            <span class="n">attrs_clean</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">attrs_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">THREADING_ATTRS</span><span class="p">}</span>
+            <span class="n">attrs_clean</span><span class="p">[</span><span class="s2">&quot;program&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">program</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">agent_copies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attrs_clean</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_reset_agents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent_classes</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates exact duplicate of original agent given the class constructor and </span>
+<span class="sd">        a dictionary of agent attributes from _create_agent_copies</span>
+
+<span class="sd">        :param List&lt;Agent&gt; agent_classes: list of agent classes </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">program_copy</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">indx</span><span class="p">,</span> <span class="n">copy</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_copies</span><span class="p">):</span> 
+            <span class="c1"># Create copy of agent</span>
+            <span class="n">new_agent</span> <span class="o">=</span> <span class="n">agent_classes</span><span class="p">[</span><span class="n">indx</span><span class="p">]()</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">copy</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span> 
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">new_agent</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">copy</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;program&#39;</span> <span class="ow">and</span> <span class="n">program_copy</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">program_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;program&#39;</span><span class="p">:</span> 
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">new_agent</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">program_copy</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span> 
+                    <span class="k">pass</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="n">indx</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_agent</span>
+
+    <span class="k">def</span> <span class="nf">_reset_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Reset source devices for each agent after each trial. </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">connection</span> <span class="ow">in</span> <span class="n">agent</span><span class="o">.</span><span class="n">qconnections</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">connection</span><span class="o">.</span><span class="n">agents</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">agent</span><span class="o">.</span><span class="n">source_devices</span><span class="p">:</span>
+                <span class="n">device</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_add_program</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Adds program to all agents if none set. If agents are not all sharing</span>
+<span class="sd">        the same program, raise an exception.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">Program</span><span class="p">()</span>
+        <span class="n">set_program</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">program</span>
+
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">:</span> 
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">program</span> <span class="o">!=</span> <span class="n">set_program</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;All agents must share the same program&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">program</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> 
+                <span class="n">agent</span><span class="o">.</span><span class="n">program</span> <span class="o">=</span> <span class="n">p</span>
+
+<div class="viewcode-block" id="Simulation.run"><a class="viewcode-back" href="../../api-reference/simulator.html#netQuil.simulator.Simulation.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">agent_classes</span><span class="o">=</span><span class="p">[],</span> <span class="n">network_monitor</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Run the simulation</span>
+
+<span class="sd">        :param Int trials: number of times to simulate program</span>
+<span class="sd">        :param List&lt;Agent&gt; agent_classes: list of agent classes</span>
+<span class="sd">        :param Boolean network_monitor: outputs each network transaction and device information</span>
+<span class="sd">        :return: Returns list of programs. One for each trial</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">using_notebook</span> <span class="o">=</span> <span class="n">check_notebook</span><span class="p">()</span>
+
+        <span class="c1"># If program is not set, add default</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_program</span><span class="p">()</span>
+        
+        <span class="n">programs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">running_trials</span> <span class="o">=</span> <span class="n">trials</span> <span class="o">&gt;</span> <span class="mi">1</span> 
+
+        <span class="c1"># If trials is greater than 1, create copies of each agent</span>
+        <span class="k">if</span> <span class="n">running_trials</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_agent_copies</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trials</span><span class="p">):</span> 
+
+            <span class="c1"># Start master clock and network monitor</span>
+            <span class="n">master_clock</span> <span class="o">=</span> <span class="n">MasterClock</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">:</span>
+                <span class="n">agent</span><span class="o">.</span><span class="n">master_clock</span> <span class="o">=</span> <span class="n">master_clock</span>
+
+            <span class="c1"># Start agents, tracer, and network monitor</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">agent</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">):</span>
+                <span class="n">agent</span><span class="o">.</span><span class="n">_start_tracer</span><span class="p">()</span>
+                <span class="n">agent</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+            <span class="c1"># Wait for agents to finish </span>
+            <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">:</span> 
+                <span class="n">agent</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">network_monitor</span><span class="p">:</span> 
+                <span class="n">agent</span><span class="o">.</span><span class="n">_get_device_results</span><span class="p">()</span>
+                <span class="n">master_clock</span><span class="o">.</span><span class="n">display_transactions</span><span class="p">()</span>
+
+            <span class="c1"># Record program generated from trial</span>
+            <span class="n">programs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">program</span><span class="p">)</span>
+
+            <span class="c1"># Reset agents if multiple trials</span>
+            <span class="k">if</span> <span class="n">running_trials</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reset_agents</span><span class="p">(</span><span class="n">agent_classes</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reset_devices</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">programs</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zachary Espinosa and Matthew Radzihovsky
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

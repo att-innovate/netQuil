@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>netQuil.connections &mdash; NetQuil 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> NetQuil
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">A Simulator for Quantum Networks using Pyquil:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Welcome to the Docs for netQuil!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-reference.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NetQuil</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>netQuil.connections</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for netQuil.connections</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">queue</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;QConnect&quot;</span><span class="p">,</span> <span class="s2">&quot;CConnect&quot;</span><span class="p">]</span>
+
+<span class="n">pulse_length_default</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="o">-</span><span class="mi">12</span> <span class="c1"># 10 ps photon pulse length</span>
+<span class="n">signal_speed</span> <span class="o">=</span> <span class="mf">2.998</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">5</span> <span class="c1">#speed of light in km/s</span>
+<span class="n">fiber_length_default</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<div class="viewcode-block" id="QConnect"><a class="viewcode-back" href="../../api-reference/connections.html#netQuil.connections.QConnect">[docs]</a><span class="k">class</span> <span class="nc">QConnect</span><span class="p">:</span> 
+<div class="viewcode-block" id="QConnect.__init__"><a class="viewcode-back" href="../../api-reference/connections.html#netQuil.connections.QConnect.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">transit_devices</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        This is the base class for a quantum connection between multiple agents. </span>
+
+<span class="sd">        :param agents \*args: list of agents to connect</span>
+<span class="sd">        :param List transit_devices: list of devices qubits travel through - assumed order: agent_one -&gt; agent_two</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">agents</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agents</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_devices</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_devices</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transit_devices</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Create queue to keep track of multiple requests. Name of queue is name of</span>
+<span class="sd">        target agent.  </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queues</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">agent</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source_devices</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">agent</span><span class="o">.</span><span class="n">source_devices</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">target_devices</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">agent</span><span class="o">.</span><span class="n">target_devices</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transit_devices</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">transit_devices</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">queues</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()})</span>
+
+            <span class="k">for</span> <span class="n">agentConnect</span> <span class="ow">in</span> <span class="n">agents</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">agentConnect</span> <span class="o">!=</span> <span class="n">agent</span><span class="p">:</span>
+                    <span class="n">agent</span><span class="o">.</span><span class="n">qconnections</span><span class="p">[</span><span class="n">agentConnect</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="QConnect.put"><a class="viewcode-back" href="../../api-reference/connections.html#netQuil.connections.QConnect.put">[docs]</a>    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">source_time</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">        Constructs full list of devices that each qubit must travel through. Sends the qubits</span>
+<span class="sd">        through source devices. Places qubits and a list of transit and target </span>
+<span class="sd">        devices on the queue. Queue is keyed on the target Agent&#39;s name.</span>
+<span class="sd">        </span>
+<span class="sd">        :param String source: name of agent where the qubits being sent originated</span>
+<span class="sd">        :param String target: name of agent receiving qubits</span>
+<span class="sd">        :param Array qubits: array of numbers corresponding to qubits the source is sending </span>
+<span class="sd">        :param Float source_time: time of source agent before sending qubits</span>
+<span class="sd">        :returns: time qubits took to pass through source devices</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">source_devices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_devices</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
+        <span class="n">transit_devices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transit_devices</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
+        <span class="n">target_devices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_devices</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+
+        <span class="n">non_source_devices</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;transit&quot;</span><span class="p">:</span> <span class="n">transit_devices</span><span class="p">,</span>
+            <span class="s2">&quot;target&quot;</span><span class="p">:</span> <span class="n">target_devices</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">program</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="n">source</span><span class="p">]</span><span class="o">.</span><span class="n">program</span>
+        <span class="n">source_delay</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Keep track of qubits remaining</span>
+        <span class="n">traveling_qubits</span> <span class="o">=</span> <span class="n">qubits</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">source_devices</span><span class="p">:</span>
+            <span class="n">source_delay</span> <span class="o">+=</span> <span class="n">pulse_length_default</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Keep track of qubits lost by each device</span>
+            <span class="n">total_lost_qubits</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">source_devices</span><span class="p">:</span>
+                <span class="c1"># If qubits are still remaining </span>
+                <span class="k">if</span> <span class="n">traveling_qubits</span><span class="p">:</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">traveling_qubits</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s1">&#39;lost_qubits&#39;</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> 
+                        <span class="n">lost_qubits</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;lost_qubits&#39;</span><span class="p">]</span>
+                        <span class="c1"># Remove lost qubits from traveling qubits</span>
+                        <span class="n">traveling_qubits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">traveling_qubits</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">lost_qubits</span><span class="p">))</span>
+                        <span class="c1"># Add lost_qubits lost from current device to total_lost_qubits</span>
+                        <span class="n">total_lost_qubits</span> <span class="o">+=</span> <span class="n">lost_qubits</span>
+                    <span class="k">if</span> <span class="s1">&#39;delay&#39;</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="n">source_delay</span> <span class="o">+=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;delay&#39;</span><span class="p">]</span>
+
+                <span class="k">else</span><span class="p">:</span> <span class="k">break</span>
+
+            <span class="c1"># Invert lost qubits and add to traveling qubits</span>
+            <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">total_lost_qubits</span><span class="p">:</span> 
+                <span class="k">if</span> <span class="n">q</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">total_lost_qubits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">total_lost_qubits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">q</span><span class="p">)</span>
+            <span class="n">traveling_qubits</span> <span class="o">+=</span> <span class="n">total_lost_qubits</span>
+
+        <span class="c1"># Scale source delay time according to number of qubits sent</span>
+        <span class="n">scaled_source_delay</span> <span class="o">=</span> <span class="n">source_delay</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> 
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">queues</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">traveling_qubits</span><span class="p">,</span> <span class="n">non_source_devices</span><span class="p">,</span> <span class="n">scaled_source_delay</span><span class="p">,</span> <span class="n">source_time</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">scaled_source_delay</span></div>
+
+<div class="viewcode-block" id="QConnect.get"><a class="viewcode-back" href="../../api-reference/connections.html#netQuil.connections.QConnect.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Pops qubits off of the agent&#39;s queue. Sends qubit through transit and target devices,</span>
+<span class="sd">        simulating a quantumm network. Return an array of the qubits that have been altered as well as</span>
+<span class="sd">        the time it took the qubit to travel through the network. </span>
+
+<span class="sd">        :param Agent agent: agent receiving the qubits </span>
+<span class="sd">        :returns: list of qubits, time to pass through transit and target devices, and the source agent&#39;s time</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">traveling_qubits</span><span class="p">,</span> <span class="n">devices</span><span class="p">,</span> <span class="n">source_delay</span><span class="p">,</span> <span class="n">source_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queues</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="n">agent</span><span class="o">.</span><span class="n">qubits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">traveling_qubits</span> <span class="o">+</span> <span class="n">agent</span><span class="o">.</span><span class="n">qubits</span><span class="p">))</span>
+
+        <span class="n">program</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">program</span>
+       
+        <span class="n">transit_devices</span> <span class="o">=</span> <span class="n">devices</span><span class="p">[</span><span class="s2">&quot;transit&quot;</span><span class="p">]</span>
+        <span class="n">target_devices</span> <span class="o">=</span> <span class="n">devices</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Number of qubits before any are lost </span>
+        <span class="n">num_travel_qubits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">traveling_qubits</span><span class="p">)</span>
+        <span class="n">travel_delay</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">transit_devices</span><span class="p">:</span>
+            <span class="n">travel_delay</span> <span class="o">+=</span> <span class="n">fiber_length_default</span><span class="o">/</span><span class="n">signal_speed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">target_devices</span><span class="p">:</span>
+            <span class="n">travel_delay</span> <span class="o">+=</span> <span class="mi">0</span>
+        
+        <span class="n">total_lost_qubits</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">traveling_qubits</span> <span class="k">if</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">q</span> <span class="o">==</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">)]</span> 
+        <span class="n">remaining_qubits</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">traveling_qubits</span> <span class="k">if</span> <span class="n">q</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">transit_devices</span><span class="p">,</span> <span class="n">target_devices</span><span class="p">)):</span>
+            <span class="c1"># If qubits are remaining </span>
+            <span class="k">if</span> <span class="n">remaining_qubits</span><span class="p">:</span> 
+                <span class="n">res</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">traveling_qubits</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s1">&#39;lost_qubits&#39;</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> 
+                    <span class="n">lost_qubits</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;lost_qubits&#39;</span><span class="p">]</span>
+                    <span class="c1"># Remove lost qubits from traveling qubits</span>
+                    <span class="n">remaining_qubits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">remaining_qubits</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">lost_qubits</span><span class="p">))</span>
+                    <span class="c1"># Add lost_qubits lost from current device to total_lost_qubits</span>
+                    <span class="n">total_lost_qubits</span> <span class="o">+=</span> <span class="n">lost_qubits</span>
+                <span class="k">if</span> <span class="s1">&#39;delay&#39;</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="n">travel_delay</span> <span class="o">+=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;delay&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span> <span class="k">break</span>
+
+        <span class="c1"># Remove traveling_qubits</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">qubits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">traveling_qubits</span><span class="p">))</span>   
+
+        <span class="n">lost_qubits_flipped</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">total_lost_qubits</span><span class="p">:</span> 
+            <span class="k">if</span> <span class="n">q</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">lost_qubits_flipped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lost_qubits_flipped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">q</span><span class="p">)</span>
+
+        <span class="c1"># Add inverted lost qubits to remaining qubits</span>
+        <span class="n">traveling_qubits</span> <span class="o">=</span> <span class="n">remaining_qubits</span> <span class="o">+</span> <span class="n">lost_qubits_flipped</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">qubits</span> <span class="o">+=</span> <span class="n">traveling_qubits</span>
+        <span class="n">scaled_delay</span> <span class="o">=</span> <span class="n">travel_delay</span><span class="o">*</span><span class="n">num_travel_qubits</span> <span class="o">+</span> <span class="n">source_delay</span>
+        <span class="k">return</span> <span class="n">traveling_qubits</span><span class="p">,</span> <span class="n">scaled_delay</span><span class="p">,</span> <span class="n">source_time</span></div></div>
+
+<div class="viewcode-block" id="CConnect"><a class="viewcode-back" href="../../api-reference/connections.html#netQuil.connections.CConnect">[docs]</a><span class="k">class</span> <span class="nc">CConnect</span><span class="p">:</span> 
+<div class="viewcode-block" id="CConnect.__init__"><a class="viewcode-back" href="../../api-reference/connections.html#netQuil.connections.CConnect.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        This is the base class for a classical connection between multiple agents. </span>
+
+<span class="sd">        :param agents \*args: list of agents to connect</span>
+<span class="sd">        :param Float length: distance between first and second agent</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">agents</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agents</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Create queue to keep track of multiple requests. Name of queue is name of</span>
+<span class="sd">        target agent.  </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queues</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">agent</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">queues</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()})</span>
+
+            <span class="k">for</span> <span class="n">agentConnect</span> <span class="ow">in</span> <span class="n">agents</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">agentConnect</span> <span class="o">!=</span> <span class="n">agent</span><span class="p">:</span>
+                    <span class="n">agent</span><span class="o">.</span><span class="n">cconnections</span><span class="p">[</span><span class="n">agentConnect</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span></div>
+
+<div class="viewcode-block" id="CConnect.put"><a class="viewcode-back" href="../../api-reference/connections.html#netQuil.connections.CConnect.put">[docs]</a>    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">cbits</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">        Places cbits on queue keyed on the target Agent&#39;s name</span>
+
+<span class="sd">        :param String target: name of recipient of program</span>
+<span class="sd">        :param Array cbits: array of numbers corresponding to cbits agent is sending</span>
+<span class="sd">        :returns: time for cbits to travel</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">csource_delay</span> <span class="o">=</span> <span class="n">pulse_length_default</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">cbits</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queues</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">cbits</span><span class="p">,</span> <span class="n">csource_delay</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">csource_delay</span></div>
+
+<div class="viewcode-block" id="CConnect.get"><a class="viewcode-back" href="../../api-reference/connections.html#netQuil.connections.CConnect.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">        Pops cbits off of the agent&#39;s queue and adds travel delay</span>
+
+<span class="sd">        :param String agent: name of the agent receiving the cbits</span>
+<span class="sd">        :returns: cbits from source and time they took to travel</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">cbits</span><span class="p">,</span> <span class="n">source_delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queues</span><span class="p">[</span><span class="n">agent</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">travel_delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="o">/</span><span class="n">signal_speed</span>
+        
+        <span class="n">scaled_delay</span> <span class="o">=</span> <span class="n">travel_delay</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">cbits</span><span class="p">)</span> <span class="o">+</span> <span class="n">source_delay</span>
+
+        <span class="k">return</span> <span class="n">cbits</span><span class="p">,</span> <span class="n">scaled_delay</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zachary Espinosa and Matthew Radzihovsky
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
