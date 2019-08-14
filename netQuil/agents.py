@@ -9,18 +9,18 @@ class Agent(threading.Thread):
     def __init__(self, program=None, qubits=[], cmem=[], name=None):
         '''
         Agents are codified versions of Alice and Bob (i.e. single nodes in a quantum network) 
-        that can send a receive classical and quantum information over connections. 
+        that can send and receive classical and quantum information over connections. 
         Agents have the following properties: 
 
-        * Run-time logic is in the form of an Agent.run() method
-        * Connections to other Agents are by default ingress and egress 
+        * Their run-time logic is in the form of an Agent.run() method
+        * Their connections to other agents are by default ingress and egress 
         * Agents' manage their own target and source devices for noise and local time tracking
-        * A network monitor to records traffic of a single Agent
+        * Agents have a network monitor to record the traffic they see
 
         :param PyQuil<Program> program: program
-        :param List qubits: list of qubits owned by Agent
-        :param List cmem: list of cbits owned by Agent
-        :param String name: name of Agent, defaults to name of class
+        :param List<int> qubits: list of qubits owned by agent
+        :param List<int> cmem: list of cbits owned by agent
+        :param String name: name of agent, defaults to name of class
         '''
         threading.Thread.__init__(self)
 
@@ -94,27 +94,27 @@ class Agent(threading.Thread):
     
     def set_program(self, program):
         '''
-        Set Agent's program
+        Set agent's program
 
-        :param PyQuil<Program> program: Agent's new program
+        :param PyQuil<Program> program: agent's program
         '''
         self.program = program
 
     def add_target_devices(self, new_target_devices):
         '''
-            Add target devices. Every qubit sent to Agent will pass through these devices, 
-            and, if set, the device's noise will be applied
+            Add target devices. Every qubit sent to agent will pass through these devices, 
+            and, if set, the device's effect and time-delay will be applied
 
-            :param List new_target_devices: Agent new target devices
+            :param List<Devices> new_target_devices: list of target devices
         '''
         self.target_devices.extend(new_target_devices)
 
     def add_source_devices(self, new_source_devices):
         '''
             Add source devices. Every qubit sent by Agent will pass through these devices, 
-            and, if set, the device's noise will be applied 
+            and, if set, the device's effect and time-delay will be applied 
 
-            :param List new_source_devices: Agent new source devices
+            :param List<Devices> new_source_devices: list of source devices
         '''
         self.source_devices.extend(new_source_devices)
 
@@ -127,7 +127,7 @@ class Agent(threading.Thread):
         '''
             Set classical memory as list of 0s and 1s
 
-            :param List cmem: Classical memory
+            :param List<int> cmem: classical memory
         '''
         if len(cmem) >= 0 and all(bit == 0 or bit == 1 for bit in cmem):
             self.__cmem = cmem
@@ -138,15 +138,15 @@ class Agent(threading.Thread):
         '''
             Add more classical memory in the form of a list of 0s and 1s
 
-            :param List cbits: classical memory to extend
+            :param List<int> cbits: classical memory to extend
         '''
         self.__cmem.extend(cbits) 
 
     def add_device(self, device_type, device):
         ''' 
-            Add device to agent node.
+            Add a device to an agent.
 
-            :param String device_type: category of device
+            :param String device_type: may be either `source` or `target`
             :param Device device: instance of device added
         '''
         if device_type == 'source': 
@@ -176,11 +176,11 @@ class Agent(threading.Thread):
 
     def qsend(self, target, qubits):
         '''
-        Send qubits from Agent to target. Connection will place qubits on queue 
+        Send qubits from agent to target. Connection will place qubits on queue 
         for target to retrieve. 
 
-        :param String target: name of destination for packet
-        :param List qubits: packet to send to destination
+        :param String target: name of destination for qubits 
+        :param List<int> qubits: list of qubits to send to destination
         '''
         # Raise exception if agent sends qubits they do no have
         if not set(qubits).issubset(set(self.qubits)): 
@@ -204,10 +204,10 @@ class Agent(threading.Thread):
 
     def qrecv(self, source):
         '''
-        Agent receives qubits from source. Adds qubits to Agent's list of qubits and
-        add time delay. Return qubits
+        Agent receives qubits from source. Adds qubits to agent's list of qubits and
+        add time delay. Return list of qubits
         
-        :param String source: name of Agent where qubits are from. 
+        :param String source: name of agent who sent qubits.
         :return: list of qubits sent from source
         '''
         connection = self.qconnections[source]
@@ -224,10 +224,10 @@ class Agent(threading.Thread):
         
     def csend(self, target, cbits):
         '''
-        Sends classical bits from Agent to target.
+        Sends classical bits from agent to target.
 
-        :param String target: name of target Agent
-        :param List cbits: indicies of cbits source is sending to target
+        :param String target: name of target agent
+        :param List<int> cbits: indices of cbits source is sending to target
         '''
         connection = self.cconnections[target]
         source_delay  = connection.put(target, cbits)

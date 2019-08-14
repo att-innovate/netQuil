@@ -11,11 +11,11 @@ class MasterClock:
         '''
         Update master clock and record quantum transaction
 
-        :param Float time: current time in sends
-        :param String event_type: either sent or received. Otherwise, through exception
+        :param Float time: current time in seconds
+        :param String event_type: either sent or received. Otherwise, raise exception
         :param String source: name of the agent sending qubits
         :param String target: name of the agent receiving qubits
-        :param List<Integer> qubits: list of qubits being sent from source to target
+        :param List<int> qubits: list of qubits being sent from source to target
         '''
         # Update master clock
         self.time = max(self.time, time)
@@ -32,13 +32,13 @@ class MasterClock:
 
     def record_ctransaction(self, time, event_type, source, target, cbits):
             '''
-            Update master clock and record quantum transaction
+            Update master clock and record classical transaction
 
-            :param Float time: current time in sends
-            :param String event_type: either sent or received. Otherwise, through exception
-            :param String source: name of the agent sending qubits
-            :param String target: name of the agent receiving qubits
-            :param List<Integer> cbits: list of cbits being sent from source to target
+            :param Float time: current time in seconds
+            :param String event_type: either sent or received. Otherwise, raise exception
+            :param String source: name of the agent sending cbits
+            :param String target: name of the agent receiving cbits
+            :param List<int> cbits: list of cbits being sent from source to target
             '''
             # Update master clock
             self.time = max(self.time, time)

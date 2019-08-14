@@ -10,4 +10,9 @@
    :members:
    :special-members:
    :show-inheritance:
+
+.. autoclass:: netQuil.devices.Laser
+   :members:
+   :special-members:
+   :show-inheritance:
    

@@ -6,15 +6,15 @@ Superdense Coding
 
 Superdense coding is a method to deliver any two classical bits using a single
 quantum bit. The protocol allows two agents, Alice and Bob, to use an entangled bell state pair
-along with interaction with a single quantum bit to transmit two classical bits of information. 
+along with interaction with a single qubit to transmit two classical bits of information. 
 
-This protocol enables quantum computers to interact as a network in sharing classical information using quantum bits.
-Superdense coding transports two classical bits by sending a quantum bit, and thus is the inverse
+This protocol enables quantum computers to interact as a network in sharing classical information using qubits.
+Superdense coding transports two classical bits by sending a qubits, and thus is the inverse
 of :ref:`quantum teleportation <quantum-teleportation>`.
 
 Protocol
 =========================================================
-Superdense Coding involves 3 agents, Alice, Bob, and Charlie. Charlie prepares the bell state pair and distributes
+Superdense Coding involves three agents, Alice, Bob, and Charlie. Charlie prepares the bell state pair and distributes
 the entangled qubits to Alice and Bob. Alice operates on her bell state pair from Charlie based on the classical bits
 she wishes to send to Bob, and then sends her bell state pair to Bob. Finally, Bob switches back into a computational basis
 and measures each qubit to recreate Alice's classical bits. 
@@ -38,9 +38,8 @@ The 2-qubit quantum system, :math:`|\psi A B\rangle`, is in one of the four Bell
 :math:`\frac{1}{\sqrt{2}}(|10\rangle + |01\rangle)`,
 :math:`\frac{1}{\sqrt{2}}(|01\rangle - |10\rangle)`.
 
-
 3. Bob returns to the computational basis by applying a Controlled-Not (:math:`\textbf{CNOT}`) and 
-a Hadamard (:math:`\textbf{H}`) gate to the qubit from Charlie and from Alice. Finally, Bob measures
+a Hadamard (:math:`\textbf{H}`) gate to the qubit from Charlie and Alice. Finally, Bob measures
 each qubit and now has both of Alice's classical bits.
 
 Tutorial
@@ -61,7 +60,7 @@ Import Dependencies
 Setup Agents 
 ----------------------------------------
 Let us first define agent Charlie who creates and distributes the bell state pair to Alice and Bob. We can extend the agent
-classes and redefine our :math:`\textit{run()}` methods. To create our bell state pair, he can use a
+classes and redefine our :math:`\textit{run()}` methods. To create our bell state pair, we can use a
 Hadamard (:math:`\textbf{H}`) and Controlled-Not (:math:`\textbf{CNOT}`) gate from pyquil. Then,
 using netQuil, we want to distribute each qubit to Alice and Bob.
 
@@ -190,5 +189,3 @@ quantum bit. It is now time to get creative. Add noise, add extra agents, or add
 Source Code
 =========================================================
 The source code for superdense coding demo can be found `here <https://github.com/att-innovate/netQuil>`_ and contributions are encouraged. 
-
-To learn about distributed quantum computing and follow more demos, check out the netQuil white paper!

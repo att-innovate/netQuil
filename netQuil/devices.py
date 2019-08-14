@@ -24,7 +24,7 @@ class Device():
         should include runtime code defining how child devices impact qubits
 
         :param Pyquil<Program> program: program to manipulate
-        :param List qubits: list of qubits passing through device
+        :param List<int> qubits: list of qubits passing through device
         '''
         return {delay: None, qubits: None}
 
@@ -59,7 +59,7 @@ class Fiber(Device):
         Applies device's error and returns time that photon took to pass through simulated device
 
         :param Program program: program to be modified
-        :param List qubits: qubits being sent
+        :param List<int> qubits: qubits being sent
         :return: time qubits took to travel through fiber
         '''
         lost_qubits = []

@@ -6,7 +6,7 @@ Advanced Usage and Features
 =========================================================
 
 In this demo we will be reviewing netQuil's advanced features that make it a 
-powerful and extensible platform for quantum networking simulation. Lets start with built-in
+powerful and extensible platform for quantum networking simulation. Lets start with its built-in and
 custom devices.
 
 Built-in and Custom Devices
@@ -19,7 +19,7 @@ Associated with each device in a quantum network is its physical effect on qubit
 qubits to pass through the device.
 
 There are three types of devices in netQuil: source, transit, and target devices. Source and target devices
-are associated with an agent, while transit devices are associated with instances of``QConnection``. When a qubit
+are associated with an agent, while transit devices are associated with instances of ``QConnection``. When a qubit
 leaves Alice and travels to Bob, the qubit originates from Alice's source devices, travels through the
 transit devices attached to their ``QConnection`` and ends by arriving through Bob's target devices. The
 order in which a qubit passes through each device corresponds to the order in which those devices
@@ -31,9 +31,9 @@ devices.
 Built-in Devices
 ================
 ``Laser`` is a built-in noisy photon source that generates photons according to ``expected_photons`` and a poisson 
-distribution. If ``network_monitor=True`` the laser will output its noise to signal ratio after each trial. You can create a custom ``get_results`` function that prints
-information about the device after each trial. The ``Laser`` will also return a delay equal to the photon
-pulse length. 
+distribution. If ``network_monitor=True`` the laser will output its noise to signal ratio after each trial. 
+You can create a custom ``get_results`` function that prints information about the device after each trial. 
+The ``Laser`` will also return a delay equal to the photon pulse length. 
 
 ``Fiber`` is a built-in noisy fiber optical wire simulator and an example of a transit device. Fibers
 have an associated length in kilometers and an attenutation coefficient. The attenuation coefficient is 
@@ -41,8 +41,8 @@ proportional to the probability that a photon is lost while traveling within the
 and the measured value is inaccessible by any agent). In netQuil, if a qubit is lost due to attenuation, the 
 target will receive the negative index of the qubit lost. For example, if Alice sends qubit 3 and it is
 lost due to attenuation, Bob will receive -3, and neither Alice nor Bob will be able to operate with
-qubit 3. The qubit lost is 0 then the value will be set to -inf. Remember that when we send qubits between agents
-we are sending the index of the qubit in the program and not true qubit. 
+qubit 3. If the qubit lost is 0 then the value will be set to -inf. Remember that when we send qubits between agents
+we are sending the index of the qubit in the program and not the true qubit. 
 
 Here is an example of a very simple program using the ``Laser`` and ``Fiber`` devices. 
 
@@ -98,7 +98,7 @@ travel through the device. Remember, if qubits are lost while passing through th
 ``lost_qubits: [lost qubits]``.
 
 Most devices can be arbitrarily complex in their design and can depend on environmental factors such 
-as temperature, humidity, or other stressors. Custom devices allow use to simulate these arbitrarily complex devices.
+as temperature, humidity, or other stressors. Custom devices allow us to simulate these arbitrarily complex devices.
 As an example, we will create a simple custom fiber that changes the polarization of a photon by some random angle 
 from a normal distribution.
 
@@ -165,13 +165,13 @@ Trials and Time
 ===============
 In some situations, pyQuil programs generated between trials will be different depending 
 on noise or the dynamic nature of your network. In order to accomodate this, ``Simulation().run()`` will always return a list of 
-programs (i.e. one program per trial) that can be run on your qvm. Pass the number of trials you would like to run
+programs (i.e. one program per trial) that can be run on your qvm or qpu. Pass the number of trials you would like to run
 into ``Simulation().run(trials=5)``, as well as a list containing the class of each agent being run. Do `NOT` forget to 
 pass ``agent_classes`` (``Simulation(alice, bob).run(trials=5, agent_classes=[Alice, Bob]``), since this
 is required in order to reset the agents between trials. 
 
 You can also pass ``network_monitor=True`` to ``run`` in order to see a list of transactions on the network, the time of each transaction, 
-and information about your devices. In addition to individual agent clocks, a master clock running throughout the network
+and information about your devices. In addition to individual agent clocks, a master clock is running throughout the network
 simulation that can be accessed through ``agent.get_master_time()`` on any agent. If you are implementing 
 `time-bin encoding <https://en.wikipedia.org/wiki/Time-bin_encoding>`_ or one of its variation, we encourage you to 
 experiment with the master and agent clocks. 

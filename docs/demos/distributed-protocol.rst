@@ -4,9 +4,10 @@
 Distributed Quantum Protocol
 =========================================================
 
-Due to a variety of constraints, modern quantum computers
-are limited to working with a small system of qubits and, therefore, limited to solving small problems involving few qubits. 
-Distributed quantum computing (DQC) is a means of leveraging the computation power of a quantum network 
+Due to a variety of constraints state-of-the-art quantum computers
+are limited to working with a small system of qubits. As a result, current quantum computers are limited to solving small 
+problems involving few qubits. 
+Distributed quantum computing (DQC) is a means of leveraging the computational power of a quantum network 
 in order to solve a problem too large for any single quantum computer. Each 
 node on a quantum network is connected via a classical and quantum channel and managers its own
 classical register for storing bits of information such as qubit measurements. Nodes may not
@@ -15,12 +16,13 @@ from a different node, performing teleportation, or via non-local operations.
 
 In this demo we introduce netQuil's distributed protocol library that implements a set of
 non-local operations commonly used in DQC. Specifically, this library will introduce the 
-primitive cat-entangler and cat-disentangler as introduced by Yimsiriwattana and Lomonaco, 
-and their usage in non-local CNOTs, non-local controlled gates, and teleportation. 
+primitive cat-entangler and cat-disentangler as introduced by Yimsiriwattana and Lomonaco 
+`(https://arxiv.org/abs/quant-ph/0402148)<https://arxiv.org/abs/quant-ph/0402148>`_, and their usage in non-local CNOTs, 
+non-local controlled gates, and teleportation. 
 
 Cat-Entangler
 =============
-The cat-entangler allows a single agent (Alice) in posession of a control qubit (:math:`|\psi\rangle = \alpha |0\rangle + \beta |1\rangle`)
+The cat-entangler allows a single agent (Alice) in possession of a control qubit (:math:`|\psi\rangle = \alpha |0\rangle + \beta |1\rangle`)
 to distribute control over multiple agents (Bob and Charlie), given that Alice, Bob, and Charlie
 share a system of three entangled qubits (:math:`\frac{1}{\sqrt{2}}(|000\rangle + |111\rangle`) that can be placed in a cat-like state
 (:math:`\alpha|0000\rangle + \beta|1110\rangle`). 
@@ -32,17 +34,17 @@ Protocol and Circuit
 
 The dark curved lines between wires two and four represent entangled qubits 
 (i.e. :math:`\frac{1}{\sqrt{2}}(|000\rangle + |111\rangle)`). In this case, wires one and two
-are owned by Alice, three by Bob, and four by Charlie. The double-lines represent a
+are owned by Alice, three by Bob, and four by Charlie. The double and triple lines represent a
 measurement result, that is passed via a classical channel and used to control the X gates.  
 
 Usage
 -----
 NetQuil's implementation of the cat-entangler requires that only one agent initiate and execute the circuit.
 NetQuil will transport the qubits and cbits between agents, update their clocks, and appropriately apply noise.
-If `notify=True` the cat-entangler will send a classical bit to each participating agent (excluding the caller), notifying
+If ``notify=True`` the cat-entangler will send a classical bit to each participating agent (excluding the caller), notifying
 all parties that the entangler has finished. The caller is defined as the agent passed to the control. 
-If `entangler=False` the cat_entangler will entangle the target qubits and the measurement qubit 
-(i.e. a is the measurement qubit in the example) before performing the circuit. 
+If ``entangled=False`` the cat_entangler will entangle the target qubits and the measurement qubit 
+(i.e. :math:`a` is the measurement qubit in the example) before performing the circuit. 
 
 .. code-block:: python
     :linenos:
@@ -90,7 +92,7 @@ Protocol
 .. image:: ../img/circuits/cat-disentangler.png
 
 The Z gate on the first wire is controlled by the exclusive-or (:math:`\oplus`) of the classical bits
-resulting from the measurements on qubits two and three. If `notify=True` the cat-disentangler will send a classical bit 
+resulting from the measurements on qubits two and three. If ``notify=True`` the cat-disentangler will send a classical bit 
 to each participating agent (excluding the caller), notifying all parties that the entangler has finished. 
 The caller is defined as the agent passed to the control. 
 
@@ -212,7 +214,7 @@ Here is an example of teleportation using the cat-entangler and cat-disentangler
 
 Source Code
 -----------
-The source code for the cat-entangler can be found `here <https://github.com/att-innovate/netQuil>`_ and contributions are encouraged. 
+The source code for the cat-entangler can be found on `Github <https://github.com/att-innovate/netQuil>`_ and contributions are encouraged. 
 To learn more about distributed quantum computing and the cat-like state checkout
 `this <https://arxiv.org/abs/quant-ph/0402148>`_ paper by Yimsiriwattana and Lomonaco. 
 To see why quantum security is so powerful, checkout our tutorial on the middle-man attack!

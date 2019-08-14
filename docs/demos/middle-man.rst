@@ -8,12 +8,12 @@ Middle-Man Attack is a demonstration of quantum networks resistance against intr
 extends :ref:`superdense coding <superdense-coding>` by allowing two agents, Alice and Bob, to send 
 numerous classical bits using bell state pairs. However, in this protocol, there is an intruder agent,
 Eve, who attempts to interecept and measure the information. Despite successfully intercepting Alice 
-and Bob's message, due to Eve not sharing a bell state pair with Alice, Eve only measures random noise
-while Bob is able to detect an intruder has intercepted the message.
+and Bob's message, due to Eve not sharing a bell state pair with Alice, Eve only measures random noise.
+Moreover, Bob's is able to detect an intruder has intercepted the message.
 
 Protocol
 =========================================================
-The middle-man attack involves 4 agents, Alice, Bob, Charlie, and Eve.
+The middle-man attack involves four agents, Alice, Bob, Charlie, and Eve.
 Following the :ref:`superdense coding <superdense-coding>` protocol,
 Charlie prepares the bell state pair and distributes the entangled qubits to Alice and Bob,
 where Alice operates on her bell state pair from Charlie based on the classical bits
@@ -55,10 +55,10 @@ Import Dependencies
 ----------------------------------------
 .. code:: python
 
+    from netQuil import *
     from pyquil import Program
     from pyquil.api import QVMConnection
     from pyquil.gates import *
-    from netQuil import *
 
 Setup Agents 
 ----------------------------------------

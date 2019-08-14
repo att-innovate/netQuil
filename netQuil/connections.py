@@ -15,7 +15,7 @@ class QConnect:
         This is the base class for a quantum connection between multiple agents. 
 
         :param agents \*args: list of agents to connect
-        :param List transit_devices: list of devices qubits travel through - assumed order: agent_one -> agent_two
+        :param List<Devices> transit_devices: list of devices qubits travel through 
         '''
         agents = list(args)
         self.agents = {}
@@ -43,7 +43,7 @@ class QConnect:
         ''' 
         Constructs full list of devices that each qubit must travel through. Sends the qubits
         through source devices. Places qubits and a list of transit and target 
-        devices on the queue. Queue is keyed on the target Agent's name.
+        devices on the queue. Queue is keyed on the target agent's name.
         
         :param String source: name of agent where the qubits being sent originated
         :param String target: name of agent receiving qubits
@@ -100,8 +100,9 @@ class QConnect:
     def get(self, agent): 
         '''
         Pops qubits off of the agent's queue. Sends qubit through transit and target devices,
-        simulating a quantumm network. Return an array of the qubits that have been altered as well as
-        the time it took the qubit to travel through the network. 
+        simulating a quantum network. Return an array of the qubits that have been altered, as well as
+        the time it took the qubit to travel through the network. Some qubits may be lost during transmission. If lost,
+        their value will switch to negative, or, in the case of 0, be set to -inf
 
         :param Agent agent: agent receiving the qubits 
         :returns: list of qubits, time to pass through transit and target devices, and the source agent's time
