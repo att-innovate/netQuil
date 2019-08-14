@@ -152,14 +152,10 @@ Here is an example of teleportation using the cat-entangler and cat-disentangler
 .. code-block:: python
     :linenos: 
 
-    import sys
-    sys.path.insert(0, '/Users/zacespinosa/Foundry/netQuil')
-    sys.path.insert(1, '/Users/matthewradzihovsky/documents/netQuil')
-
+    from netQuil import *
     from pyquil import Program
     from pyquil.api import WavefunctionSimulator, QVMConnection
     from pyquil.gates import *
-    from netQuil import *
 
     class Alice(Agent): 
         ''' 

@@ -51,7 +51,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> NetQuil
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> NetQuil
           
 
           
@@ -157,7 +157,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../demos.html">Demos</a> &raquo;</li>
         
@@ -418,18 +418,10 @@ the third qubit to its original state.</p>
 52
 53
 54
-55
-56
-57
-58
-59</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;/Users/zacespinosa/Foundry/netQuil&#39;</span><span class="p">)</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;/Users/matthewradzihovsky/documents/netQuil&#39;</span><span class="p">)</span>
-
+55</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">netQuil</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyquil</span> <span class="kn">import</span> <span class="n">Program</span>
 <span class="kn">from</span> <span class="nn">pyquil.api</span> <span class="kn">import</span> <span class="n">WavefunctionSimulator</span><span class="p">,</span> <span class="n">QVMConnection</span>
 <span class="kn">from</span> <span class="nn">pyquil.gates</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">netQuil</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
@@ -514,11 +506,14 @@ To see why quantum security is so powerful, checkout our tutorial on the middle-
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, Zachary Espinosa and Matthew Radzihovsky
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
