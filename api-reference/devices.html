@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Devices - Quantum Devices Simulator &mdash; NetQuil 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Noise - Quantum errors simulator" href="noise.html" />
+    <link rel="prev" title="Connections - Quantum and classical channels" href="connections.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> NetQuil
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">A Simulator for Quantum Networks using Pyquil:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Welcome to the Docs for netQuil!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos.html">Demos</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api-reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="agents.html"><code class="docutils literal notranslate"><span class="pre">Agents</span></code> - Codified Alice and Bob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connections.html"><code class="docutils literal notranslate"><span class="pre">Connections</span></code> - Quantum and classical channels</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Devices</span></code> - Quantum Devices Simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise.html"><code class="docutils literal notranslate"><span class="pre">Noise</span></code> - Quantum errors simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html"><code class="docutils literal notranslate"><span class="pre">Simulator</span></code> - Parallelized multi-trial simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed-gates.html"><code class="docutils literal notranslate"><span class="pre">Distributed</span> <span class="pre">Quantum</span> <span class="pre">Gates</span></code> - Primitive Protocols</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NetQuil</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api-reference.html">API Reference</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">Devices</span></code> - Quantum Devices Simulator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api-reference/devices.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="devices-quantum-devices-simulator">
+<span id="devices"></span><h1><code class="docutils literal notranslate"><span class="pre">Devices</span></code> - Quantum Devices Simulator<a class="headerlink" href="#devices-quantum-devices-simulator" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="netQuil.devices.Device">
+<em class="property">class </em><code class="sig-prename descclassname">netQuil.devices.</code><code class="sig-name descname">Device</code><a class="reference internal" href="../_modules/netQuil/devices.html#Device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for all source and target devices</p>
+<dl class="method">
+<dt id="netQuil.devices.Device.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Device.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Device.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="netQuil.devices.Device.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#netQuil.devices.Device.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.devices.Device.apply">
+<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param">program</em>, <em class="sig-param">qubits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Device.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Device.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function should be overwritten by children classes, and 
+should include runtime code defining how child devices impact qubits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>program</strong> (<em>Pyquil&lt;Program&gt;</em>) – program to manipulate</p></li>
+<li><p><strong>qubits</strong> (<em>List</em>) – list of qubits passing through device</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.devices.Device.get_results">
+<code class="sig-name descname">get_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Device.get_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Device.get_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints device information about trial to console.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.devices.Device.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Device.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Device.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>reset is called between trials and resets all properties.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="netQuil.devices.Fiber">
+<em class="property">class </em><code class="sig-prename descclassname">netQuil.devices.</code><code class="sig-name descname">Fiber</code><span class="sig-paren">(</span><em class="sig-param">length=0.0</em>, <em class="sig-param">attenuation_coefficient=-0.16</em>, <em class="sig-param">apply_error=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Fiber"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Fiber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#netQuil.devices.Device" title="netQuil.devices.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">netQuil.devices.Device</span></code></a></p>
+<dl class="method">
+<dt id="netQuil.devices.Fiber.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">length=0.0</em>, <em class="sig-param">attenuation_coefficient=-0.16</em>, <em class="sig-param">apply_error=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Fiber.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Fiber.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulation of fiber optics with given length and attenuation coefficient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> (<em>Float</em>) – length of fiber optical cable in km</p></li>
+<li><p><strong>attenuation_coefficient</strong> (<em>Float</em>) – coefficient determining likelihood of photon loss</p></li>
+<li><p><strong>apply_error</strong> (<em>Boolean</em>) – True is device should apply error, otherwise, only returns time delay</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.devices.Fiber.apply">
+<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param">program</em>, <em class="sig-param">qubits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Fiber.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Fiber.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies device’s error and returns time that photon took to pass through simulated device</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>program</strong> (<em>Program</em>) – program to be modified</p></li>
+<li><p><strong>qubits</strong> (<em>List</em>) – qubits being sent</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>time qubits took to travel through fiber</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="netQuil.devices.Laser">
+<em class="property">class </em><code class="sig-prename descclassname">netQuil.devices.</code><code class="sig-name descname">Laser</code><span class="sig-paren">(</span><em class="sig-param">pulse_length=1e-11</em>, <em class="sig-param">expected_photons=1.0</em>, <em class="sig-param">rotation_prob_variance=1.0</em>, <em class="sig-param">wavelength=1550</em>, <em class="sig-param">apply_error=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Laser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Laser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#netQuil.devices.Device" title="netQuil.devices.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">netQuil.devices.Device</span></code></a></p>
+<dl class="method">
+<dt id="netQuil.devices.Laser.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pulse_length=1e-11</em>, <em class="sig-param">expected_photons=1.0</em>, <em class="sig-param">rotation_prob_variance=1.0</em>, <em class="sig-param">wavelength=1550</em>, <em class="sig-param">apply_error=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Laser.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Laser.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulation of laser at 1550nm wavelength. Laser produce photons according to poisson
+distribution, centered around expected_photons.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.devices.Laser.apply">
+<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param">program</em>, <em class="sig-param">qubits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Laser.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Laser.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies laser effect to qubits
+:param Program program: global program
+:param List&lt;int&gt; qubits: list of qubits going through laser
+:return: time it took qubits to pass through device</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.devices.Laser.get_results">
+<code class="sig-name descname">get_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Laser.get_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Laser.get_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints device information about trial to console.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.devices.Laser.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/devices.html#Laser.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.devices.Laser.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>reset is called between trials and resets all properties.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="noise.html" class="btn btn-neutral float-right" title="Noise - Quantum errors simulator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="connections.html" class="btn btn-neutral float-left" title="Connections - Quantum and classical channels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zachary Espinosa and Matthew Radzihovsky
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

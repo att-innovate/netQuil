@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Middle-Man Attack &mdash; NetQuil 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Distributed Quantum Protocol" href="distributed-protocol.html" />
+    <link rel="prev" title="Superdense Coding" href="superdense-coding.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> NetQuil
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">A Simulator for Quantum Networks using Pyquil:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Welcome to the Docs for netQuil!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../demos.html">Demos</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quantum-teleportation.html">Quantum Teleportation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="superdense-coding.html">Superdense Coding</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Middle-Man Attack</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#protocol">Protocol</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#circuit">Circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#steps">Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tutorial">Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#import-dependencies">Import Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setup-agents">Setup Agents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-up-program">Set Up Program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#simulate-network">Simulate Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#check-results">Check Results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#extend-simulation">Extend Simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#source-code">Source Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="distributed-protocol.html">Distributed Quantum Protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-usage.html">Advanced Usage and Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NetQuil</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../demos.html">Demos</a> &raquo;</li>
+        
+      <li>Middle-Man Attack</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/demos/middle-man.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="middle-man-attack">
+<span id="middle-man"></span><h1>Middle-Man Attack<a class="headerlink" href="#middle-man-attack" title="Permalink to this headline">¶</a></h1>
+<p>Middle-Man Attack is a demonstration of quantum networks resistance against intruders. This demo
+extends <a class="reference internal" href="superdense-coding.html#superdense-coding"><span class="std std-ref">superdense coding</span></a> by allowing two agents, Alice and Bob, to send
+numerous classical bits using bell state pairs. However, in this protocol, there is an intruder agent,
+Eve, who attempts to interecept and measure the information. Despite successfully intercepting Alice
+and Bob’s message, due to Eve not sharing a bell state pair with Alice, Eve only measures random noise.
+Moreover, Bob’s is able to detect an intruder has intercepted the message.</p>
+<div class="section" id="protocol">
+<h2>Protocol<a class="headerlink" href="#protocol" title="Permalink to this headline">¶</a></h2>
+<p>The middle-man attack involves four agents, Alice, Bob, Charlie, and Eve.
+Following the <a class="reference internal" href="superdense-coding.html#superdense-coding"><span class="std std-ref">superdense coding</span></a> protocol,
+Charlie prepares the bell state pair and distributes the entangled qubits to Alice and Bob,
+where Alice operates on her bell state pair from Charlie based on the classical bits
+she wishes to send to Bob, and then sends her bell state pair to Bob. This process can be repeated
+for any number of classical bits that Alice wishes to send.</p>
+<p>The attack occurs when Eve intercepts Alice’s qubits on the way to Bob, measures the qubits,
+and re-transmits them to Bob. Due to Eve not having a bell state pair and her measurement collapsing
+the state of the qubit, Eve only intercepts random noise, while Bob can immediately detect the
+presence of an intruder.</p>
+<div class="section" id="circuit">
+<h3>Circuit<a class="headerlink" href="#circuit" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/middle-man.png" src="../_images/middle-man.png" />
+</div>
+<div class="section" id="steps">
+<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">¶</a></h3>
+<p>1. Charlie creates a bell state pair using a Hadamard (<span class="math notranslate nohighlight">\(\textbf{H}\)</span>) and Controlled-Not (<span class="math notranslate nohighlight">\(\textbf{CNOT}\)</span>) gate,
+<span class="math notranslate nohighlight">\(|AB\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) \)</span> to Alice and qubit <span class="math notranslate nohighlight">\(B\)</span> to Bob.</p>
+<p>2. Alice operates on her qubit based on the classical bits she wants to send to Bob. If her first classical
+bit is a <span class="math notranslate nohighlight">\(1\)</span>, she operates on her qubit with a <span class="math notranslate nohighlight">\(\textbf{X}\)</span> gate. If her second classical bit is a
+<span class="math notranslate nohighlight">\(1\)</span>, she operates on her qubit with a <span class="math notranslate nohighlight">\(\textbf{Z}\)</span> gate. Then, she sends her qubit (unknowingly) to intruder Eve.</p>
+<ol class="arabic simple" start="3">
+<li><p>Eve measures the qubit from Alice and re-transmits it to Bob.</p></li>
+</ol>
+<p>4. Bob returns to the computational basis by applying a Controlled-Not (<span class="math notranslate nohighlight">\(\textbf{CNOT}\)</span>) and
+a Hadamard (<span class="math notranslate nohighlight">\(\textbf{H}\)</span>) gate to the qubit from Charlie and from Eve (thinking it is from Alice.
+Finally, Bob measures each qubit and now has both of Alice’s classical bits.</p>
+</div>
+</div>
+<div class="section" id="tutorial">
+<h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
+<p>We will now implement middle-man attack using netQuil’s framework of ref:<cite>Agent &lt;agent&gt;</cite> and ref:<cite>Connections &lt;connections&gt;</cite>
+to simulate teleportation of a quantum state using a quantum network. The ref:<cite>Devices &lt;devices&gt;</cite> module
+and ref’Noise &lt;noise&gt;’ allows you to include realistic devices with noise in your quantum network.</p>
+<div class="section" id="import-dependencies">
+<h3>Import Dependencies<a class="headerlink" href="#import-dependencies" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">netQuil</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyquil</span> <span class="kn">import</span> <span class="n">Program</span>
+<span class="kn">from</span> <span class="nn">pyquil.api</span> <span class="kn">import</span> <span class="n">QVMConnection</span>
+<span class="kn">from</span> <span class="nn">pyquil.gates</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setup-agents">
+<h3>Setup Agents<a class="headerlink" href="#setup-agents" title="Permalink to this headline">¶</a></h3>
+<p>Let us first define agent Charlie who creates and distributes the bell state pair to Alice and Bob repeated for the
+number of classical bits that Alice wishes to send. We can extend the Agent classes and redefine our
+<span class="math notranslate nohighlight">\(\textit{run()}\)</span> methods. To create our bell state pair, he can use a
+Hadamard (<span class="math notranslate nohighlight">\(\textbf{H}\)</span>) and Controlled-Not (<span class="math notranslate nohighlight">\(\textbf{CNOT}\)</span>) gate from pyquil. Then,
+using netQuil, we want to distribute each qubit to Alice and Bob.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Charlie</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Charlie sends Bell pairs to Alice and Bob</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">alice</span><span class="o">.</span><span class="n">cmem</span><span class="p">),</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="n">H</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="n">CNOT</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qsend</span><span class="p">(</span><span class="n">alice</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qsend</span><span class="p">(</span><span class="n">bob</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Now, we will create agent Alice, Eve, and Bob. Alice will operate on her bell state pair from Charlie based on the
+classical bits she wishes to send to Bob. Then, she will send her qubit to Bob, but unknowingly the qubit
+is intercepted by Eve. Eve is an intruder, and simply measures the intercepted information, before retransmitting
+the qubit on to the target agent, Bob. Bob will then convert back to the computational basis using a
+Controlled-Not (<span class="math notranslate nohighlight">\(\textbf{CNOT}\)</span>) and a Hadamard (<span class="math notranslate nohighlight">\(\textbf{H}\)</span>) gate and measure each qubit
+from Charlie and Alice, with Alice’s qubit tampered with by Eve.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Alice sends Bob superdense-encoded classical bits, intercepted by Eve</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmem</span><span class="p">),</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">bit1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmem</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">bit2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmem</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">qubitsCharlie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qrecv</span><span class="p">(</span><span class="n">charlie</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">qubitsCharlie</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">bit2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">p</span> <span class="o">+=</span> <span class="n">X</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">bit1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">p</span> <span class="o">+=</span> <span class="n">Z</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">qsend</span><span class="p">(</span><span class="n">eve</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">])</span>
+
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Bob reconstructs Alice&#39;s classical bits</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">alice</span><span class="o">.</span><span class="n">cmem</span><span class="p">),</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">qubitsAlice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qrecv</span><span class="p">(</span><span class="n">eve</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">qubitsCharlie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qrecv</span><span class="p">(</span><span class="n">charlie</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">qubitsAlice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">qubitsCharlie</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">CNOT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">H</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">MEASURE</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ro</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">MEASURE</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">ro</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+
+
+<span class="k">class</span> <span class="nc">Eve</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Eve intercepts message from Alice, measures, and sends to Bob</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">alice</span><span class="o">.</span><span class="n">cmem</span><span class="p">),</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">qubitsAlice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qrecv</span><span class="p">(</span><span class="n">alice</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">qubitsAlice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">MEASURE</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ro</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">alice</span><span class="o">.</span><span class="n">cmem</span><span class="p">)])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qsend</span><span class="p">(</span><span class="n">bob</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="set-up-program">
+<h3>Set Up Program<a class="headerlink" href="#set-up-program" title="Permalink to this headline">¶</a></h3>
+<p>We can now define our pyquil program to pass into each agent. First, let us define the classical bits that
+we want Alice to attempt to send to Bob. For this example, we will unpack our netQuil logo as classical bits
+that Alice will send to Bob, and thus will import matplotlib.image. We also define our readout bits for Eve’s
+and Bob’s measurements, which are stored together in ‘ro’.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="kn">as</span> <span class="nn">image</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./Images/Logo.jpeg&quot;</span><span class="p">)</span>
+<span class="n">img_bits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unpackbits</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+
+<span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">()</span>
+<span class="n">ro</span> <span class="o">=</span> <span class="n">program</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;BIT&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">img_bits</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Now, we can create our agents, giving Charlie control over all the qubits, Alice the image as
+her classical memory, and passing each agent their shared pyQuil program to run our demo. For
+convenience, we will also give Eve and Bob individual lists to store their individual results.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qubitsUsed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">img_bits</span><span class="p">)))</span>
+<span class="n">resultsEve</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">resultsBob</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">cmem</span><span class="o">=</span><span class="n">img_bits</span><span class="p">)</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+<span class="n">charlie</span> <span class="o">=</span> <span class="n">Charlie</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="n">qubitsUsed</span><span class="p">)</span>
+<span class="n">eve</span> <span class="o">=</span> <span class="n">Eve</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+
+<span class="n">QConnect</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">,</span> <span class="n">charlie</span><span class="p">,</span> <span class="n">eve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="simulate-network">
+<h3>Simulate Network<a class="headerlink" href="#simulate-network" title="Permalink to this headline">¶</a></h3>
+<p>Finally, we can define our agents, connect them, and simulate our program.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#define agents</span>
+<span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">cmem</span><span class="o">=</span><span class="n">curImg_bits</span><span class="p">)</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+<span class="n">charlie</span> <span class="o">=</span> <span class="n">Charlie</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="n">qubitsUsed</span><span class="p">)</span>
+<span class="n">eve</span> <span class="o">=</span> <span class="n">Eve</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+
+<span class="c1">#connect agents</span>
+<span class="n">QConnect</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">,</span> <span class="n">charlie</span><span class="p">,</span> <span class="n">eve</span><span class="p">)</span>
+
+
+<span class="c1">#simulate agents</span>
+<span class="n">Simulation</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span><span class="n">charlie</span><span class="p">,</span><span class="n">bob</span><span class="p">,</span><span class="n">eve</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">qvm</span> <span class="o">=</span> <span class="n">QVMConnection</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">qvm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Oh no, simulating our network created an error. We need to be careful because netQuil does quantum computation on pyQuil,
+which limits the number of qubits to 30. Therefore, instead of Alice sending all her image bits at once,
+we can fix this bug by only having Alice send qubits in groups of 20 as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#window of current quantum bits</span>
+<span class="n">startWindow</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">endWindow</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="k">while</span> <span class="n">end</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_bits</span><span class="p">):</span>
+    <span class="n">curImg_bits</span> <span class="o">=</span> <span class="n">img_bits</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+    <span class="n">qubitsUsed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">curImg_bits</span><span class="p">)))</span>
+
+    <span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">()</span>
+    <span class="n">ro</span> <span class="o">=</span> <span class="n">program</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;BIT&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">curImg_bits</span><span class="p">))</span>
+
+    <span class="c1">#define agents</span>
+    <span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">cmem</span><span class="o">=</span><span class="n">curImg_bits</span><span class="p">)</span>
+    <span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+    <span class="n">charlie</span> <span class="o">=</span> <span class="n">Charlie</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="n">qubitsUsed</span><span class="p">)</span>
+    <span class="n">eve</span> <span class="o">=</span> <span class="n">Eve</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+
+    <span class="c1">#connect agents</span>
+    <span class="n">QConnect</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">,</span> <span class="n">charlie</span><span class="p">,</span> <span class="n">eve</span><span class="p">)</span>
+
+    <span class="c1">#simulate agents</span>
+    <span class="n">Simulation</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span><span class="n">charlie</span><span class="p">,</span><span class="n">bob</span><span class="p">,</span><span class="n">eve</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">qvm</span> <span class="o">=</span> <span class="n">QVMConnection</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">qvm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+
+    <span class="c1">#record results</span>
+    <span class="n">resultsBob</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">curImg_bits</span><span class="p">)])</span>
+    <span class="n">resultsEve</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nb">len</span><span class="p">(</span><span class="n">curImg_bits</span><span class="p">):])</span>
+
+    <span class="c1">#iterate</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">end</span>
+    <span class="k">if</span> <span class="n">end</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_bits</span><span class="p">):</span>
+        <span class="k">break</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_bits</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="o">+</span><span class="mi">20</span><span class="p">:</span>
+        <span class="n">end</span> <span class="o">+=</span> <span class="mi">20</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_bits</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="check-results">
+<h3>Check Results<a class="headerlink" href="#check-results" title="Permalink to this headline">¶</a></h3>
+<p>We can check if on Eve’s and Bob’s measurements by plotting the images. Notice, that since Eve
+does not share a bell state pair with Alice, she only measures random noise. Further, her measurements
+collapse the qubits before Bob measures them giving him only half of the information and alerting him
+to an intruder.</p>
+<img alt="../_images/middle-man-demo.png" src="../_images/middle-man-demo.png" />
+</div>
+<div class="section" id="extend-simulation">
+<h3>Extend Simulation<a class="headerlink" href="#extend-simulation" title="Permalink to this headline">¶</a></h3>
+<p>You have now created a program to simulate a middle man attack! You are able to simulate an intruder
+trying to intercept qubits of information. Can you extend this demo to include quantum error correction,
+a smarter intruder, or even devices with realistic noise?</p>
+</div>
+</div>
+<div class="section" id="source-code">
+<h2>Source Code<a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h2>
+<p>The source code for the middle-man attack demo can be found <a class="reference external" href="https://github.com/att-innovate/netQuil">here</a> and contributions are encouraged.</p>
+<p>To learn more about distributed quantum computing, checkout our distributed protocols tutorial to learn how you can
+perform distributed quantum computation easily using the cat-entangler and cat-disentangler.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="distributed-protocol.html" class="btn btn-neutral float-right" title="Distributed Quantum Protocol" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="superdense-coding.html" class="btn btn-neutral float-left" title="Superdense Coding" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zachary Espinosa and Matthew Radzihovsky
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Connections - Quantum and classical channels &mdash; NetQuil 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Devices - Quantum Devices Simulator" href="devices.html" />
+    <link rel="prev" title="Agents - Codified Alice and Bob" href="agents.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> NetQuil
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">A Simulator for Quantum Networks using Pyquil:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos.html">Demos</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api-reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="agents.html"><code class="docutils literal notranslate"><span class="pre">Agents</span></code> - Codified Alice and Bob</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Connections</span></code> - Quantum and classical channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devices.html"><code class="docutils literal notranslate"><span class="pre">Devices</span></code> - Quantum Devices Simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise.html"><code class="docutils literal notranslate"><span class="pre">Noise</span></code> - Quantum errors simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html"><code class="docutils literal notranslate"><span class="pre">Simulator</span></code> - Parallelized multi-trial simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed-gates.html"><code class="docutils literal notranslate"><span class="pre">Distributed</span> <span class="pre">Quantum</span> <span class="pre">Gates</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NetQuil</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api-reference.html">API Reference</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">Connections</span></code> - Quantum and classical channels</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api-reference/connections.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="connections-quantum-and-classical-channels">
+<span id="connections"></span><h1><code class="docutils literal notranslate"><span class="pre">Connections</span></code> - Quantum and classical channels<a class="headerlink" href="#connections-quantum-and-classical-channels" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="netQuil.connections.QConnect">
+<em class="property">class </em><code class="sig-prename descclassname">netQuil.connections.</code><code class="sig-name descname">QConnect</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">transit_devices=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/connections.html#QConnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.connections.QConnect" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="netQuil.connections.QConnect.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">transit_devices=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/connections.html#QConnect.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.connections.QConnect.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the base class for a quantum connection between multiple agents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<em>agents</em>) – list of agents to connect</p></li>
+<li><p><strong>transit_devices</strong> (<em>List</em>) – list of devices qubits travel through - assumed order: agent_one -&gt; agent_two</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="netQuil.connections.QConnect.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#netQuil.connections.QConnect.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.connections.QConnect.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">agent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/connections.html#QConnect.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.connections.QConnect.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pops qubits off of the agent’s queue. Sends qubit through transit and target devices,
+simulating a quantumm network. Return an array of the qubits that have been altered as well as
+the time it took the qubit to travel through the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>agent</strong> (<a class="reference internal" href="agents.html#netQuil.agents.Agent" title="netQuil.agents.Agent"><em>Agent</em></a>) – agent receiving the qubits</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of qubits, time to pass through transit and target devices, and the source agent’s time</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.connections.QConnect.put">
+<code class="sig-name descname">put</code><span class="sig-paren">(</span><em class="sig-param">source</em>, <em class="sig-param">target</em>, <em class="sig-param">qubits</em>, <em class="sig-param">source_time</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/connections.html#QConnect.put"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.connections.QConnect.put" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs full list of devices that each qubit must travel through. Sends the qubits
+through source devices. Places qubits and a list of transit and target 
+devices on the queue. Queue is keyed on the target Agent’s name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>String</em>) – name of agent where the qubits being sent originated</p></li>
+<li><p><strong>target</strong> (<em>String</em>) – name of agent receiving qubits</p></li>
+<li><p><strong>qubits</strong> (<em>Array</em>) – array of numbers corresponding to qubits the source is sending</p></li>
+<li><p><strong>source_time</strong> (<em>Float</em>) – time of source agent before sending qubits</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>time qubits took to pass through source devices</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="netQuil.connections.QConnect.transit_devices">
+<code class="sig-name descname">transit_devices</code><em class="property"> = None</em><a class="headerlink" href="#netQuil.connections.QConnect.transit_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create queue to keep track of multiple requests. Name of queue is name of
+target agent.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="netQuil.connections.CConnect">
+<em class="property">class </em><code class="sig-prename descclassname">netQuil.connections.</code><code class="sig-name descname">CConnect</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">length=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/connections.html#CConnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.connections.CConnect" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="netQuil.connections.CConnect.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">length=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/connections.html#CConnect.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.connections.CConnect.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the base class for a classical connection between multiple agents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<em>agents</em>) – list of agents to connect</p></li>
+<li><p><strong>length</strong> (<em>Float</em>) – distance between first and second agent</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="netQuil.connections.CConnect.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#netQuil.connections.CConnect.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="netQuil.connections.CConnect.agents">
+<code class="sig-name descname">agents</code><em class="property"> = None</em><a class="headerlink" href="#netQuil.connections.CConnect.agents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create queue to keep track of multiple requests. Name of queue is name of
+target agent.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.connections.CConnect.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">agent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/connections.html#CConnect.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.connections.CConnect.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pops cbits off of the agent’s queue and adds travel delay</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>agent</strong> (<em>String</em>) – name of the agent receiving the cbits</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cbits from source and time they took to travel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.connections.CConnect.put">
+<code class="sig-name descname">put</code><span class="sig-paren">(</span><em class="sig-param">target</em>, <em class="sig-param">cbits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/connections.html#CConnect.put"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.connections.CConnect.put" title="Permalink to this definition">¶</a></dt>
+<dd><p>Places cbits on queue keyed on the target Agent’s name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<em>String</em>) – name of recipient of program</p></li>
+<li><p><strong>cbits</strong> (<em>Array</em>) – array of numbers corresponding to cbits agent is sending</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>time for cbits to travel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="devices.html" class="btn btn-neutral float-right" title="Devices - Quantum Devices Simulator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="agents.html" class="btn btn-neutral float-left" title="Agents - Codified Alice and Bob" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zachary Espinosa and Matthew Radzihovsky
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

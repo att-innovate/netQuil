@@ -1,0 +1,401 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Agents - Codified Alice and Bob &mdash; NetQuil 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Connections - Quantum and classical channels" href="connections.html" />
+    <link rel="prev" title="API Reference" href="../api-reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> NetQuil
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">A Simulator for Quantum Networks using Pyquil:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos.html">Demos</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api-reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Agents</span></code> - Codified Alice and Bob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connections.html"><code class="docutils literal notranslate"><span class="pre">Connections</span></code> - Quantum and classical channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devices.html"><code class="docutils literal notranslate"><span class="pre">Devices</span></code> - Quantum Devices Simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise.html"><code class="docutils literal notranslate"><span class="pre">Noise</span></code> - Quantum errors simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html"><code class="docutils literal notranslate"><span class="pre">Simulator</span></code> - Parallelized multi-trial simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed-gates.html"><code class="docutils literal notranslate"><span class="pre">Distributed</span> <span class="pre">Quantum</span> <span class="pre">Gates</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NetQuil</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api-reference.html">API Reference</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">Agents</span></code> - Codified Alice and Bob</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api-reference/agents.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-netQuil.agents">
+<span id="agents-codified-alice-and-bob"></span><span id="agents"></span><h1><code class="docutils literal notranslate"><span class="pre">Agents</span></code> - Codified Alice and Bob<a class="headerlink" href="#module-netQuil.agents" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="netQuil.agents.Agent">
+<em class="property">class </em><code class="sig-prename descclassname">netQuil.agents.</code><code class="sig-name descname">Agent</code><span class="sig-paren">(</span><em class="sig-param">program=None</em>, <em class="sig-param">qubits=[]</em>, <em class="sig-param">cmem=[]</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></p>
+<dl class="method">
+<dt id="netQuil.agents.Agent.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Agents are compared for equality by their names.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.__hash__">
+<code class="sig-name descname">__hash__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.__hash__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Agents are hashed by their (unique) names</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">program=None</em>, <em class="sig-param">qubits=[]</em>, <em class="sig-param">cmem=[]</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Agents are codified versions of Alice and Bob (i.e. single nodes in a quantum network) 
+that can send a receive classical and quantum information over connections. 
+Agents have the following properties:</p>
+<ul class="simple">
+<li><p>Run-time logic is in the form of an Agent.run() method</p></li>
+<li><p>Connections to other Agents are by default ingress and egress</p></li>
+<li><p>Agents’ manage their own target and source devices for noise and local time tracking</p></li>
+<li><p>A network monitor to records traffic of a single Agent</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>program</strong> (<em>PyQuil&lt;Program&gt;</em>) – program</p></li>
+<li><p><strong>qubits</strong> (<em>List</em>) – list of qubits owned by Agent</p></li>
+<li><p><strong>cmem</strong> (<em>List</em>) – list of cbits owned by Agent</p></li>
+<li><p><strong>name</strong> (<em>String</em>) – name of Agent, defaults to name of class</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.__ne__">
+<code class="sig-name descname">__ne__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.__ne__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.__ne__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Agents are compared for inequality by their names</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.add_cmem">
+<code class="sig-name descname">add_cmem</code><span class="sig-paren">(</span><em class="sig-param">cbits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.add_cmem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.add_cmem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add more classical memory in the form of a list of 0s and 1s</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cbits</strong> (<em>List</em>) – classical memory to extend</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.add_device">
+<code class="sig-name descname">add_device</code><span class="sig-paren">(</span><em class="sig-param">device_type</em>, <em class="sig-param">device</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.add_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.add_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add device to agent node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_type</strong> (<em>String</em>) – category of device</p></li>
+<li><p><strong>device</strong> (<a class="reference internal" href="devices.html#netQuil.devices.Device" title="netQuil.devices.Device"><em>Device</em></a>) – instance of device added</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.add_source_devices">
+<code class="sig-name descname">add_source_devices</code><span class="sig-paren">(</span><em class="sig-param">new_source_devices</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.add_source_devices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.add_source_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add source devices. Every qubit sent by Agent will pass through these devices, 
+and, if set, the device’s noise will be applied</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_source_devices</strong> (<em>List</em>) – Agent new source devices</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.add_target_devices">
+<code class="sig-name descname">add_target_devices</code><span class="sig-paren">(</span><em class="sig-param">new_target_devices</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.add_target_devices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.add_target_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add target devices. Every qubit sent to Agent will pass through these devices, 
+and, if set, the device’s noise will be applied</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_target_devices</strong> (<em>List</em>) – Agent new target devices</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.crecv">
+<code class="sig-name descname">crecv</code><span class="sig-paren">(</span><em class="sig-param">source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.crecv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.crecv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get cbits from source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>source</strong> (<em>String</em>) – name of Agent where cbits originated from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of cbits sent from source</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.csend">
+<code class="sig-name descname">csend</code><span class="sig-paren">(</span><em class="sig-param">target</em>, <em class="sig-param">cbits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.csend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.csend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends classical bits from Agent to target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<em>String</em>) – name of target Agent</p></li>
+<li><p><strong>cbits</strong> (<em>List</em>) – indicies of cbits source is sending to target</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.get_master_time">
+<code class="sig-name descname">get_master_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.get_master_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.get_master_time" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>master time</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.qrecv">
+<code class="sig-name descname">qrecv</code><span class="sig-paren">(</span><em class="sig-param">source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.qrecv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.qrecv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Agent receives qubits from source. Adds qubits to Agent’s list of qubits and
+add time delay. Return qubits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>source</strong> (<em>String</em>) – name of Agent where qubits are from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of qubits sent from source</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.qsend">
+<code class="sig-name descname">qsend</code><span class="sig-paren">(</span><em class="sig-param">target</em>, <em class="sig-param">qubits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.qsend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.qsend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send qubits from Agent to target. Connection will place qubits on queue 
+for target to retrieve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<em>String</em>) – name of destination for packet</p></li>
+<li><p><strong>qubits</strong> (<em>List</em>) – packet to send to destination</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run-time logic for the Agent; this method should be overridden in child classes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="netQuil.agents.Agent.set_program">
+<code class="sig-name descname">set_program</code><span class="sig-paren">(</span><em class="sig-param">program</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.set_program"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.set_program" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set Agent’s program</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>program</strong> (<em>PyQuil&lt;Program&gt;</em>) – Agent’s new program</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="connections.html" class="btn btn-neutral float-right" title="Connections - Quantum and classical channels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../api-reference.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zachary Espinosa and Matthew Radzihovsky
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>netQuil.distributedGates &mdash; NetQuil 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> NetQuil
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">A Simulator for Quantum Networks using Pyquil:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Welcome to the Docs for netQuil!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-reference.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NetQuil</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>netQuil.distributedGates</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for netQuil.distributedGates</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyquil</span> <span class="k">import</span> <span class="n">Program</span>
+<span class="kn">from</span> <span class="nn">pyquil.api</span> <span class="k">import</span> <span class="n">WavefunctionSimulator</span><span class="p">,</span> <span class="n">QVMConnection</span>
+<span class="kn">from</span> <span class="nn">pyquil.gates</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">netQuil</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cat_entangler&quot;</span><span class="p">,</span> <span class="s2">&quot;cat_disentangler&quot;</span><span class="p">,</span> <span class="s2">&quot;QFT&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="QFT"><a class="viewcode-back" href="../../api-reference/distributed-gates.html#netQuil.distributedGates.QFT">[docs]</a><span class="k">def</span> <span class="nf">QFT</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">register</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Performs Quantum Fourier Transform</span>
+<span class="sd">    :param Program program: program for where to apply QFT</span>
+<span class="sd">    :param List register: register of qubits to perform QFT on</span>
+<span class="sd">    :return program: program where QFT has been applied</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+       
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">register</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">program</span> <span class="o">+=</span> <span class="n">H</span><span class="p">(</span><span class="n">register</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">program</span> <span class="o">+=</span> <span class="n">CPHASE</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">k</span><span class="p">),</span><span class="n">register</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">register</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">program</span></div>
+    
+<span class="k">def</span> <span class="nf">distributed_gate</span><span class="p">(</span><span class="n">agents</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents</span><span class="p">:</span> <span class="n">agent</span><span class="o">.</span><span class="n">using_distributed_gate</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">agent</span><span class="o">.</span><span class="n">using_distributed_gate</span>
+
+<span class="k">def</span> <span class="nf">notify_entangler_is_done</span><span class="p">(</span><span class="n">caller</span><span class="p">,</span> <span class="n">target_agents</span><span class="p">):</span> 
+    <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Target agents should be expecting a cbit signaling the distributed gate is complete</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">target_agents</span><span class="p">:</span>
+        <span class="n">cbit</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># cbit signaling done</span>
+        <span class="n">caller</span><span class="o">.</span><span class="n">csend</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">cbit</span><span class="p">)</span>
+
+<div class="viewcode-block" id="cat_entangler"><a class="viewcode-back" href="../../api-reference/distributed-gates.html#netQuil.distributedGates.cat_entangler">[docs]</a><span class="k">def</span> <span class="nf">cat_entangler</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">entangled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">notify</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Performs the cat entangler, one of two primitive operations for </span>
+<span class="sd">    distributed quantum computing which can be used to implement non-local operations.</span>
+<span class="sd">    Projects the state of Alice&#39;s local control bit (psi) on entangled qubits owned by other Agents, </span>
+<span class="sd">    allowing Agents to effectively use Alice&#39;s qubit as a control for their own operations. Measurements</span>
+<span class="sd">    are stored in ro in the position corresponding to qubit&#39;s index (i.e. ith qubit measured into ro[i]). </span>
+<span class="sd">    Once the cat_entangler is started in the control agent, each target agent waits until they have received</span>
+<span class="sd">    two classical bits from the control. The first is a placeholder for a measurement and the second indicates that</span>
+<span class="sd">    the cat entangler is complete. e.g. non-local CNOTs, non-local controlled gates, and teleportation.</span>
+
+<span class="sd">    Remember, the cat_disentangler sends classical bits between the control and targets, so be careful </span>
+<span class="sd">    when trying to perform similar operations in parallel!</span>
+
+<span class="sd">    :param (agent, int, int, classical register): Agent owning psi and measure qubit (which should be the same agent calling cat_entangler), phi, measurement qubit, and register to store measurements</span>
+<span class="sd">    :param List&lt;(agent, qubit)&gt; targets: agent and agent&#39;s qubit that will be altered</span>
+<span class="sd">    :param Boolean entangled: true if qubits from other Agents are already maximally entangled</span>
+<span class="sd">    :param Boolean notify: if true control agent will send cbit equaling 1 to all target agents, signaling completion </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">agent</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">measure_qubit</span><span class="p">,</span> <span class="n">ro</span> <span class="o">=</span> <span class="n">control</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">program</span>
+
+    <span class="c1"># Collect all qubits except control bit</span>
+    <span class="n">qubits</span> <span class="o">=</span> <span class="p">[</span><span class="n">measure_qubit</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">]</span>
+
+    <span class="c1"># Tell Tracer to Ignore Operations</span>
+    <span class="n">distributed_gate</span><span class="p">([</span><span class="n">agent</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">])</span>
+
+    <span class="c1"># If qubits are not already entangled, and distribute all non-control qubits</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">entangled</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="n">H</span><span class="p">(</span><span class="n">measure_qubit</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">q1</span> <span class="o">=</span> <span class="n">qubits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> 
+            <span class="n">q2</span> <span class="o">=</span> <span class="n">qubits</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">CNOT</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
+    
+    <span class="c1"># Project control qubit onto qubit and measure</span>
+    <span class="n">p</span> <span class="o">+=</span> <span class="n">CNOT</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">measure_qubit</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">+=</span> <span class="n">MEASURE</span><span class="p">(</span><span class="n">measure_qubit</span><span class="p">,</span> <span class="n">ro</span><span class="p">[</span><span class="n">measure_qubit</span><span class="p">])</span> 
+
+    <span class="c1"># Send result of qubit that has been measured to all other agents</span>
+    <span class="n">cbit</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Hard code a placeholder value until ro is calculated</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">]:</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">csend</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">cbit</span><span class="p">)</span>
+
+    <span class="c1"># Conditionally Perform Measure Operations </span>
+    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">:</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">if_then</span><span class="p">(</span><span class="n">ro</span><span class="p">[</span><span class="n">measure_qubit</span><span class="p">],</span> <span class="n">X</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+
+    <span class="c1"># Tell Tracer We&#39;re Done</span>
+    <span class="n">distributed_gate</span><span class="p">([</span><span class="n">agent</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">notify</span><span class="p">:</span> <span class="n">notify_entangler_is_done</span><span class="p">(</span><span class="n">caller</span><span class="o">=</span><span class="n">agent</span><span class="p">,</span> <span class="n">target_agents</span><span class="o">=</span><span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="cat_disentangler"><a class="viewcode-back" href="../../api-reference/distributed-gates.html#netQuil.distributedGates.cat_disentangler">[docs]</a><span class="k">def</span> <span class="nf">cat_disentangler</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">notify</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Performs the cat disentangler, second of two primitive operations for </span>
+<span class="sd">    distributed quantum computing which can be used to implement non-local operations.</span>
+<span class="sd">    Restores all qubits to state before cat_entangler was performed. Measurements</span>
+<span class="sd">    are stored in ro in the position corresponding to qubit&#39;s index (i.e ith qubit measured into ro[i])</span>
+
+<span class="sd">    Remember, the cat_disentangler sends classical bits between the control and targets, so be careful </span>
+<span class="sd">    when trying to perform similar operations in parallel!</span>
+
+<span class="sd">    :param (agent, int, classical register): Agent owning psi qubit, phi, and register to store measurments</span>
+<span class="sd">    :param List&lt;(agent, qubit)&gt; targets: agent and agent&#39;s qubit that will be altered</span>
+<span class="sd">    :param Boolean notify: if true control agent will send cbit equaling 1 to all target agents, signaling completion </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">agent</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">ro</span> <span class="o">=</span> <span class="n">control</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">program</span>
+
+    <span class="c1"># Tell Tracer to Ignore Operations</span>
+    <span class="n">distributed_gate</span><span class="p">([</span><span class="n">agent</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">])</span>
+
+    <span class="c1"># Perform Hadamard of each qubit</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span> <span class="n">p</span> <span class="o">+=</span> <span class="n">H</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+
+    <span class="c1"># Measure target bits and execute bit-flip to restore to 0</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span> 
+        <span class="n">p</span> <span class="o">+=</span> <span class="n">MEASURE</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">ro</span><span class="p">[</span><span class="n">q</span><span class="p">])</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">if_then</span><span class="p">(</span><span class="n">ro</span><span class="p">[</span><span class="n">q</span><span class="p">],</span> <span class="n">X</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+
+        <span class="c1"># Send qubit measurement to owner of psi in order to perform XOR</span>
+        <span class="n">cbit</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Hard code a placeholder value until ro[q] is calculated</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">csend</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">cbit</span><span class="p">)</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">crecv</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="c1"># Perform XOR between all measured bits and if true perform Z rotation on psi.</span>
+    <span class="c1"># This will restore its original state</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="n">XOR</span><span class="p">(</span><span class="n">ro</span><span class="p">[</span><span class="n">targets</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span> <span class="n">ro</span><span class="p">[</span><span class="n">targets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+
+    <span class="n">p</span><span class="o">.</span><span class="n">if_then</span><span class="p">(</span><span class="n">ro</span><span class="p">[</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span> <span class="n">Z</span><span class="p">(</span><span class="n">psi</span><span class="p">))</span>
+
+    <span class="c1"># Tell Tracer We&#39;re Done</span>
+    <span class="n">distributed_gate</span><span class="p">([</span><span class="n">agent</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">notify</span><span class="p">:</span> <span class="n">notify_entangler_is_done</span><span class="p">(</span><span class="n">caller</span><span class="o">=</span><span class="n">agent</span><span class="p">,</span> <span class="n">target_agents</span><span class="o">=</span><span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">])</span></div>
+
+    
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zachary Espinosa and Matthew Radzihovsky
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

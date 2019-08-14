@@ -1,0 +1,602 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Advanced Usage and Features &mdash; NetQuil 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Reference" href="../api-reference.html" />
+    <link rel="prev" title="Distributed Quantum Protocol" href="distributed-protocol.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> NetQuil
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">A Simulator for Quantum Networks using Pyquil:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Welcome to the Docs for netQuil!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../demos.html">Demos</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quantum-teleportation.html">Quantum Teleportation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="superdense-coding.html">Superdense Coding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="middle-man.html">Middle-Man Attack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed-protocol.html">Distributed Quantum Protocol</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Advanced Usage and Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#built-in-and-custom-devices">Built-in and Custom Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#built-in-devices">Built-in Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-devices">Custom Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#trials-and-time">Trials and Time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looking-forward">Looking Forward</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NetQuil</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../demos.html">Demos</a> &raquo;</li>
+        
+      <li>Advanced Usage and Features</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/demos/advanced-usage.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="advanced-usage-and-features">
+<span id="advanced-usage"></span><h1>Advanced Usage and Features<a class="headerlink" href="#advanced-usage-and-features" title="Permalink to this headline">¶</a></h1>
+<p>In this demo we will be reviewing netQuil’s advanced features that make it a
+powerful and extensible platform for quantum networking simulation. Lets start with its built-in and
+custom devices.</p>
+<div class="section" id="built-in-and-custom-devices">
+<h2>Built-in and Custom Devices<a class="headerlink" href="#built-in-and-custom-devices" title="Permalink to this headline">¶</a></h2>
+<p>A device is a codified, single piece of hardware in your network.
+In classical networking this would include devices such as a router, modem, repeater,
+and network switch. In quantum networking think fiber optics, intensity modulators, lasers or
+photon sources, and <a class="reference external" href="https://en.wikipedia.org/wiki/Superconducting_nanowire_single-photon_detector">SNSPDs</a> or detectors.
+Associated with each device in a quantum network is its physical effect on qubits and the time it takes
+qubits to pass through the device.</p>
+<p>There are three types of devices in netQuil: source, transit, and target devices. Source and target devices
+are associated with an agent, while transit devices are associated with instances of <code class="docutils literal notranslate"><span class="pre">QConnection</span></code>. When a qubit
+leaves Alice and travels to Bob, the qubit originates from Alice’s source devices, travels through the
+transit devices attached to their <code class="docutils literal notranslate"><span class="pre">QConnection</span></code> and ends by arriving through Bob’s target devices. The
+order in which a qubit passes through each device corresponds to the order in which those devices
+were added to either the agent or connection.</p>
+<p>NetQuil’s devices module allows you to choose from a number of built-in source, transit, and target
+devices.</p>
+</div>
+<div class="section" id="built-in-devices">
+<h2>Built-in Devices<a class="headerlink" href="#built-in-devices" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Laser</span></code> is a built-in noisy photon source that generates photons according to <code class="docutils literal notranslate"><span class="pre">expected_photons</span></code> and a poisson
+distribution. If <code class="docutils literal notranslate"><span class="pre">network_monitor=True</span></code> the laser will output its noise to signal ratio after each trial.
+You can create a custom <code class="docutils literal notranslate"><span class="pre">get_results</span></code> function that prints information about the device after each trial.
+The <code class="docutils literal notranslate"><span class="pre">Laser</span></code> will also return a delay equal to the photon pulse length.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Fiber</span></code> is a built-in noisy fiber optical wire simulator and an example of a transit device. Fibers
+have an associated length in kilometers and an attenutation coefficient. The attenuation coefficient is
+proportional to the probability that a photon is lost while traveling within the fiber (i.e. the photon is measured,
+and the measured value is inaccessible by any agent). In netQuil, if a qubit is lost due to attenuation, the
+target will receive the negative index of the qubit lost. For example, if Alice sends qubit 3 and it is
+lost due to attenuation, Bob will receive -3, and neither Alice nor Bob will be able to operate with
+qubit 3. If the qubit lost is 0 then the value will be set to -inf. Remember that when we send qubits between agents
+we are sending the index of the qubit in the program and not the true qubit.</p>
+<p>Here is an example of a very simple program using the <code class="docutils literal notranslate"><span class="pre">Laser</span></code> and <code class="docutils literal notranslate"><span class="pre">Fiber</span></code> devices.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">H</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">X</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qsend</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">q</span><span class="p">])</span>
+
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qrecv</span><span class="p">(</span><span class="n">alice</span><span class="o">.</span><span class="n">name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Check if qubit is lost</span>
+            <span class="k">if</span> <span class="n">q</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">+=</span> <span class="n">MEASURE</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">ro</span><span class="p">[</span><span class="n">q</span><span class="p">])</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Program</span><span class="p">()</span>
+<span class="n">ro</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;BIT&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># Define source device</span>
+<span class="n">laser</span> <span class="o">=</span> <span class="n">Laser</span><span class="p">(</span><span class="n">rotation_prob_variance</span><span class="o">=.</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">alice</span><span class="o">.</span><span class="n">add_source_devices</span><span class="p">([</span><span class="n">laser</span><span class="p">])</span>
+
+<span class="c1"># Define transit device and connection</span>
+<span class="n">fiber</span> <span class="o">=</span> <span class="n">Fiber</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">attenuation_coefficient</span><span class="o">=-.</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">QConnect</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">,</span> <span class="n">transit_devices</span><span class="o">=</span><span class="p">[</span><span class="n">fiber</span><span class="p">])</span>
+
+<span class="c1"># Run simulation</span>
+<span class="n">Simulation</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Run program</span>
+<span class="n">qvm</span> <span class="o">=</span> <span class="n">QVMConnection</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">qvm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="custom-devices">
+<h2>Custom Devices<a class="headerlink" href="#custom-devices" title="Permalink to this headline">¶</a></h2>
+<p>Moreover, you can build your own custom devices by extending the <code class="docutils literal notranslate"><span class="pre">Device</span></code> class. All devices must have
+an <code class="docutils literal notranslate"><span class="pre">apply</span></code> function that is responsible for the device’s activity. The <code class="docutils literal notranslate"><span class="pre">run</span></code> function must return a
+dictionary that optionally contains the lost qubits and delay. The delay represents the time it took qubits to
+travel through the device. Remember, if qubits are lost while passing through the device, return an entry in the dictionary
+<code class="docutils literal notranslate"><span class="pre">lost_qubits:</span> <span class="pre">[lost</span> <span class="pre">qubits]</span></code>.</p>
+<p>Most devices can be arbitrarily complex in their design and can depend on environmental factors such
+as temperature, humidity, or other stressors. Custom devices allow us to simulate these arbitrarily complex devices.
+As an example, we will create a simple custom fiber that changes the polarization of a photon by some random angle
+from a normal distribution.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Simple_Fiber</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">fiber_quality</span><span class="p">,</span> <span class="n">rotation_std</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fiber_quality</span> <span class="o">=</span> <span class="n">fiber_quality</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rotation_std</span> <span class="o">=</span> <span class="n">rotation_std</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signal_speed</span> <span class="o">=</span> <span class="mf">2.998</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">5</span> <span class="c1">#speed of light in km/s</span>
+
+    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">program</span><span class="p">,</span> <span class="n">qubits</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">fiber_quality</span><span class="p">:</span>
+                <span class="n">rotation_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation_std</span><span class="p">)</span>
+                <span class="n">program</span> <span class="o">+=</span> <span class="n">RX</span><span class="p">(</span><span class="n">rotation_angle</span><span class="p">,</span> <span class="n">qubit</span><span class="p">)</span>
+
+        <span class="n">delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_speed</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;delay&#39;</span><span class="p">:</span> <span class="n">delay</span><span class="p">,</span>
+        <span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">H</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">X</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qsend</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">q</span><span class="p">])</span>
+
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qrecv</span><span class="p">(</span><span class="n">alice</span><span class="o">.</span><span class="n">name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">MEASURE</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">ro</span><span class="p">[</span><span class="n">q</span><span class="p">])</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Program</span><span class="p">()</span>
+<span class="n">ro</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;BIT&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># Define source device</span>
+<span class="n">laser</span> <span class="o">=</span> <span class="n">Laser</span><span class="p">(</span><span class="n">rotation_prob_variance</span><span class="o">=.</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">alice</span><span class="o">.</span><span class="n">add_source_devices</span><span class="p">([</span><span class="n">laser</span><span class="p">])</span>
+
+<span class="n">fiber</span> <span class="o">=</span> <span class="n">Simple_Fiber</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fiber_quality</span><span class="o">=.</span><span class="mi">6</span><span class="p">,</span> <span class="n">rotation_std</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">QConnect</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">,</span> <span class="n">transit_devices</span><span class="o">=</span><span class="p">[</span><span class="n">fiber</span><span class="p">])</span>
+
+<span class="n">Simulation</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">network_monitor</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">qvm</span> <span class="o">=</span> <span class="n">QVMConnection</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">qvm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>NetQuil also has a built-in noise module for performing common qubit operations such as normal
+unitary rotations, depolarization, and bit and phase flips.</p>
+</div>
+<div class="section" id="trials-and-time">
+<h2>Trials and Time<a class="headerlink" href="#trials-and-time" title="Permalink to this headline">¶</a></h2>
+<p>In some situations, pyQuil programs generated between trials will be different depending
+on noise or the dynamic nature of your network. In order to accomodate this, <code class="docutils literal notranslate"><span class="pre">Simulation().run()</span></code> will always return a list of
+programs (i.e. one program per trial) that can be run on your qvm or qpu. Pass the number of trials you would like to run
+into <code class="docutils literal notranslate"><span class="pre">Simulation().run(trials=5)</span></code>, as well as a list containing the class of each agent being run. Do <cite>NOT</cite> forget to
+pass <code class="docutils literal notranslate"><span class="pre">agent_classes</span></code> (<code class="docutils literal notranslate"><span class="pre">Simulation(alice,</span> <span class="pre">bob).run(trials=5,</span> <span class="pre">agent_classes=[Alice,</span> <span class="pre">Bob]</span></code>), since this
+is required in order to reset the agents between trials.</p>
+<p>You can also pass <code class="docutils literal notranslate"><span class="pre">network_monitor=True</span></code> to <code class="docutils literal notranslate"><span class="pre">run</span></code> in order to see a list of transactions on the network, the time of each transaction,
+and information about your devices. In addition to individual agent clocks, a master clock is running throughout the network
+simulation that can be accessed through <code class="docutils literal notranslate"><span class="pre">agent.get_master_time()</span></code> on any agent. If you are implementing
+<a class="reference external" href="https://en.wikipedia.org/wiki/Time-bin_encoding">time-bin encoding</a> or one of its variation, we encourage you to
+experiment with the master and agent clocks.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Simple_Fiber</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">fiber_quality</span><span class="p">,</span> <span class="n">rotation_std</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">fiber_quality</span> <span class="o">=</span> <span class="n">fiber_quality</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">rotation_std</span> <span class="o">=</span> <span class="n">rotation_std</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">signal_speed</span> <span class="o">=</span> <span class="mf">2.998</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">5</span> <span class="c1">#speed of light in km/s</span>
+
+    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">program</span><span class="p">,</span> <span class="n">qubits</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">:</span>
+            <span class="c1"># Apply noise</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">fiber_quality</span><span class="p">:</span>
+                <span class="n">rotation_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation_std</span><span class="p">)</span>
+                <span class="n">program</span> <span class="o">+=</span> <span class="n">RX</span><span class="p">(</span><span class="n">rotation_angle</span><span class="p">,</span> <span class="n">qubit</span><span class="p">)</span>
+
+        <span class="n">delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_speed</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;delay&#39;</span><span class="p">:</span> <span class="n">delay</span><span class="p">,</span>
+        <span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">H</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">+=</span> <span class="n">X</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qsend</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">q</span><span class="p">])</span>
+
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qrecv</span><span class="p">(</span><span class="n">alice</span><span class="o">.</span><span class="n">name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Check if qubit is lost</span>
+            <span class="k">if</span> <span class="n">q</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">+=</span> <span class="n">MEASURE</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">ro</span><span class="p">[</span><span class="n">q</span><span class="p">])</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Program</span><span class="p">()</span>
+<span class="n">ro</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;BIT&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># Define source device</span>
+<span class="n">laser</span> <span class="o">=</span> <span class="n">Laser</span><span class="p">(</span><span class="n">rotation_prob_variance</span><span class="o">=.</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">alice</span><span class="o">.</span><span class="n">add_source_devices</span><span class="p">([</span><span class="n">laser</span><span class="p">])</span>
+
+<span class="c1"># Define transit devices and connection</span>
+<span class="n">custom_fiber</span> <span class="o">=</span> <span class="n">Simple_Fiber</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">fiber_quality</span><span class="o">=.</span><span class="mi">6</span><span class="p">,</span> <span class="n">rotation_std</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">fiber</span> <span class="o">=</span> <span class="n">Fiber</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">attenuation_coefficient</span><span class="o">=-.</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">QConnect</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">,</span> <span class="n">transit_devices</span><span class="o">=</span><span class="p">[</span><span class="n">fiber</span><span class="p">,</span> <span class="n">custom_fiber</span><span class="p">])</span>
+
+<span class="c1"># Run simulation</span>
+<span class="n">programs</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">trials</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">agent_classes</span><span class="o">=</span><span class="p">[</span><span class="n">Alice</span><span class="p">,</span> <span class="n">Bob</span><span class="p">])</span>
+
+<span class="c1"># Run programs</span>
+<span class="n">qvm</span> <span class="o">=</span> <span class="n">QVMConnection</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">program</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">programs</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">qvm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Program {}: &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="n">results</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="looking-forward">
+<h2>Looking Forward<a class="headerlink" href="#looking-forward" title="Permalink to this headline">¶</a></h2>
+<p>In this demo we introduced netQuil’s built-in and custom devices, noise module, multiple trials, and network monitor.
+As you can see, netQuil is a powerful quantum networking simulator due to its extensibility, but it is also an active project.
+If you find a bug open an issue or, better yet, a PR!</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../api-reference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="distributed-protocol.html" class="btn btn-neutral float-left" title="Distributed Quantum Protocol" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zachary Espinosa and Matthew Radzihovsky
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; NetQuil 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Demos" href="demos.html" />
+    <link rel="prev" title="Welcome to the Docs for netQuil!" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> NetQuil
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">A Simulator for Quantum Networks using Pyquil:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Welcome to the Docs for netQuil!</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tutorial-bell-state-distribution">Tutorial - Bell State Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#import-dependencies">Import Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#define-agents">Define Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-the-run-function">Create the Run Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#connect-the-agents">Connect the Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simulate-the-network">Simulate the Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="demos.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NetQuil</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/getting-started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>Pyquil 2.0, Python 3.6 or higher, and NumPy are requirements for netQuil. You will also need to download the Rigetti’s QVM and Compiler as described on their
+<a class="reference external" href="http://docs.rigetti.com/en/stable/start.html">Getting Started</a> page.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>To install netQuil using Anaconda:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">netquil</span>
+</pre></div>
+</div>
+<p>To install using the Python package manager, pip:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">netquil</span>
+</pre></div>
+</div>
+<p>To install without pip:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="n">netquil</span>
+</pre></div>
+</div>
+<p>To instead install netQuil from the source, clone the repository.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">att</span><span class="o">-</span><span class="n">innovate</span><span class="o">/</span><span class="n">netquil</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tutorial-bell-state-distribution">
+<h2>Tutorial - Bell State Distribution<a class="headerlink" href="#tutorial-bell-state-distribution" title="Permalink to this headline">¶</a></h2>
+<p>Lets start by building our first netQuil program that creates and distributes a bell state pair
+between Alice and Bob. In this tutorial you will be introduced to <code class="docutils literal notranslate"><span class="pre">Agents</span></code> (the nodes in your network),
+<code class="docutils literal notranslate"><span class="pre">QConnections</span></code> and <code class="docutils literal notranslate"><span class="pre">CConnections</span></code> (the channels connecting nodes), and <code class="docutils literal notranslate"><span class="pre">Devices</span></code> (the customizable noise modules and error simulators).
+Checkout our other demos to see more advanced examples of netQuil in action, and, for bold of you, review our whitepaper to learn about the state of
+distributed quantum protocols and netQuil.</p>
+<p>This tutorial assumes you have a basic understanding of quantum information theory
+and the pyquil framework built on Quil. For a quick refresher, review this <a class="reference external" href="http://docs.rigetti.com/en/stable/intro.html">resource</a>.</p>
+</div>
+<div class="section" id="import-dependencies">
+<h2>Import Dependencies<a class="headerlink" href="#import-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Let’s start by importing all of our dependencies.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">netquil</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyquil</span> <span class="kn">import</span> <span class="n">Program</span>
+<span class="kn">from</span> <span class="nn">pyquil.gates</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="define-agents">
+<h2>Define Agents<a class="headerlink" href="#define-agents" title="Permalink to this headline">¶</a></h2>
+<p>Agents are nodes in our quantum network. Each Agent should extend the agent class and define
+a <code class="docutils literal notranslate"><span class="pre">run</span></code> function, allowing that agent to run on its own thread. Agents can send and receive quantum and classical information,
+as well as define source and target devices that ingress and egress information must pass through, respectively. They also maintain local clocks
+that increment based on traffic and the delay that devices return, a network monitor recording their traffic, and a list of qubits and classical bits that
+they manage.</p>
+<p>All agents should share the same PyQuil program that they can modify to simulate network traffic.
+The program can be explicitly attached to each agent if presimulation computations must be done, or
+be omitted to default to a blank program.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">netquil</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyquil</span> <span class="kn">import</span> <span class="n">Program</span>
+<span class="kn">from</span> <span class="nn">pyquil.gates</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span>
+       <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">(</span><span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="create-the-run-function">
+<h2>Create the Run Function<a class="headerlink" href="#create-the-run-function" title="Permalink to this headline">¶</a></h2>
+<p>An agent’s run function should encapsulate all of the work that agent is responsible for. <code class="docutils literal notranslate"><span class="pre">self.qubits</span></code> returns the list of qubits that
+an agent owns and may modify. <code class="docutils literal notranslate"><span class="pre">self.program</span></code> returns the global program shared between agents, and <code class="docutils literal notranslate"><span class="pre">qsend(name,</span> <span class="pre">qubits)</span></code> and <code class="docutils literal notranslate"><span class="pre">qrecv(name)</span></code>
+will send and receive qubits from one agent to another, respectively.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span>
+       <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+
+       <span class="c1"># Create Bell State</span>
+       <span class="n">p</span> <span class="o">+=</span> <span class="n">H</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+       <span class="n">p</span> <span class="o">+=</span> <span class="n">CNOT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+
+       <span class="c1"># Send half of bell state to Bob</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">qsend</span><span class="p">(</span><span class="s1">&#39;bob&#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+
+        <span class="c1"># Receive half of bell state from Alice</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qrecv</span><span class="p">(</span><span class="s1">&#39;alice&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Measure qubits and run program</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="n">Measure</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="connect-the-agents">
+<h2>Connect the Agents<a class="headerlink" href="#connect-the-agents" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">QConnect()</span></code> will create a quantum channel between the given agents.
+Without establishing this connection, agents have no way of communicating between each other.
+Similarly <code class="docutils literal notranslate"><span class="pre">CConnect()</span></code> will create a classical channel between the given agents. Both
+<code class="docutils literal notranslate"><span class="pre">QConnect()</span></code> and <code class="docutils literal notranslate"><span class="pre">CConnect()</span></code> will create channels between all agents passed to them. On
+<code class="docutils literal notranslate"><span class="pre">QConnect()</span></code> you may also specify <code class="docutils literal notranslate"><span class="pre">transit_devices</span></code> which all qubits will travel through when passed
+between agents.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">(</span><span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">()</span>
+
+<span class="c1"># Connect alice and bob to quantum network</span>
+<span class="n">QConnect</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="simulate-the-network">
+<h2>Simulate the Network<a class="headerlink" href="#simulate-the-network" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Simulation(agents...)</span></code> will start each agent on its own thread and call agents’ <code class="docutils literal notranslate"><span class="pre">run</span></code> function.
+<code class="docutils literal notranslate"><span class="pre">Simulation().run</span></code> will return a list of Quil programs, one for each trial (defaults to one trial),
+that can be executed on a qvm.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">(</span><span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">()</span>
+
+<span class="c1"># Create Quantum Channel between Alice and Bob</span>
+<span class="n">QConnect</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
+
+<span class="n">programs</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">qvm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">programs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>All together, your program should look something like this!</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">netquil</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyquil</span> <span class="kn">import</span> <span class="n">Program</span>
+<span class="kn">from</span> <span class="nn">pyquil.gates</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span>
+       <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+
+       <span class="c1"># Create Bell State</span>
+       <span class="n">p</span> <span class="o">+=</span> <span class="n">H</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+       <span class="n">p</span> <span class="o">+=</span> <span class="n">CNOT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+
+       <span class="c1"># Send half of bell state to Bob</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">qsend</span><span class="p">(</span><span class="s1">&#39;bob&#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span>
+
+        <span class="c1"># Receive half of bell state from Alice</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qrecv</span><span class="p">(</span><span class="s1">&#39;alice&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Measure qubits and run program</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="n">Measure</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+<span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">(</span><span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">()</span>
+
+<span class="c1"># Connect alice and bob to quantum network</span>
+<span class="n">QConnect</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
+
+<span class="n">programs</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">qvm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">programs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Congratulations! You now have a working netQuil program that creates and distributes a bell state pair between Alice and Bob.</p>
+<p>Explore our <a class="reference internal" href="demos/advanced-usage.html#advanced-usage"><span class="std std-ref">advanced usage</span></a> demo to learn about netQuil’s error module for quantum noise and transit, source and target devices,
+as well as how to run multiple trials and syncronize agents.</p>
+<p>Read the <a class="reference internal" href="demos/distributed-protocol.html#distributed-protocol"><span class="std std-ref">distributed protocol</span></a> demo to see how the cat-entangler and cat-disentangler can be used to implement non-local CNOTs,
+non-local controlled gates, and teleportation.</p>
+<p>Or, just for fun, checkout the <a class="reference internal" href="demos/middle-man.html#middle-man"><span class="std std-ref">middle-man attack</span></a>, <a class="reference internal" href="demos/quantum-teleportation.html#quantum-teleportation"><span class="std std-ref">teleportation</span></a>,
+or <a class="reference internal" href="demos/superdense-coding.html#superdense-coding"><span class="std std-ref">superdense coding</span></a> demos to learn about common quantum networking protocols.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="demos.html" class="btn btn-neutral float-right" title="Demos" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral float-left" title="Welcome to the Docs for netQuil!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zachary Espinosa and Matthew Radzihovsky
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
