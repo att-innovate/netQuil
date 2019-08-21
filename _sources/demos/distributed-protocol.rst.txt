@@ -32,8 +32,8 @@ Protocol and Circuit
 
 .. image:: ../img/circuits/cat-entangler.png
 
-The dark curved lines between wires two and four represent entangled qubits 
-(i.e. :math:`\frac{1}{\sqrt{2}}(|000\rangle + |111\rangle)`). In this case, wires one and two
+Wire two through four are maximally entangled qubits 
+(i.e. :math:`\frac{1}{\sqrt{2}}(|000\rangle + |111\rangle)`) at the beginning of the cat-entangler circuit. In this case, wires one and two
 are owned by Alice, three by Bob, and four by Charlie. The double and triple lines represent a
 measurement result, that is passed via a classical channel and used to control the X gates.  
 

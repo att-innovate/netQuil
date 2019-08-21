@@ -9,7 +9,7 @@ extends :ref:`superdense coding <superdense-coding>` by allowing two agents, Ali
 numerous classical bits using bell state pairs. However, in this protocol, there is an intruder agent,
 Eve, who attempts to interecept and measure the information. Despite successfully intercepting Alice 
 and Bob's message, due to Eve not sharing a bell state pair with Alice, Eve only measures random noise.
-Moreover, Bob's is able to detect an intruder has intercepted the message.
+Moreover, Bob is able to detect if an intruder has intercepted the message.
 
 Protocol
 =========================================================
@@ -41,15 +41,15 @@ bit is a :math:`1`, she operates on her qubit with a :math:`\textbf{X}` gate. If
 3. Eve measures the qubit from Alice and re-transmits it to Bob.
 
 4. Bob returns to the computational basis by applying a Controlled-Not (:math:`\textbf{CNOT}`) and 
-a Hadamard (:math:`\textbf{H}`) gate to the qubit from Charlie and from Eve (thinking it is from Alice.
+a Hadamard (:math:`\textbf{H}`) gate to the qubit from Charlie and from Eve (thinking it is from Alice).
 Finally, Bob measures each qubit and now has both of Alice's classical bits.
 
 
 Tutorial
 =========================================================
-We will now implement middle-man attack using netQuil's framework of ref:`Agent <agent>` and ref:`Connections <connections>` 
-to simulate teleportation of a quantum state using a quantum network. The ref:`Devices <devices>` module 
-and ref'Noise <noise>' allows you to include realistic devices with noise in your quantum network.
+We will now implement middle-man attack using netQuil's framework of :ref:`Agent <agents>` and :ref:`Connections <connections>` 
+to simulate teleportation of a quantum state using a quantum network. The :ref:`Devices <devices>` module 
+and :ref:`Noise <noise>` allows you to include realistic devices with noise in your quantum network.
 
 Import Dependencies 
 ----------------------------------------
@@ -71,16 +71,16 @@ using netQuil, we want to distribute each qubit to Alice and Bob.
 .. code:: python
 
     class Charlie(Agent):
-    '''
-    Charlie sends Bell pairs to Alice and Bob
-    '''
-    def run(self):
-        p = self.program
-        for i in range(0,len(alice.cmem),2):
-            p += H(i)
-            p += CNOT(i, i+1)
-            self.qsend(alice.name, [i])
-            self.qsend(bob.name, [i+1])
+        '''
+        Charlie sends Bell pairs to Alice and Bob
+        '''
+        def run(self):
+            p = self.program
+            for i in range(0,len(alice.cmem),2):
+                p += H(i)
+                p += CNOT(i, i+1)
+                self.qsend(alice.name, [i])
+                self.qsend(bob.name, [i+1])
 
 Now, we will create agent Alice, Eve, and Bob. Alice will operate on her bell state pair from Charlie based on the
 classical bits she wishes to send to Bob. Then, she will send her qubit to Bob, but unknowingly the qubit

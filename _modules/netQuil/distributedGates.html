@@ -159,10 +159,11 @@
 
 <div class="viewcode-block" id="QFT"><a class="viewcode-back" href="../../api-reference/distributed-gates.html#netQuil.distributedGates.QFT">[docs]</a><span class="k">def</span> <span class="nf">QFT</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">register</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Performs Quantum Fourier Transform</span>
+<span class="sd">    Performs Quantum Fourier Transform.</span>
+
 <span class="sd">    :param Program program: program for where to apply QFT</span>
 <span class="sd">    :param List register: register of qubits to perform QFT on</span>
-<span class="sd">    :return program: program where QFT has been applied</span>
+<span class="sd">    :return: program where QFT has been applied</span>
 <span class="sd">    &#39;&#39;&#39;</span>
        
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">register</span><span class="p">)</span>
@@ -199,8 +200,8 @@
 <span class="sd">    Remember, the cat_disentangler sends classical bits between the control and targets, so be careful </span>
 <span class="sd">    when trying to perform similar operations in parallel!</span>
 
-<span class="sd">    :param (agent, int, int, classical register): Agent owning psi and measure qubit (which should be the same agent calling cat_entangler), phi, measurement qubit, and register to store measurements</span>
-<span class="sd">    :param List&lt;(agent, qubit)&gt; targets: agent and agent&#39;s qubit that will be altered</span>
+<span class="sd">    :param agent,int,int,register control: tuple of agent owning phi, phi, measurement qubit, and register for measurements</span>
+<span class="sd">    :param List&lt;agent,qubit&gt; targets: list of tuples of agent and agent&#39;s qubit that will be altered</span>
 <span class="sd">    :param Boolean entangled: true if qubits from other Agents are already maximally entangled</span>
 <span class="sd">    :param Boolean notify: if true control agent will send cbit equaling 1 to all target agents, signaling completion </span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -248,8 +249,8 @@
 <span class="sd">    Remember, the cat_disentangler sends classical bits between the control and targets, so be careful </span>
 <span class="sd">    when trying to perform similar operations in parallel!</span>
 
-<span class="sd">    :param (agent, int, classical register): Agent owning psi qubit, phi, and register to store measurments</span>
-<span class="sd">    :param List&lt;(agent, qubit)&gt; targets: agent and agent&#39;s qubit that will be altered</span>
+<span class="sd">    :param agent,int,register control: tuple of agent owning phi, phi, and register to store measurments</span>
+<span class="sd">    :param List&lt;agent,qubit&gt; targets: list of tuples of agent and agent&#39;s qubit that will be altered</span>
 <span class="sd">    :param Boolean notify: if true control agent will send cbit equaling 1 to all target agents, signaling completion </span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">agent</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">ro</span> <span class="o">=</span> <span class="n">control</span>

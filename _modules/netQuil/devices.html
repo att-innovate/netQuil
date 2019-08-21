@@ -176,7 +176,7 @@
 <span class="sd">        should include runtime code defining how child devices impact qubits</span>
 
 <span class="sd">        :param Pyquil&lt;Program&gt; program: program to manipulate</span>
-<span class="sd">        :param List qubits: list of qubits passing through device</span>
+<span class="sd">        :param List&lt;int&gt; qubits: list of qubits passing through device</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">delay</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">qubits</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span></div>
 
@@ -211,7 +211,7 @@
 <span class="sd">        Applies device&#39;s error and returns time that photon took to pass through simulated device</span>
 
 <span class="sd">        :param Program program: program to be modified</span>
-<span class="sd">        :param List qubits: qubits being sent</span>
+<span class="sd">        :param List&lt;int&gt; qubits: qubits being sent</span>
 <span class="sd">        :return: time qubits took to travel through fiber</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">lost_qubits</span> <span class="o">=</span> <span class="p">[]</span>

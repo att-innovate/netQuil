@@ -157,21 +157,6 @@
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Simulation&quot;</span><span class="p">]</span>
 
-<span class="k">def</span> <span class="nf">check_notebook</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Check is client is using jupyter notebook</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">shell</span> <span class="o">=</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="k">if</span> <span class="n">shell</span> <span class="o">==</span> <span class="s1">&#39;ZMQInteractiveShell&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Jupyter notebook or qtconsole</span>
-        <span class="k">elif</span> <span class="n">shell</span> <span class="o">==</span> <span class="s1">&#39;TerminalInteractiveShell&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Terminal running IPython</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Other type (?)</span>
-    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span> <span class="c1"># Probably standard Python interpreter</span>
-
 <span class="c1"># Attributes to keep on newly instantiated agent when resetting agents</span>
 <span class="n">THREADING_ATTRS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_started&#39;</span><span class="p">,</span> <span class="s1">&#39;_stderr&#39;</span><span class="p">,</span> <span class="s1">&#39;_tstate_lock&#39;</span><span class="p">,</span> <span class="s1">&#39;_initialized&#39;</span><span class="p">,</span> <span class="s1">&#39;_indent&#39;</span><span class="p">,</span> <span class="s1">&#39;_is_stopped&#39;</span><span class="p">,</span> <span class="s1">&#39;_target&#39;</span><span class="p">]</span>
 
@@ -254,10 +239,8 @@
 <span class="sd">        :param Int trials: number of times to simulate program</span>
 <span class="sd">        :param List&lt;Agent&gt; agent_classes: list of agent classes</span>
 <span class="sd">        :param Boolean network_monitor: outputs each network transaction and device information</span>
-<span class="sd">        :return: Returns list of programs. One for each trial</span>
+<span class="sd">        :return: returns list of programs. One for each trial</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">using_notebook</span> <span class="o">=</span> <span class="n">check_notebook</span><span class="p">()</span>
-
         <span class="c1"># If program is not set, add default</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_program</span><span class="p">()</span>
         

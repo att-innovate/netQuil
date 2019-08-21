@@ -13,14 +13,13 @@ NetQuil is also optimized for distributed quantum protocol with its implementati
 `Yimsiriwattana Lomonaco <https://arxiv.org/abs/quant-ph/0402148/>`_. This primitive protocols can be used to implement non-local CNOTs, 
 non-local controlled gates, and teleportation, and should be the backbone of any distributed quantum protocol you create. 
 
-NetQuil is developed as part of Intelligent Quantum Networks and Technologies (`INQNET <http://inqnet.caltech.edu/>`_) that was established between AT&T
-and California Institute of Technology. NetQuil is a work in progress and contributions are encouraged. To learn more about features we plan to add in the future,
+NetQuil was developed as part of a project at AT&T Foundry. NetQuil is a work in progress and contributions are encouraged. To learn more about features we plan to add in the future,
 checkout our whitepaper mentioned below. The source code can be found on `Github <https://github.com/att-innovate/netQuil>`_. 
 
 netQuil WhitePaper
 ==================
-To learn more about the state of distributed quantum protocol and netQuil's role in the field consider reading our `whitepaper <https://arxiv.org/abs/quant-ph/0402148>`_, 
-"netQuil: A quantum playground for distributed protocol simulation". 
+To learn more about the state of distributed quantum protocol and netQuil's role in the field consider reading our `whitepaper <https://github.com/att-innovate/netQuil>`_, 
+"netQuil: A quantum playground for distributed quantum computing simulations". 
 
 netQuil Design
 ==============

@@ -167,7 +167,7 @@
 <span class="sd">        This is the base class for a quantum connection between multiple agents. </span>
 
 <span class="sd">        :param agents \*args: list of agents to connect</span>
-<span class="sd">        :param List transit_devices: list of devices qubits travel through - assumed order: agent_one -&gt; agent_two</span>
+<span class="sd">        :param List&lt;Devices&gt; transit_devices: list of devices qubits travel through </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">agents</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">agents</span> <span class="o">=</span> <span class="p">{}</span>
@@ -195,7 +195,7 @@
         <span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">        Constructs full list of devices that each qubit must travel through. Sends the qubits</span>
 <span class="sd">        through source devices. Places qubits and a list of transit and target </span>
-<span class="sd">        devices on the queue. Queue is keyed on the target Agent&#39;s name.</span>
+<span class="sd">        devices on the queue. Queue is keyed on the target agent&#39;s name.</span>
 <span class="sd">        </span>
 <span class="sd">        :param String source: name of agent where the qubits being sent originated</span>
 <span class="sd">        :param String target: name of agent receiving qubits</span>
@@ -252,8 +252,9 @@
 <div class="viewcode-block" id="QConnect.get"><a class="viewcode-back" href="../../api-reference/connections.html#netQuil.connections.QConnect.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Pops qubits off of the agent&#39;s queue. Sends qubit through transit and target devices,</span>
-<span class="sd">        simulating a quantumm network. Return an array of the qubits that have been altered as well as</span>
-<span class="sd">        the time it took the qubit to travel through the network. </span>
+<span class="sd">        simulating a quantum network. Return an array of the qubits that have been altered, as well as</span>
+<span class="sd">        the time it took the qubit to travel through the network. Some qubits may be lost during transmission. If lost,</span>
+<span class="sd">        their value will switch to negative, or, in the case of 0, be set to -inf</span>
 
 <span class="sd">        :param Agent agent: agent receiving the qubits </span>
 <span class="sd">        :returns: list of qubits, time to pass through transit and target devices, and the source agent&#39;s time</span>

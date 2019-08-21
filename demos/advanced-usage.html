@@ -198,7 +198,7 @@ distribution. If <code class="docutils literal notranslate"><span class="pre">ne
 You can create a custom <code class="docutils literal notranslate"><span class="pre">get_results</span></code> function that prints information about the device after each trial.
 The <code class="docutils literal notranslate"><span class="pre">Laser</span></code> will also return a delay equal to the photon pulse length.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Fiber</span></code> is a built-in noisy fiber optical wire simulator and an example of a transit device. Fibers
-have an associated length in kilometers and an attenutation coefficient. The attenuation coefficient is
+have an associated length in kilometers and an attenuation coefficient. The attenuation coefficient is
 proportional to the probability that a photon is lost while traveling within the fiber (i.e. the photon is measured,
 and the measured value is inaccessible by any agent). In netQuil, if a qubit is lost due to attenuation, the
 target will receive the negative index of the qubit lost. For example, if Alice sends qubit 3 and it is
@@ -294,7 +294,7 @@ dictionary that optionally contains the lost qubits and delay. The delay represe
 travel through the device. Remember, if qubits are lost while passing through the device, return an entry in the dictionary
 <code class="docutils literal notranslate"><span class="pre">lost_qubits:</span> <span class="pre">[lost</span> <span class="pre">qubits]</span></code>.</p>
 <p>Most devices can be arbitrarily complex in their design and can depend on environmental factors such
-as temperature, humidity, or other stressors. Custom devices allow us to simulate these arbitrarily complex devices.
+as temperature, humidity, or pressure. Custom devices allow us to simulate these arbitrarily complex devices.
 As an example, we will create a simple custom fiber that changes the polarization of a photon by some random angle
 from a normal distribution.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1

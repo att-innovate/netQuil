@@ -185,21 +185,21 @@
 <dt id="netQuil.agents.Agent.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">program=None</em>, <em class="sig-param">qubits=[]</em>, <em class="sig-param">cmem=[]</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Agents are codified versions of Alice and Bob (i.e. single nodes in a quantum network) 
-that can send a receive classical and quantum information over connections. 
+that can send and receive classical and quantum information over connections. 
 Agents have the following properties:</p>
 <ul class="simple">
-<li><p>Run-time logic is in the form of an Agent.run() method</p></li>
-<li><p>Connections to other Agents are by default ingress and egress</p></li>
+<li><p>Their run-time logic is in the form of an Agent.run() method</p></li>
+<li><p>Their connections to other agents are by default ingress and egress</p></li>
 <li><p>Agents’ manage their own target and source devices for noise and local time tracking</p></li>
-<li><p>A network monitor to records traffic of a single Agent</p></li>
+<li><p>Agents have a network monitor to record the traffic they see</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>program</strong> (<em>PyQuil&lt;Program&gt;</em>) – program</p></li>
-<li><p><strong>qubits</strong> (<em>List</em>) – list of qubits owned by Agent</p></li>
-<li><p><strong>cmem</strong> (<em>List</em>) – list of cbits owned by Agent</p></li>
-<li><p><strong>name</strong> (<em>String</em>) – name of Agent, defaults to name of class</p></li>
+<li><p><strong>qubits</strong> (<em>List&lt;int&gt;</em>) – list of qubits owned by agent</p></li>
+<li><p><strong>cmem</strong> (<em>List&lt;int&gt;</em>) – list of cbits owned by agent</p></li>
+<li><p><strong>name</strong> (<em>String</em>) – name of agent, defaults to name of class</p></li>
 </ul>
 </dd>
 </dl>
@@ -217,7 +217,7 @@ Agents have the following properties:</p>
 <dd><p>Add more classical memory in the form of a list of 0s and 1s</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cbits</strong> (<em>List</em>) – classical memory to extend</p>
+<dd class="field-odd"><p><strong>cbits</strong> (<em>List&lt;int&gt;</em>) – classical memory to extend</p>
 </dd>
 </dl>
 </dd></dl>
@@ -225,11 +225,11 @@ Agents have the following properties:</p>
 <dl class="method">
 <dt id="netQuil.agents.Agent.add_device">
 <code class="sig-name descname">add_device</code><span class="sig-paren">(</span><em class="sig-param">device_type</em>, <em class="sig-param">device</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.add_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.add_device" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add device to agent node.</p>
+<dd><p>Add a device to an agent.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>device_type</strong> (<em>String</em>) – category of device</p></li>
+<li><p><strong>device_type</strong> (<em>String</em>) – may be either <cite>source</cite> or <cite>target</cite></p></li>
 <li><p><strong>device</strong> (<a class="reference internal" href="devices.html#netQuil.devices.Device" title="netQuil.devices.Device"><em>Device</em></a>) – instance of device added</p></li>
 </ul>
 </dd>
@@ -240,10 +240,10 @@ Agents have the following properties:</p>
 <dt id="netQuil.agents.Agent.add_source_devices">
 <code class="sig-name descname">add_source_devices</code><span class="sig-paren">(</span><em class="sig-param">new_source_devices</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.add_source_devices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.add_source_devices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add source devices. Every qubit sent by Agent will pass through these devices, 
-and, if set, the device’s noise will be applied</p>
+and, if set, the device’s effect and time-delay will be applied</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>new_source_devices</strong> (<em>List</em>) – Agent new source devices</p>
+<dd class="field-odd"><p><strong>new_source_devices</strong> (<em>List&lt;Device&gt;</em>) – list of source devices</p>
 </dd>
 </dl>
 </dd></dl>
@@ -251,11 +251,11 @@ and, if set, the device’s noise will be applied</p>
 <dl class="method">
 <dt id="netQuil.agents.Agent.add_target_devices">
 <code class="sig-name descname">add_target_devices</code><span class="sig-paren">(</span><em class="sig-param">new_target_devices</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.add_target_devices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.add_target_devices" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add target devices. Every qubit sent to Agent will pass through these devices, 
-and, if set, the device’s noise will be applied</p>
+<dd><p>Add target devices. Every qubit sent to agent will pass through these devices, 
+and, if set, the device’s effect and time-delay will be applied</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>new_target_devices</strong> (<em>List</em>) – Agent new target devices</p>
+<dd class="field-odd"><p><strong>new_target_devices</strong> (<em>List&lt;Device&gt;</em>) – list of target devices</p>
 </dd>
 </dl>
 </dd></dl>
@@ -277,12 +277,12 @@ and, if set, the device’s noise will be applied</p>
 <dl class="method">
 <dt id="netQuil.agents.Agent.csend">
 <code class="sig-name descname">csend</code><span class="sig-paren">(</span><em class="sig-param">target</em>, <em class="sig-param">cbits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.csend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.csend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends classical bits from Agent to target.</p>
+<dd><p>Sends classical bits from agent to target.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>target</strong> (<em>String</em>) – name of target Agent</p></li>
-<li><p><strong>cbits</strong> (<em>List</em>) – indicies of cbits source is sending to target</p></li>
+<li><p><strong>target</strong> (<em>String</em>) – name of target agent</p></li>
+<li><p><strong>cbits</strong> (<em>List&lt;int&gt;</em>) – indices of cbits source is sending to target</p></li>
 </ul>
 </dd>
 </dl>
@@ -301,11 +301,11 @@ and, if set, the device’s noise will be applied</p>
 <dl class="method">
 <dt id="netQuil.agents.Agent.qrecv">
 <code class="sig-name descname">qrecv</code><span class="sig-paren">(</span><em class="sig-param">source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.qrecv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.qrecv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Agent receives qubits from source. Adds qubits to Agent’s list of qubits and
-add time delay. Return qubits</p>
+<dd><p>Agent receives qubits from source. Adds qubits to agent’s list of qubits and
+add time delay. Return list of qubits</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>source</strong> (<em>String</em>) – name of Agent where qubits are from.</p>
+<dd class="field-odd"><p><strong>source</strong> (<em>String</em>) – name of agent who sent qubits.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>list of qubits sent from source</p>
@@ -316,13 +316,13 @@ add time delay. Return qubits</p>
 <dl class="method">
 <dt id="netQuil.agents.Agent.qsend">
 <code class="sig-name descname">qsend</code><span class="sig-paren">(</span><em class="sig-param">target</em>, <em class="sig-param">qubits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.qsend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.qsend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Send qubits from Agent to target. Connection will place qubits on queue 
+<dd><p>Send qubits from agent to target. Connection will place qubits on queue 
 for target to retrieve.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>target</strong> (<em>String</em>) – name of destination for packet</p></li>
-<li><p><strong>qubits</strong> (<em>List</em>) – packet to send to destination</p></li>
+<li><p><strong>target</strong> (<em>String</em>) – name of destination for qubits</p></li>
+<li><p><strong>qubits</strong> (<em>List&lt;int&gt;</em>) – list of qubits to send to destination</p></li>
 </ul>
 </dd>
 </dl>
@@ -337,10 +337,10 @@ for target to retrieve.</p>
 <dl class="method">
 <dt id="netQuil.agents.Agent.set_program">
 <code class="sig-name descname">set_program</code><span class="sig-paren">(</span><em class="sig-param">program</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/agents.html#Agent.set_program"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.agents.Agent.set_program" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set Agent’s program</p>
+<dd><p>Set agent’s program</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>program</strong> (<em>PyQuil&lt;Program&gt;</em>) – Agent’s new program</p>
+<dd class="field-odd"><p><strong>program</strong> (<em>PyQuil&lt;Program&gt;</em>) – agent’s program</p>
 </dd>
 </dl>
 </dd></dl>

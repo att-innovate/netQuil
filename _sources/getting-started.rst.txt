@@ -12,12 +12,6 @@ Pyquil 2.0, Python 3.6 or higher, and NumPy are requirements for netQuil. You wi
 Installation
 ============
 
-To install netQuil using Anaconda:
-
-.. code:: python
-
-    conda install netquil
-    
 To install using the Python package manager, pip:
 
 .. code:: python

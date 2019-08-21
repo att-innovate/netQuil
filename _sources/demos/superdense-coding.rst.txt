@@ -44,9 +44,9 @@ each qubit and now has both of Alice's classical bits.
 
 Tutorial
 =========================================================
-We will now implement superdense coding using netQuil's framework of ref:`Agent <agent>` and ref:`Connections <connections>` 
-to simulate sending of classical bits using a quantum network. The ref:`Devices <devices>` module 
-and ref'Noise <noise>' allows you to include realistic devices with noise in your quantum network.
+We will now implement superdense coding using netQuil's framework of :ref:`Agent <agents>` and :ref:`Connections <connections>` 
+to simulate sending of classical bits using a quantum network. The :ref:`Devices <devices>` module 
+and :ref:`Noise <noise>` allows you to include realistic devices with noise in your quantum network.
 
 Import Dependencies 
 ----------------------------------------

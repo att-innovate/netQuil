@@ -180,8 +180,8 @@ when trying to perform similar operations in parallel!</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>int</strong><strong>, </strong><strong>int</strong><strong>, </strong><strong>classical register</strong><strong>)</strong> (<em>(</em><em>agent</em><em>,</em>) – Agent owning psi and measure qubit (which should be the same agent calling cat_entangler), phi, measurement qubit, and register to store measurements</p></li>
-<li><p><strong>qubit</strong><strong>)</strong><strong>&gt; targets</strong> (<em>List&lt;</em><em>(</em><em>agent</em><em>,</em>) – agent and agent’s qubit that will be altered</p></li>
+<li><p><strong>control</strong> (<em>agent</em><em>,</em><em>int</em><em>,</em><em>int</em><em>,</em><em>register</em>) – tuple of agent owning phi, phi, measurement qubit, and register for measurements</p></li>
+<li><p><strong>targets</strong> (<em>List&lt;agent</em><em>,</em><em>qubit&gt;</em>) – list of tuples of agent and agent’s qubit that will be altered</p></li>
 <li><p><strong>entangled</strong> (<em>Boolean</em>) – true if qubits from other Agents are already maximally entangled</p></li>
 <li><p><strong>notify</strong> (<em>Boolean</em>) – if true control agent will send cbit equaling 1 to all target agents, signaling completion</p></li>
 </ul>
@@ -201,8 +201,8 @@ when trying to perform similar operations in parallel!</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>int</strong><strong>, </strong><strong>classical register</strong><strong>)</strong> (<em>(</em><em>agent</em><em>,</em>) – Agent owning psi qubit, phi, and register to store measurments</p></li>
-<li><p><strong>qubit</strong><strong>)</strong><strong>&gt; targets</strong> (<em>List&lt;</em><em>(</em><em>agent</em><em>,</em>) – agent and agent’s qubit that will be altered</p></li>
+<li><p><strong>control</strong> (<em>agent</em><em>,</em><em>int</em><em>,</em><em>register</em>) – tuple of agent owning phi, phi, and register to store measurments</p></li>
+<li><p><strong>targets</strong> (<em>List&lt;agent</em><em>,</em><em>qubit&gt;</em>) – list of tuples of agent and agent’s qubit that will be altered</p></li>
 <li><p><strong>notify</strong> (<em>Boolean</em>) – if true control agent will send cbit equaling 1 to all target agents, signaling completion</p></li>
 </ul>
 </dd>
@@ -212,10 +212,18 @@ when trying to perform similar operations in parallel!</p>
 <dl class="function">
 <dt id="netQuil.distributedGates.QFT">
 <code class="sig-prename descclassname">netQuil.distributedGates.</code><code class="sig-name descname">QFT</code><span class="sig-paren">(</span><em class="sig-param">program</em>, <em class="sig-param">register</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/netQuil/distributedGates.html#QFT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#netQuil.distributedGates.QFT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Performs Quantum Fourier Transform
-:param Program program: program for where to apply QFT
-:param List register: register of qubits to perform QFT on
-:return program: program where QFT has been applied</p>
+<dd><p>Performs Quantum Fourier Transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>program</strong> (<em>Program</em>) – program for where to apply QFT</p></li>
+<li><p><strong>register</strong> (<em>List</em>) – register of qubits to perform QFT on</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>program where QFT has been applied</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

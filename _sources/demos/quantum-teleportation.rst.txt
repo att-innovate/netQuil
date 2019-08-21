@@ -44,9 +44,9 @@ be :math:`|1\rangle`. Bob's qubit :math:`B` is now in state :math:`|\psi\rangle 
 
 Tutorial
 =========================================================
-We will now implement quantum teleportation using netQuil's framework of ref:`Agents <agent>` and ref:`Connections <connections>`
-to simulate the teleportation of a quantum state using a quantum network. The ref:`Devices <devices>` module 
-and ref'Noise <noise>' allows you to include realistic devices with noise in your quantum network.
+We will now implement quantum teleportation using netQuil's framework of :ref:`Agents <agents>` and :ref:`Connections <connections>`
+to simulate the teleportation of a quantum state using a quantum network. The :ref:`Devices <devices>` module 
+and :ref:`Noise <noise>` allows you to include realistic devices with noise in your quantum network.
 
 Import Dependencies 
 ----------------------------------------
@@ -67,17 +67,17 @@ using netQuil, we want to send each qubit to Alice and Bob.
 .. code:: python
 
     class Charlie(Agent):
-    '''
-    Charlie sends Bell pairs to Alice and Bob
-    '''
-    def run(self):
-        # Create bell state pair
-        p = self.program
-        p += H(0)
-        p += CNOT(0,1)
+        '''
+        Charlie sends Bell pairs to Alice and Bob
+        '''
+        def run(self):
+            # Create bell state pair
+            p = self.program
+            p += H(0)
+            p += CNOT(0,1)
 
-        self.qsend(alice.name, [0])
-        self.qsend(bob.name, [1])
+            self.qsend(alice.name, [0])
+            self.qsend(bob.name, [1])
 
 Now, we will create agent Alice and agent Bob. Alice will project her state :math:`|\psi\rangle = \alpha |0\rangle + \beta |1\rangle` onto her 
 bell state pair. Then, she will measure her two qubits, and send the results to Bob. Bob will use the results to recreate Alice's original state
