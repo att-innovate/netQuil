@@ -7,10 +7,11 @@ __all__ = ["cat_entangler", "cat_disentangler", "QFT"]
 
 def QFT(program, register):
     '''
-    Performs Quantum Fourier Transform
+    Performs Quantum Fourier Transform.
+
     :param Program program: program for where to apply QFT
     :param List register: register of qubits to perform QFT on
-    :return program: program where QFT has been applied
+    :return: program where QFT has been applied
     '''
        
     n = len(register)
@@ -47,8 +48,8 @@ def cat_entangler(control, targets, entangled=False, notify=False):
     Remember, the cat_disentangler sends classical bits between the control and targets, so be careful 
     when trying to perform similar operations in parallel!
 
-    :param (agent, int, int, classical register): Agent owning psi and measure qubit (which should be the same agent calling cat_entangler), phi, measurement qubit, and register to store measurements
-    :param List<(agent, qubit)> targets: agent and agent's qubit that will be altered
+    :param agent,int,int,register control: tuple of agent owning phi, phi, measurement qubit, and register for measurements
+    :param List<agent,qubit> targets: list of tuples of agent and agent's qubit that will be altered
     :param Boolean entangled: true if qubits from other Agents are already maximally entangled
     :param Boolean notify: if true control agent will send cbit equaling 1 to all target agents, signaling completion 
     '''
@@ -96,8 +97,8 @@ def cat_disentangler(control, targets, notify=False):
     Remember, the cat_disentangler sends classical bits between the control and targets, so be careful 
     when trying to perform similar operations in parallel!
 
-    :param (agent, int, classical register): Agent owning psi qubit, phi, and register to store measurments
-    :param List<(agent, qubit)> targets: agent and agent's qubit that will be altered
+    :param agent,int,register control: tuple of agent owning phi, phi, and register to store measurments
+    :param List<agent,qubit> targets: list of tuples of agent and agent's qubit that will be altered
     :param Boolean notify: if true control agent will send cbit equaling 1 to all target agents, signaling completion 
     '''
     agent, psi, ro = control

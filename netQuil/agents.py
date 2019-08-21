@@ -105,7 +105,7 @@ class Agent(threading.Thread):
             Add target devices. Every qubit sent to agent will pass through these devices, 
             and, if set, the device's effect and time-delay will be applied
 
-            :param List<Devices> new_target_devices: list of target devices
+            :param List<Device> new_target_devices: list of target devices
         '''
         self.target_devices.extend(new_target_devices)
 
@@ -114,7 +114,7 @@ class Agent(threading.Thread):
             Add source devices. Every qubit sent by Agent will pass through these devices, 
             and, if set, the device's effect and time-delay will be applied 
 
-            :param List<Devices> new_source_devices: list of source devices
+            :param List<Device> new_source_devices: list of source devices
         '''
         self.source_devices.extend(new_source_devices)
 

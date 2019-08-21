@@ -36,7 +36,7 @@ You can create a custom ``get_results`` function that prints information about t
 The ``Laser`` will also return a delay equal to the photon pulse length. 
 
 ``Fiber`` is a built-in noisy fiber optical wire simulator and an example of a transit device. Fibers
-have an associated length in kilometers and an attenutation coefficient. The attenuation coefficient is 
+have an associated length in kilometers and an attenuation coefficient. The attenuation coefficient is 
 proportional to the probability that a photon is lost while traveling within the fiber (i.e. the photon is measured, 
 and the measured value is inaccessible by any agent). In netQuil, if a qubit is lost due to attenuation, the 
 target will receive the negative index of the qubit lost. For example, if Alice sends qubit 3 and it is
@@ -98,7 +98,7 @@ travel through the device. Remember, if qubits are lost while passing through th
 ``lost_qubits: [lost qubits]``.
 
 Most devices can be arbitrarily complex in their design and can depend on environmental factors such 
-as temperature, humidity, or other stressors. Custom devices allow us to simulate these arbitrarily complex devices.
+as temperature, humidity, or pressure. Custom devices allow us to simulate these arbitrarily complex devices.
 As an example, we will create a simple custom fiber that changes the polarization of a photon by some random angle 
 from a normal distribution.
 
